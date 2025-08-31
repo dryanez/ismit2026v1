@@ -115,15 +115,15 @@ export default function OralPresentationApplication() {
         </div>
       </section>
 
-      {/* Evaluation Criteria Section */}
+      {/* Detailed Assessment Criteria Section */}
       <section className="bg-[#85AFFB] py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-6">
-              Evaluation Criteria
+              Detailed Assessment Criteria
             </h2>
             <p className="text-lg font-roboto-condensed text-white">
-              Presentations will be assessed by our Scientific Committee based on these key areas
+              Your presentation will be evaluated based on the following criteria
             </p>
           </div>
 
@@ -151,47 +151,6 @@ export default function OralPresentationApplication() {
               <div className="text-3xl font-orbitron font-bold text-[#FE6448] mb-4">25%</div>
               <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-2">Presentation</h3>
               <p className="text-sm font-roboto-condensed text-[#0D1858]">Clarity of delivery and logical structure</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Detailed Assessment Criteria Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">
-              Detailed Assessment Criteria
-            </h2>
-            <p className="text-lg font-roboto-condensed text-[#0D1858]">
-              Your presentation will be evaluated based on the following criteria
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-orbitron font-bold text-[#FE6448] uppercase mb-4">Scientific Excellence</h3>
-              <ul className="space-y-2 text-sm font-roboto-condensed text-[#0D1858]">
-                <li>• Confirmation of acceptance for presentation – abstract approved by the Scientific Committee</li>
-                <li>• Relevance of the topic to the congress – clear alignment with congress themes</li>
-                <li>• Clarity of the hypothesis – well-defined research question or project aim</li>
-                <li>• Methodological rigour – robustness and scientific quality of the methods used</li>
-                <li>• Significance of the results – importance and impact for research or clinical practice</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-orbitron font-bold text-[#FE6448] uppercase mb-4">Impact & Presentation</h3>
-              <ul className="space-y-2 text-sm font-roboto-condensed text-[#0D1858]">
-                <li>• Potential for future research – contribution to ongoing or upcoming studies</li>
-                <li>
-                  • Potential for future product or clinical application – feasibility of translation into tools or
-                  practice
-                </li>
-                <li>
-                  • Clarity of presentation and delivery – logical structure, comprehensibility, and effective delivery
-                </li>
-                <li>• Confirmation of paid participation fee – formal eligibility requirement</li>
-              </ul>
             </div>
           </div>
 
