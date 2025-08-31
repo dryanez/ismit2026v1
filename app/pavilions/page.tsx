@@ -110,6 +110,12 @@ export default function Pavilions() {
                     <span>Haptic feedback surgical tools</span>
                   </div>
                 </div>
+				<Link
+                  href="/pavilions/suite-psi"
+                  className="inline-block mt-6 bg-white text-[#0D1858] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
+                >
+                  Enter Pavilion Ψ (Psi)
+                </Link>
               </div>
               <div className="text-[#0D1858] font-roboto-condensed">
                 <h4 className="text-xl font-bold mb-4">Experience Highlights</h4>
