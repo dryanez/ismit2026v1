@@ -267,15 +267,15 @@ export default function Home() {
       </section>
 
       {/* Pavilions Section */}
-      <section className="bg-white pt-12 pb-24 px-4 relative">
-        <div className="absolute left-0 right-0 bg-[#0D1858] h-96 z-0 top-1/2 -translate-y-1/2"></div>
+      <section className="bg-white pt-14 pb-28 px-4 relative">
+        <div className="absolute left-0 right-0 bg-[#0D1858] h-[461px] z-0 top-[calc(50%+20px)] -translate-y-1/2"></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               What to Expect
             </p>
-            <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase">Pavilions</h2>
+            <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-5">Pavilions</h2>
           </div>
 
           {/* Mobile Carousel View */}
@@ -331,7 +331,7 @@ export default function Home() {
           </div>
 
           {/* Desktop Grid View */}
-          <div className="hidden md:grid md:grid-cols-3 gap-8 mt-[-50px]">
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             <div className="flex justify-center">
               <Link href="/pavilions/suite-sigma" className="block transition-transform duration-300 hover:scale-110">
                 <img src="/psi-pavillion.svg" alt="PSI Pavillion" className="w-[30rem] h-[30rem] object-contain" />
@@ -356,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Scientific Program Section */}
-      <section className="bg-white py-8 px-4 relative overflow-visible mt-16 md:mt-32">
+      <section className="bg-white py-[52px] px-4 relative overflow-visible mt-16 md:mt-32">
         <div className="absolute right-0 z-10 top-[-400px] md:right-0 md:top-[-400px]">
           <img
             src="/hand-robotic.svg"
