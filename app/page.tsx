@@ -41,7 +41,7 @@ export default function Home() {
         </div>
 
         {/* Navigation */}
-        <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8">
+        <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-4">
           <div className="flex justify-between items-center w-full">
             {/* Mobile Menu Button and Logo */}
             <div className="flex items-center md:hidden">
@@ -56,7 +56,7 @@ export default function Home() {
             </div>
           </div>
           {/* Desktop Menu */}
-          <div className="hidden md:flex bg-[#FE6448] rounded-lg px-8 py-3 w-full flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8 mt-4">
+          <div className="hidden md:flex bg-[#FE6448] rounded-lg px-8 py-3 w-full flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8 mt-0">
             <Link href="/registration" className="text-white text-sm font-orbitron font-black uppercase hover:underline">Registration</Link>
             <Link href="/about" className="text-white text-sm font-orbitron font-black uppercase hover:underline">About</Link>
             <Link href="/program" className="text-white text-sm font-orbitron font-black uppercase hover:underline">Program</Link>
