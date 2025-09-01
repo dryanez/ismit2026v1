@@ -34,7 +34,7 @@ export default function ResponsiveNavigation({
     <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-0">
       <div className="flex justify-between items-center w-full">
         {/* Mobile Menu Button and Logo */}
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center md:hidden justify-between w-full">
           <button onClick={() => setMenuOpen(!menuOpen)} className="p-1 rounded-md bg-[#FE6448] mr-2">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
           </button>
