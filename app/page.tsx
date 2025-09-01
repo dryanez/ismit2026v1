@@ -242,244 +242,47 @@ export default function Home() {
           </div>
 
           {/* Day 1 Program */}
-          <div className="flex justify-center mb-8">
-            <div style={{ width: 615, height: 429, position: "relative" }}>
-              <div
-                style={{
-                  width: 615,
-                  height: 43,
-                  left: 0,
-                  top: 0,
-                  position: "absolute",
-                  background: "#FE6448",
-                  borderRadius: 10,
-                }}
-              />
-              <div
-                style={{
-                  width: 553.36,
-                  height: 21,
-                  left: 30.54,
-                  top: 11,
-                  position: "absolute",
-                  textAlign: "center",
-                  justifyContent: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  color: "white",
-                  fontSize: 15,
-                  fontFamily: "Orbitron",
-                  fontWeight: "900",
-                  textTransform: "uppercase",
-                  wordWrap: "break-word",
-                }}
-              >
-                Day 1 : Thursday, 19th November 2026
+          <div className="bg-[#FE6448] rounded-lg p-6 text-white mb-8">
+            <h3 className="text-xl font-orbitron font-bold uppercase text-center mb-6">
+              Day 1 : Thursday, 19th November 2026
+            </h3>
+            <div className="space-y-6">
+              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+                <div className="font-orbitron font-bold text-lg">15:00</div>
+                <div>
+                  <h4 className="font-roboto-condensed font-bold uppercase text-lg">Registration Opens</h4>
+                  <p className="font-roboto-condensed font-light">
+                    Online registration via digital congress platform. On-site digital help desks available.
+                  </p>
+                </div>
               </div>
-              <div
-                style={{
-                  width: 615,
-                  height: 343,
-                  left: 0,
-                  top: 86,
-                  position: "absolute",
-                  background: "#FE6448",
-                  borderRadius: 10,
-                }}
-              />
-              <div style={{ width: 523, height: 54, left: 46, top: 129, position: "absolute", textAlign: "justify" }}>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "900",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Registration Opens
-                  <br />
-                </span>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "300",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Online registration via digital congress platform. On-site digital help desks available.
-                </span>
+              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+                <div className="font-orbitron font-bold text-lg">16:00</div>
+                <div>
+                  <h4 className="font-roboto-condensed font-bold uppercase text-lg">Welcome Reception</h4>
+                  <p className="font-roboto-condensed font-light">
+                    Drinks and light snacks served in the networking lounge.
+                  </p>
+                </div>
               </div>
-              <div
-                style={{
-                  width: 82,
-                  height: 18,
-                  left: 46,
-                  top: 110,
-                  position: "absolute",
-                  textAlign: "justify",
-                  color: "white",
-                  fontSize: 15,
-                  fontFamily: "Orbitron",
-                  fontWeight: "400",
-                  textTransform: "capitalize",
-                  wordWrap: "break-word",
-                }}
-              >
-                15:00
+              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+                <div className="font-orbitron font-bold text-lg">17:00</div>
+                <div>
+                  <h4 className="font-roboto-condensed font-bold uppercase text-lg">Opening Ceremony</h4>
+                  <p className="font-roboto-condensed font-light">
+                    Welcome addresses from congress leadership.
+                  </p>
+                </div>
               </div>
-              <div style={{ width: 523, height: 32, left: 46, top: 211, position: "absolute", textAlign: "justify" }}>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "900",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Welcome Reception
-                  <br />
-                </span>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "300",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Drinks and light snacks served in the networking lounge.
-                </span>
+              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+                <div className="font-orbitron font-bold text-lg">17:30 - 19:30</div>
+                <div>
+                  <h4 className="font-roboto-condensed font-bold uppercase text-lg">Artistic & Scientific Welcome</h4>
+                  <p className="font-roboto-condensed font-light">
+                    A unique blend of musical performances and institutional welcomes from our esteemed partners.
+                  </p>
+                </div>
               </div>
-              <div
-                style={{
-                  width: 82,
-                  height: 18,
-                  left: 46,
-                  top: 192,
-                  position: "absolute",
-                  textAlign: "justify",
-                  color: "white",
-                  fontSize: 15,
-                  fontFamily: "Orbitron",
-                  fontWeight: "400",
-                  textTransform: "capitalize",
-                  wordWrap: "break-word",
-                }}
-              >
-                16:00
-              </div>
-              <div style={{ width: 523, height: 48, left: 46, top: 281, position: "absolute", textAlign: "justify" }}>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "900",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Opening Ceremony
-                  <br />
-                </span>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "300",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Welcome addresses from congress leadership.
-                  <br />
-                </span>
-              </div>
-              <div
-                style={{
-                  width: 82,
-                  height: 18,
-                  left: 46,
-                  top: 262,
-                  position: "absolute",
-                  textAlign: "justify",
-                  color: "white",
-                  fontSize: 15,
-                  fontFamily: "Orbitron",
-                  fontWeight: "400",
-                  textTransform: "capitalize",
-                  wordWrap: "break-word",
-                }}
-              >
-                17:00
-              </div>
-              <div style={{ width: 523, height: 48, left: 46, top: 351, position: "absolute", textAlign: "justify" }}>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "900",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  Artistic & Scientific Welcome
-                  <br />
-                </span>
-                <span
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    fontFamily: "Roboto Condensed",
-                    fontWeight: "300",
-                    textTransform: "uppercase",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  A unique blend of musical performances and institutional welcomes from our esteemed partners.
-                </span>
-              </div>
-              <div
-                style={{
-                  width: 130,
-                  height: 18,
-                  left: 46,
-                  top: 332,
-                  position: "absolute",
-                  textAlign: "justify",
-                  color: "white",
-                  fontSize: 15,
-                  fontFamily: "Orbitron",
-                  fontWeight: "400",
-                  textTransform: "capitalize",
-                  wordWrap: "break-word",
-                }}
-              >
-                17:30 - 19:30
-              </div>
-              <div
-                style={{
-                  width: 615,
-                  height: 107,
-                  left: 0,
-                  top: 322,
-                  position: "absolute",
-                  background: "linear-gradient(180deg, rgba(254, 100, 72, 0.60) 0%, #D54930 100%)",
-                  borderBottomRightRadius: 10,
-                  borderBottomLeftRadius: 10,
-                }}
-              />
             </div>
           </div>
 
@@ -488,7 +291,7 @@ export default function Home() {
               href="/program"
               className="border-4 border-[#0D1858] rounded-lg px-8 py-4 text-[#0D1858] text-lg md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors relative z-10"
             >
-              View Full Preliminary Program
+              Full program
             </Link>
           </div>
         </div>
