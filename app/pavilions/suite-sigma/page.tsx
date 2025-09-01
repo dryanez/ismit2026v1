@@ -182,7 +182,7 @@ export default function SuiteSigmaPage() {
               href="/startup-application"
               className="text-2xl md:text-3xl font-orbitron font-bold text-[#0D1858] hover:text-[#FE6448] transition-colors"
             >
-              Submit Your Startup
+              Submit your application now!
             </Link>
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function SuiteSigmaPage() {
         <div className="max-w-4xl mx-auto text-center">
           <Link
             href="/pavilions"
-            className="border-4 border-[#0D1858] rounded-lg px-8 py-4 text-[#0D1858] text-lg md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors"
+            className="border-4 border-[#0D1858] rounded-lg px-4 py-4 text-[#0D1858] text-lg md:px-8 md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors"
           >
             Explore All Pavilions
           </Link>

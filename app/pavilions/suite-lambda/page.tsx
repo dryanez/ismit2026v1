@@ -183,9 +183,9 @@ export default function SuiteLambdaPage() {
           <div className="bg-white rounded-lg p-8 mb-8">
             <a
               href="mailto:Academyai@ismit2026.com"
-              className="text-2xl md:text-3xl font-orbitron font-bold text-[#0D1858] hover:text-primary transition-colors"
+              className="text-2xl md:text-3xl font-orbitron font-bold text-[#0D1858] hover:text-[#FE6448] transition-colors"
             >
-              Academyai@ismit2026.com
+              Register now for the congress
             </a>
           </div>
 
@@ -202,7 +202,7 @@ export default function SuiteLambdaPage() {
         <div className="max-w-4xl mx-auto text-center">
           <Link
             href="/pavilions"
-            className="border-4 border-[#0D1858] rounded-lg px-8 py-4 text-[#0D1858] text-lg md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors"
+            className="border-4 border-[#0D1858] rounded-lg px-4 py-4 text-[#0D1858] text-lg md:px-8 md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors"
           >
             Explore All Pavilions
           </Link>

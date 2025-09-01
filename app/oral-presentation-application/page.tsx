@@ -244,18 +244,7 @@ export default function OralPresentationApplication() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
-                    Registration Number *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter your registration number"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
-                  />
                 </div>
-              </div>
             </div>
 
             {/* Abstract Information */}
