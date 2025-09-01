@@ -28,30 +28,99 @@ export default function Home() {
     { src: "/Parthners/polish chirug.svg", alt: "Polish Chirurg Logo" },
   ];
   const [menuOpen, setMenuOpen] = useState(false)
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
 
-  const scrollPrev = useCallback(() => {
-    emblaApi?.scrollPrev()
-  }, [emblaApi])
+  // Carousel setup for speakers section
+  const [emblaRefSpeakers, emblaApiSpeakers] = useEmblaCarousel({ align: 'start' })
+  const [prevBtnDisabledSpeakers, setPrevBtnDisabledSpeakers] = useState(true)
+  const [nextBtnDisabledSpeakers, setNextBtnDisabledSpeakers] = useState(true)
 
-  const scrollNext = useCallback(() => {
-    emblaApi?.scrollNext()
-  }, [emblaApi])
+  const scrollPrevSpeakers = useCallback(() => {
+    if (emblaApiSpeakers) emblaApiSpeakers.scrollPrev()
+  }, [emblaApiSpeakers])
 
-  const onSelect = useCallback((emblaApi) => {
-    setPrevBtnDisabled(!emblaApi.canScrollPrev())
-    setNextBtnDisabled(!emblaApi.canScrollNext())
+  const scrollNextSpeakers = useCallback(() => {
+    if (emblaApiSpeakers) emblaApiSpeakers.scrollNext()
+  }, [emblaApiSpeakers])
+
+  const onSelectSpeakers = useCallback((emblaApi: any) => {
+    setPrevBtnDisabledSpeakers(!emblaApi.canScrollPrev())
+    setNextBtnDisabledSpeakers(!emblaApi.canScrollNext())
   }, [])
 
   useEffect(() => {
-    if (!emblaApi) return
+    if (!emblaApiSpeakers) return
 
-    onSelect(emblaApi)
-    emblaApi.on('reInit', onSelect)
-    emblaApi.on('select', onSelect)
-  }, [emblaApi, onSelect])
+    onSelectSpeakers(emblaApiSpeakers)
+    emblaApiSpeakers.on('reInit', onSelectSpeakers).on('select', onSelectSpeakers)
+  }, [emblaApiSpeakers, onSelectSpeakers])
+
+  // Carousel setup for submissions section
+  const [emblaRefSubmissions, emblaApiSubmissions] = useEmblaCarousel({ align: 'start' })
+  const [prevBtnDisabledSubmissions, setPrevBtnDisabledSubmissions] = useState(true)
+  const [nextBtnDisabledSubmissions, setNextBtnDisabledSubmissions] = useState(true)
+
+  const scrollPrevSubmissions = useCallback(() => {
+    if (emblaApiSubmissions) emblaApiSubmissions.scrollPrev()
+  }, [emblaApiSubmissions])
+
+  const scrollNextSubmissions = useCallback(() => {
+    if (emblaApiSubmissions) emblaApiSubmissions.scrollNext()
+  }, [emblaApiSubmissions])
+
+  const onSelectSubmissions = useCallback((emblaApi: any) => {
+    setPrevBtnDisabledSubmissions(!emblaApi.canScrollPrev())
+    setNextBtnDisabledSubmissions(!emblaApi.canScrollNext())
+  }, [])
+
+  useEffect(() => {
+    if (!emblaApiSubmissions) return
+
+    onSelectSubmissions(emblaApiSubmissions)
+    emblaApiSubmissions.on('reInit', onSelectSubmissions).on('select', onSelectSubmissions)
+  }, [emblaApiSubmissions, onSelectSubmissions])
+
+  // Basic embla/scroll container refs and controls (safe fallback if embla lib not used)
+  const emblaRef = useRef<HTMLDivElement | null>(null)
+  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
+  const [nextBtnDisabled, setNextBtnDisabled] = useState(false)
+
+  useEffect(() => {
+    const el = emblaRef.current
+    if (!el) return
+
+    const onScroll = () => {
+      setPrevBtnDisabled(el.scrollLeft <= 0)
+      setNextBtnDisabled(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1)
+    }
+
+    onScroll()
+    el.addEventListener('scroll', onScroll)
+    let ro: ResizeObserver | null = null
+    try {
+      ro = new ResizeObserver(onScroll)
+      ro.observe(el)
+    } catch (e) {
+      /* ResizeObserver not available in this environment; ignore */
+    }
+
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      if (ro) ro.disconnect()
+    }
+  }, [])
+
+  const scrollPrev = () => {
+    const el = emblaRef.current
+    if (!el) return
+    el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' })
+  }
+
+  const scrollNext = () => {
+    const el = emblaRef.current
+    if (!el) return
+    el.scrollBy({ left: el.clientWidth, behavior: 'smooth' })
+  }
+
   return (
     <div className={`${robotoCondensed.variable} ${orbitron.variable} min-h-screen bg-white`}>
       {/* Hero Section */}
@@ -374,7 +443,7 @@ export default function Home() {
           <div className="text-center">
             <Link
               href="/program"
-              className="border-4 border-[#0D1858] rounded-lg px-8 py-4 text-[#0D1858] text-lg md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors relative z-10"
+              className="border-4 border-[#0D1858] rounded-lg px-4 py-2 text-[#0D1858] text-lg md:px-8 md:py-4 md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors relative z-10"
             >
               Full program
             </Link>
@@ -406,7 +475,74 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mobile Carousel View for Speakers */}
+          <div className="md:hidden relative flex flex-col justify-center h-full">
+            <div className="overflow-hidden" ref={emblaRefSpeakers}>
+              <div className="flex -ml-4">
+                <div className="flex-none w-full pl-4">
+                  <div className="text-center">
+                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-1.svg" />
+                    <div className="mt-4">
+                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                        Name Lastname
+                      </div>
+                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                        University of blah blah
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-none w-full pl-4">
+                  <div className="text-center">
+                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-2.svg" />
+                    <div className="mt-4">
+                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                        Name Lastname
+                      </div>
+                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                        University of blah blah
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-none w-full pl-4">
+                  <div className="text-center">
+                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-3.svg" />
+                    <div className="mt-4">
+                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                        Name Lastname
+                      </div>
+                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                        University of blah blah
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Navigation Arrows for Speakers */}
+            <button
+              className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              onClick={scrollPrevSpeakers}
+              disabled={prevBtnDisabledSpeakers}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <button
+              className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              onClick={scrollNextSpeakers}
+              disabled={nextBtnDisabledSpeakers}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Desktop Grid View for Speakers */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-1.svg" />
               <div className="mt-4">
@@ -470,7 +606,87 @@ export default function Home() {
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase">Submissions</h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Mobile Carousel View for Submissions */}
+          <div className="md:hidden relative">
+            <div className="overflow-hidden" ref={emblaRefSubmissions}>
+              <div className="flex -ml-4">
+                <div className="flex-none w-full pl-4">
+                  <div className="bg-white rounded-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2">
+                    <h3 className="text-lg font-roboto-condensed font-bold text-[#FE6448] uppercase mb-2">Oral Spotlights</h3>
+                    <p className="text-base font-orbitron font-semibold text-[#FE6448] uppercase mb-4">10 Minutes</p>
+                    <p className="text-sm font-roboto-condensed font-light text-[#0D1858] mb-6">
+                      Present your research findings in a focused oral presentation BEST PRESENTATION AWARD WILL BE GRANTED
+                      DURING THE CONGRESS
+                    </p>
+                    <Link
+                      href="/submissions"
+                      className="text-[#0D1858] font-roboto-condensed font-semibold uppercase text-sm underline"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+                <div className="flex-none w-full pl-4">
+                  <div className="bg-white rounded-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2">
+                    <h3 className="text-lg font-roboto-condensed font-bold text-[#FE6448] uppercase mb-2">Video Posters</h3>
+                    <p className="text-base font-orbitron font-semibold text-[#FE6448] uppercase mb-4">120 Seconds</p>
+                    <p className="text-sm font-roboto-condensed font-light text-[#0D1858] mb-6">
+                      Create an engaging video poster to showcase your work BEST VIDEO-POSTER AWARD WILL BE GRANTED DURING THE
+                      CONGRESS
+                    </p>
+                    <Link
+                      href="/submissions"
+                      className="text-[#0D1858] font-roboto-condensed font-semibold uppercase text-sm underline"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+                <div className="flex-none w-full pl-4">
+                  <div className="bg-white rounded-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2">
+                    <h3 className="text-lg font-roboto-condensed font-bold text-[#FE6448] uppercase mb-1">
+                      Start-up Grand Prize
+                    </h3>
+                    <p className="text-sm font-roboto-condensed font-light italic text-[#FE6448] uppercase mb-2">
+                      Future Disruptors
+                    </p>
+                    <p className="text-base font-orbitron font-semibold text-[#FE6448] uppercase mb-4">Contest</p>
+                    <p className="text-sm font-roboto-condensed font-light text-[#0D1858] mb-6">
+                      WILL BE GRANTED DURING THE CONGRESS One-minute video presented during a three-minute elevator pitch
+                    </p>
+                    <Link
+                      href="/submissions"
+                      className="text-[#0D1858] font-roboto-condensed font-semibold uppercase text-sm underline"
+                    >
+                      Read More
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Navigation Arrows for Submissions */}
+            <button
+              className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              onClick={scrollPrevSubmissions}
+              disabled={prevBtnDisabledSubmissions}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <button
+              className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              onClick={scrollNextSubmissions}
+              disabled={nextBtnDisabledSubmissions}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Desktop Grid View for Submissions */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8">
             {/* Oral Spotlights */}
             <div className="bg-white rounded-lg p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-xl hover:-translate-y-2">
               <h3 className="text-lg font-roboto-condensed font-bold text-[#FE6448] uppercase mb-2">Oral Spotlights</h3>
@@ -621,7 +837,7 @@ export default function Home() {
           </div>
           <Link
             href="/registration"
-            className="border-4 border-[#85AFFB] bg-[#85AFFB] rounded-lg px-8 py-4 text-white text-xl md:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#85AFFB] hover:border-[#85AFFB] transition-colors mb-16"
+            className="border-4 border-[#85AFFB] bg-[#85AFFB] rounded-lg px-4 py-2 text-white text-xl md:px-8 md:py-4 md:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#85AFFB] hover:border-[#85AFFB] transition-colors mb-16"
           >
             Register Now
           </Link>
