@@ -1,5 +1,6 @@
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import Link from "next/link"
+import ResponsiveNavigation from "@/components/ResponsiveNavigation";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -23,33 +24,23 @@ export default function SuiteSigmaPage() {
         </div>
 
         {/* Navigation */}
-        <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8">
-          <div className="bg-[#FE6448] rounded-lg px-8 py-3">
-            <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8">
-              <Link href="/" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
-                Home
-              </Link>
-              <Link href="/about" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
-                About
-              </Link>
-              <Link href="/program" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
-                Program
-              </Link>
-              <Link href="/speakers" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
-                Speakers
-              </Link>
-              <Link
-                href="/submissions"
-                className="text-white text-sm font-orbitron font-black uppercase hover:underline"
-              >
-                Submissions
-              </Link>
-              <Link href="/pavilions" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
-                Pavilions
-              </Link>
-            </div>
-          </div>
-        </nav>
+        <ResponsiveNavigation
+          links={[
+            { href: "/", label: "Home" },
+            { href: "/registration", label: "Registration" },
+            { href: "/about", label: "About" },
+            { href: "/program", label: "Program" },
+            { href: "/speakers", label: "Speakers" },
+            { href: "/submissions", label: "Submissions" },
+            { href: "/pavilions", label: "Pavilions", isActive: true },
+          ]}
+          logoSrc="/ISMIT REAL LOGO 1.svg"
+          logoAlt="iSMIT Logo"
+          desktopBgClass="bg-[#FE6448]"
+          mobileBgClass="bg-[#FE6448]"
+          textColorClass="text-white"
+          activeLinkClass="text-[#0D1858] bg-white px-2 py-1 rounded"
+        />
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
