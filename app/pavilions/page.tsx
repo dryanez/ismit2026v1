@@ -196,9 +196,11 @@ export default function Pavilions() {
                 Pavilion access is included with your congress registration. Limited capacity - reserve your spots
                 early!
               </p>
-              <button className="bg-[#FE6448] text-white px-8 py-4 rounded font-orbitron font-bold uppercase hover:bg-[#e55439] transition-colors">
-                Register for Congress
-              </button>
+              <Link href="/registration">
+                <button className="bg-[#FE6448] text-white px-8 py-4 rounded font-orbitron font-bold uppercase hover:bg-[#e55439] transition-colors">
+                  Register for Congress
+                </button>
+              </Link>
             </div>
           </div>
         </div>
