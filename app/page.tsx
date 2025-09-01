@@ -267,7 +267,7 @@ export default function Home() {
       </section>
 
       {/* Pavilions Section */}
-      <section className="bg-white py-24 px-4 relative">
+      <section className="bg-white pt-12 pb-24 px-4 relative">
         <div className="absolute left-0 right-0 bg-[#0D1858] h-96 z-0 top-1/2 -translate-y-1/2"></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
@@ -331,7 +331,7 @@ export default function Home() {
           </div>
 
           {/* Desktop Grid View */}
-          <div className="hidden md:grid md:grid-cols-3 gap-8">
+          <div className="hidden md:grid md:grid-cols-3 gap-8 mt-[-50px]">
             <div className="flex justify-center">
               <Link href="/pavilions/suite-sigma" className="block transition-transform duration-300 hover:scale-110">
                 <img src="/psi-pavillion.svg" alt="PSI Pavillion" className="w-[30rem] h-[30rem] object-contain" />
@@ -356,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Scientific Program Section */}
-      <section className="bg-white py-16 px-4 relative overflow-visible">
+      <section className="bg-white py-8 px-4 relative overflow-visible">
         <div className="absolute right-0 z-10 top-[0px] md:right-0 md:top-[0]">
           <img
             src="/hand-robotic.svg"
@@ -919,7 +919,7 @@ export default function Home() {
             </div>
             <p className="text-[#0D1858] font-roboto-condensed text-lg md:text-xl mt-6">
               To receive press accreditation, please send your name, affiliation, and press credentials to:
-              <span className="font-extrabold underline uppercase"> press@ismit2026.com</span> — info — email
+              <span className="font-extrabold underline uppercase"> press@ismit2026.com</span>
             </p>
           </div>
         </div>
