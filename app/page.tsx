@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className={`${robotoCondensed.variable} ${orbitron.variable} min-h-screen bg-white`}>
       {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative h-[85vh] w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/hero-background.svg"
@@ -38,11 +38,11 @@ export default function Home() {
         </div>
 
         {/* Navigation */}
-        <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8">
-          <div className="bg-[#FE6448] rounded-lg px-8 py-3 relative">
-            <div className="absolute -top-6 -right-6 z-20">
-              <img src="/ISMIT REAL LOGO 1.svg" alt="iSMIT Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
-            </div>
+        <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8 flex flex-col items-end">
+          <div className="mb-4">
+            <img src="/ISMIT REAL LOGO 1.svg" alt="iSMIT Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
+          </div>
+          <div className="bg-[#FE6448] rounded-lg px-8 py-3 relative w-full">
             <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8">
               <Link
                 href="/registration"
@@ -771,7 +771,7 @@ export default function Home() {
               <img
                 src="/nuremberg-old-town-hall-historic-building.png"
                 alt="Altes Rathaus Nuremberg"
-                className="w-full h-72 object-cover rounded-lg"
+                className="w-full h-auto object-contain rounded-lg"
               />
             </div>
             <div className="text-white font-roboto-condensed">
