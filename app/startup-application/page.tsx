@@ -117,19 +117,19 @@ export default function StartupApplication() {
   return (
     <div className={`${robotoCondensed.variable} ${orbitron.variable} min-h-screen bg-white`}>
       {/* Hero Section */}
-      <section className="relative h-96 w-full overflow-hidden">
+      <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2eniT8eW-yIJxNvDrn9TosGzHhFJMfYWVtWYOTq.jpeg"
             alt="Medical professionals in geometric low-poly style"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-[#0D1858] bg-opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FE6448] via-[#FE6448]/90 to-[#0D1858]/80"></div>
         </div>
 
         {/* Navigation */}
         <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8">
-          <div className="bg-[#FE6448] rounded-lg px-8 py-3">
+          <div className="bg-[#0D1858] rounded-lg px-8 py-3">
             <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8">
               <Link href="/" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
                 Home
@@ -149,10 +149,7 @@ export default function StartupApplication() {
               <Link href="/speakers" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
                 Speakers
               </Link>
-              <Link
-                href="/submissions"
-                className="text-white text-sm font-orbitron font-black uppercase hover:underline"
-              >
+              <Link href="/submissions" className="text-[#85AFFB] text-sm font-orbitron font-black uppercase">
                 Submissions
               </Link>
               <Link href="/pavilions" className="text-white text-sm font-orbitron font-black uppercase hover:underline">
@@ -164,155 +161,77 @@ export default function StartupApplication() {
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-orbitron font-black text-white text-shadow-lg uppercase mb-4">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-orbitron font-black text-white text-shadow-lg uppercase mb-4">
             Start-up Grand Prize
           </h1>
-          <p className="text-xl md:text-2xl font-roboto-condensed font-medium text-[#85AFFB] uppercase mb-6">
+          <p className="text-xl md:text-3xl font-roboto-condensed font-medium text-white uppercase mb-4">
             Future Disruptors Contest
           </p>
-          <p className="text-lg font-roboto-condensed font-medium text-white">Will be granted during the congress</p>
+          <p className="text-lg md:text-xl font-roboto-condensed font-light text-white">
+            Will be granted during the congress
+          </p>
         </div>
       </section>
 
-      {/* Evaluation Criteria Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">
-              Evaluation Criteria
-            </h2>
-            <p className="text-lg font-roboto-condensed text-[#0D1858] max-w-3xl mx-auto">
-              Applications will be evaluated based on the following criteria by our panel of expert judges
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-[#85AFFB] rounded-lg p-6 text-center">
-              <div className="text-4xl font-orbitron font-bold text-white mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-3">Innovation</h3>
-              <p className="font-roboto-condensed text-white text-sm">
-                Uniqueness and creativity of the solution, technological advancement, and potential to disrupt the
-                market
-              </p>
-            </div>
-
-            <div className="bg-[#FE6448] rounded-lg p-6 text-center">
-              <div className="text-4xl font-orbitron font-bold text-white mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-3">Market Potential</h3>
-              <p className="font-roboto-condensed text-white text-sm">
-                Size of addressable market, scalability, and potential for commercial success and growth
-              </p>
-            </div>
-
-            <div className="bg-[#0D1858] rounded-lg p-6 text-center">
-              <div className="text-4xl font-orbitron font-bold text-[#85AFFB] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#85AFFB] uppercase mb-3">Team & Execution</h3>
-              <p className="font-roboto-condensed text-white text-sm">
-                Team expertise, track record, and ability to execute the business plan effectively
-              </p>
-            </div>
-
-            <div className="bg-[#85AFFB] bg-opacity-20 border-2 border-[#85AFFB] rounded-lg p-6 text-center">
-              <div className="text-4xl font-orbitron font-bold text-[#0D1858] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-3">Impact & Vision</h3>
-              <p className="font-roboto-condensed text-[#0D1858] text-sm">
-                Potential societal impact, alignment with future trends, and long-term vision for the industry
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-12 bg-[#FE6448] bg-opacity-10 rounded-lg p-8 text-center">
-            <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-4">Prize Details</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div>
-                <div className="text-2xl font-orbitron font-bold text-[#FE6448] mb-2">€10,000</div>
-                <p className="font-roboto-condensed text-[#0D1858] font-semibold">Cash Prize</p>
-              </div>
-              <div>
-                <div className="text-2xl font-orbitron font-bold text-[#FE6448] mb-2">Mentorship</div>
-                <p className="font-roboto-condensed text-[#0D1858] font-semibold">6-Month Program</p>
-              </div>
-              <div>
-                <div className="text-2xl font-orbitron font-bold text-[#FE6448] mb-2">Networking</div>
-                <p className="font-roboto-condensed text-[#0D1858] font-semibold">Industry Connections</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Detailed Evaluation Criteria Section */}
+      {/* Evaluation Process Section */}
       <section className="bg-[#0D1858] py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-6">
-              Assessment Criteria
+              Evaluation Criteria
             </h2>
             <p className="text-lg font-roboto-condensed text-[#85AFFB] max-w-3xl mx-auto">
-              All submissions will be evaluated by our Scientific Committee and Start-up Jury based on the following
-              criteria
+              Applications will be evaluated based on the following criteria by our panel of expert judges
             </p>
           </div>
 
           <div className="bg-white rounded-lg p-8">
             <div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-4">
-                    Content & Innovation
+				<h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-4">
+                    Applications will be assessed according to the following criteria:
                   </h3>
                   <ul className="space-y-3 font-roboto-condensed text-[#0D1858]">
-                    <li>• Relevance to congress themes (AI, robotics, surgery, med-tech)</li>
-                    <li>• Clarity of problem and proposed solution</li>
-                    <li>• Methodological soundness and validation</li>
-                    <li>• Significance and impact of results</li>
-                    <li>• Innovation and originality of approach</li>
-                    <li>• Future potential and scalability</li>
+                    <li>• Innovation</li>
+                    <li>• Market Potential</li>
+                    <li>• Team & Execution</li>
+                    <li>• Impact & Vision</li>
                   </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-4">
-                    Market & Presentation
-                  </h3>
-                  <ul className="space-y-3 font-roboto-condensed text-[#0D1858]">
-                    <li>• Commercial viability and market potential</li>
-                    <li>• Interdisciplinary value across domains</li>
-                    <li>• Video quality and technical execution</li>
-                    <li>• Presentation clarity and structure</li>
-                    <li>• Charisma and audience engagement</li>
-                    <li>• Adherence to time requirements (1-minute video)</li>
-                  </ul>
-                </div>
-              </div>
             </div>
+          </div>
+			<div className="mt-8 p-6 bg-[#85AFFB] rounded-lg text-center">
+            <p className="text-white font-roboto-condensed">
+              ✨{" "}
+              <strong>
+                The best startup, as selected by the Scientific Committee, will be honoured with the official Start-up Grand Prize at the congress closing ceremony.
+              </strong>
+            </p>
           </div>
         </div>
       </section>
 
       {/* How to Submit Section */}
-      <section className="bg-[#0D1858] py-16 px-4">
+      <section className="bg-white py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-8">How to Submit</h2>
+          <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-8">How to Submit</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-[#85AFFB] rounded-lg p-6">
               <div className="text-3xl font-orbitron font-bold text-white mb-4">1</div>
-              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-3">Complete Form</h3>
-              <p className="font-roboto-condensed text-white">
+              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-2">Complete Form</h3>
+              <p className="text-sm font-roboto-condensed text-white">
                 Fill out the application form with your personal and startup information
               </p>
             </div>
             <div className="bg-[#FE6448] rounded-lg p-6">
               <div className="text-3xl font-orbitron font-bold text-white mb-4">2</div>
-              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-3">Upload Video</h3>
-              <p className="font-roboto-condensed text-white">
+              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-2">Upload Video</h3>
+              <p className="text-sm font-roboto-condensed text-white">
                 Upload your 1-minute elevator pitch video directly through the form
               </p>
             </div>
-            <div className="bg-[#0D1858] border-2 border-[#85AFFB] rounded-lg p-6">
-              <div className="text-3xl font-orbitron font-bold text-[#85AFFB] mb-4">3</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#85AFFB] uppercase mb-3">Get Confirmation</h3>
-              <p className="font-roboto-condensed text-white">
+            <div className="bg-[#0D1858] rounded-lg p-6">
+              <div className="text-3xl font-orbitron font-bold text-white mb-4">3</div>
+              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-2">Get Confirmation</h3>
+              <p className="text-sm font-roboto-condensed text-white">
                 Receive email confirmation and await evaluation results
               </p>
             </div>
@@ -338,7 +257,7 @@ export default function StartupApplication() {
           {/* Application Form */}
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
-            <div className="bg-[#85AFFB] bg-opacity-10 rounded-lg p-8">
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
               <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Personal Information</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -351,7 +270,7 @@ export default function StartupApplication() {
                     value={formData.firstName}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
                 <div>
@@ -364,7 +283,7 @@ export default function StartupApplication() {
                     value={formData.lastName}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
                 <div>
@@ -377,7 +296,7 @@ export default function StartupApplication() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
                 <div>
@@ -389,7 +308,7 @@ export default function StartupApplication() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
                 <div className="md:col-span-2">
@@ -401,14 +320,14 @@ export default function StartupApplication() {
                     name="organization"
                     value={formData.organization}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Startup Information */}
-            <div className="bg-[#FE6448] bg-opacity-10 rounded-lg p-8">
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
               <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Startup Information</h3>
               <div className="space-y-6">
                 <div>
@@ -421,7 +340,7 @@ export default function StartupApplication() {
                     value={formData.startupName}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                 </div>
                 <div>
@@ -433,7 +352,7 @@ export default function StartupApplication() {
                     value={formData.industryFocus}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   >
                     <option value="">Select Industry Focus</option>
                     <option value="ai">Artificial Intelligence</option>
@@ -453,7 +372,7 @@ export default function StartupApplication() {
                     value={formData.developmentStage}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
                   >
                     <option value="">Select Development Stage</option>
                     <option value="concept">Concept/Idea</option>
@@ -467,7 +386,7 @@ export default function StartupApplication() {
             </div>
 
             {/* Elevator Pitch */}
-            <div className="bg-[#0D1858] bg-opacity-10 rounded-lg p-8">
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
               <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Elevator Pitch</h3>
               <div className="space-y-6">
                 <div>
@@ -485,7 +404,7 @@ export default function StartupApplication() {
                     required
                     rows={12}
                     maxLength={1000}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#85AFFB] focus:border-transparent resize-vertical"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448] resize-vertical"
                     placeholder="Tell us about your startup..."
                   />
                   <p className="text-sm text-gray-500 mt-2">{formData.elevatorPitch.length}/1000 words</p>
@@ -494,8 +413,8 @@ export default function StartupApplication() {
             </div>
 
             {/* Video Upload */}
-            <div className="bg-[#85AFFB] rounded-lg p-8 text-white">
-              <h3 className="text-xl font-orbitron font-bold uppercase mb-6">Video Upload</h3>
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
+              <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Video Upload</h3>
               <div className="space-y-4 font-roboto-condensed">
                 <p className="text-lg font-semibold">Upload your 1-minute elevator pitch video:</p>
                 <div className="bg-white bg-opacity-20 rounded-lg p-4">
@@ -503,7 +422,7 @@ export default function StartupApplication() {
                     type="file"
                     accept="video/*"
                     onChange={handleVideoChange}
-                    className="w-full px-4 py-3 bg-white text-[#0D1858] rounded-lg focus:ring-2 focus:ring-[#FE6448] focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white text-[#0D1858] rounded-lg focus:outline-none focus:border-[#FE6448]"
                   />
                   {videoFile && (
                     <p className="text-sm mt-2">
@@ -519,7 +438,7 @@ export default function StartupApplication() {
             </div>
 
             {/* Terms and Conditions */}
-            <div className="bg-gray-50 rounded-lg p-6">
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
               <div className="flex items-start space-x-3">
                 <input
                   type="checkbox"

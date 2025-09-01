@@ -55,6 +55,11 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
 
   const [quantity, setQuantity] = useState(1)
   const [agreeTerms, setAgreeTerms] = useState(false)
+  const [hasDiscount, setHasDiscount] = useState(false)
+  const [galaDinner, setGalaDinner] = useState(false)
+  const [aiAcademy, setAiAcademy] = useState(false)
+  const [psiPavilion, setPsiPavilion] = useState(false)
+  const [gdprConsent, setGdprConsent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -69,6 +74,7 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     if (!attendeeInfo.organization.trim()) newErrors.organization = "Organization is required"
     if (!attendeeInfo.country.trim()) newErrors.country = "Country is required"
     if (!agreeTerms) newErrors.terms = "You must agree to the terms and conditions"
+    if (!gdprConsent) newErrors.gdpr = "You must consent to data processing and media release"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -89,6 +95,10 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
           quantity,
           attendeeInfo,
           paymentMethod: "sumup",
+          hasDiscount,
+          galaDinner,
+          aiAcademy,
+          psiPavilion,
         }),
       })
 
@@ -104,7 +114,21 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     }
   }
 
-  const totalAmount = selectedTicket.price * quantity
+  const calculateTotal = () => {
+    let ticketPrice = selectedTicket.price * quantity
+    if (hasDiscount) {
+      ticketPrice *= 0.5
+    }
+
+    let addonsPrice = 0
+    if (galaDinner) addonsPrice += 95
+    if (aiAcademy) addonsPrice += 100
+    if (psiPavilion) addonsPrice += 100
+
+    return ticketPrice + addonsPrice
+  }
+
+  const totalAmount = calculateTotal()
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -135,6 +159,32 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
                 <span>Quantity:</span>
                 <span>{quantity}</span>
               </div>
+
+              {galaDinner && (
+                <div className="flex justify-between">
+                  <span>Gala Dinner:</span>
+                  <span>€95</span>
+                </div>
+              )}
+              {aiAcademy && (
+                <div className="flex justify-between">
+                  <span>AI Software Academy:</span>
+                  <span>€100</span>
+                </div>
+              )}
+              {psiPavilion && (
+                <div className="flex justify-between">
+                  <span>Pavilion Ψ Access:</span>
+                  <span>€100</span>
+                </div>
+              )}
+
+              {hasDiscount && (
+                <div className="flex justify-between text-green-300">
+                  <span>Presenter Discount:</span>
+                  <span>-50%</span>
+                </div>
+              )}
 
               <hr className="border-white/20" />
 
@@ -289,6 +339,55 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
                   </div>
                 )}
 
+                {/* Additional Options */}
+                <div>
+                  <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-4">Additional Options</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="galaDinner" className="text-sm">
+                        Gala Dinner (20th November 2026) - €95
+                      </Label>
+                      <Checkbox
+                        id="galaDinner"
+                        checked={galaDinner}
+                        onCheckedChange={(checked) => setGalaDinner(checked as boolean)}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="aiAcademy" className="text-sm">
+                        Suite Λ - AI Software Academy - €100
+                      </Label>
+                      <Checkbox
+                        id="aiAcademy"
+                        checked={aiAcademy}
+                        onCheckedChange={(checked) => setAiAcademy(checked as boolean)}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="psiPavilion" className="text-sm">
+                        Pavilion Ψ (Psi) Virtual Room access - €100
+                      </Label>
+                      <Checkbox
+                        id="psiPavilion"
+                        checked={psiPavilion}
+                        onCheckedChange={(checked) => setPsiPavilion(checked as boolean)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Discount Checkbox */}
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="discount"
+                    checked={hasDiscount}
+                    onCheckedChange={(checked) => setHasDiscount(checked as boolean)}
+                  />
+                  <Label htmlFor="discount" className="text-sm">
+                    I am an active participant giving a presentation (50% discount)
+                  </Label>
+                </div>
+
                 {/* Terms and Conditions */}
                 <div className="flex items-center space-x-2">
                   <Checkbox
@@ -308,6 +407,19 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
                   </Label>
                 </div>
                 {errors.terms && <p className="text-red-500 text-sm">{errors.terms}</p>}
+
+                {/* GDPR Consent */}
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="gdpr"
+                    checked={gdprConsent}
+                    onCheckedChange={(checked) => setGdprConsent(checked as boolean)}
+                  />
+                  <Label htmlFor="gdpr" className="text-sm">
+                    I consent to the processing of my personal data for congress purposes and agree to the media release terms.
+                  </Label>
+                </div>
+                {errors.gdpr && <p className="text-red-500 text-sm">{errors.gdpr}</p>}
 
                 {errors.submit && (
                   <div className="bg-red-50 border border-red-200 rounded p-4">

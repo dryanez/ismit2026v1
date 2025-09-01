@@ -115,46 +115,37 @@ export default function OralPresentationApplication() {
         </div>
       </section>
 
-      {/* Detailed Assessment Criteria Section */}
-      <section className="bg-[#85AFFB] py-16 px-4">
-        <div className="max-w-6xl mx-auto">
+      {/* Evaluation Process Section */}
+      <section className="bg-[#0D1858] py-16 px-4">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-6">
-              Detailed Assessment Criteria
+              Evaluation Process
             </h2>
-            <p className="text-lg font-roboto-condensed text-white">
-              Your presentation will be evaluated based on the following criteria
+            <p className="text-lg font-roboto-condensed text-[#85AFFB] max-w-3xl mx-auto">
+              All accepted presentations will be evaluated by a cloud-connected scientific jury desk during the congress. The jury will have access to replay and analyse every presentation on demand.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-lg p-6 text-center">
-              <div className="text-3xl font-orbitron font-bold text-[#FE6448] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-2">Scientific Quality</h3>
-              <p className="text-sm font-roboto-condensed text-[#0D1858]">
-                Methodological rigor and significance of results
-              </p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center">
-              <div className="text-3xl font-orbitron font-bold text-[#FE6448] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-2">Innovation</h3>
-              <p className="text-sm font-roboto-condensed text-[#0D1858]">Novelty and potential for future research</p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center">
-              <div className="text-3xl font-orbitron font-bold text-[#FE6448] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-2">Relevance</h3>
-              <p className="text-sm font-roboto-condensed text-[#0D1858]">
-                Alignment with congress themes and clinical impact
-              </p>
-            </div>
-            <div className="bg-white rounded-lg p-6 text-center">
-              <div className="text-3xl font-orbitron font-bold text-[#FE6448] mb-4">25%</div>
-              <h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-2">Presentation</h3>
-              <p className="text-sm font-roboto-condensed text-[#0D1858]">Clarity of delivery and logical structure</p>
+          <div className="bg-white rounded-lg p-8">
+            <div className="space-y-6">
+				<h3 className="text-lg font-orbitron font-bold text-[#0D1858] uppercase mb-4">
+                    Presentations will be assessed according to the following criteria:
+                  </h3>
+                  <ul className="space-y-3 font-roboto-condensed text-[#0D1858]">
+                    <li>• Confirmation of acceptance for presentation – abstract approved by the Scientific Committee</li>
+                    <li>• Relevance of the topic to the congress – clear alignment with congress themes</li>
+                    <li>• Clarity of the hypothesis – well-defined research question or project aim</li>
+                    <li>• Methodological rigour – robustness and scientific quality of the methods used</li>
+                    <li>• Significance of the results – importance and impact for research or clinical practice</li>
+                    <li>• Potential for future research – contribution to ongoing or upcoming studies</li>
+                    <li>• Potential for future product or clinical application – feasibility of translation into tools or practice</li>
+                    <li>• Clarity of presentation and delivery – logical structure, comprehensibility, and effective delivery</li>
+                    <li>• Confirmation of paid participation fee – formal eligibility requirement</li>
+                  </ul>
             </div>
           </div>
-
-          <div className="mt-8 p-6 bg-[#85AFFB] rounded-lg text-center">
+			<div className="mt-8 p-6 bg-[#85AFFB] rounded-lg text-center">
             <p className="text-white font-roboto-condensed">
               ✨{" "}
               <strong>
@@ -208,103 +199,105 @@ export default function OralPresentationApplication() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                  First Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-                />
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
+              <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Personal Information</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                    Institution *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                    Registration Number *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your registration number"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                  Last Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                Institution *
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                Registration Number *
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="Enter your registration number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-              />
             </div>
 
             {/* Abstract Information */}
-            <div>
-              <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                Presentation Title *
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448]"
-              />
-            </div>
+            <div className="bg-[#f8f9fa] rounded-lg p-8">
+              <h3 className="text-xl font-orbitron font-bold text-[#0D1858] uppercase mb-6">Abstract Information</h3>
+              <div>
+                <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                  Presentation Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448]"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-orbitron font-bold text-[#0D1858] uppercase mb-2">
-                Abstract (≤400 words) *
-              </label>
-              <p className="text-sm font-roboto-condensed text-gray-600 mb-2">
-                Include: Authors, Institution(s), Title, Hypothesis/Objective, Core Methods, Headline Results, Projected
-                Impact
-              </p>
-              <textarea
-                required
-                rows={12}
-                maxLength={2000}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg font-roboto-condensed focus:outline-none focus:border-[#FE6448] resize-vertical"
-                placeholder="Enter your abstract here..."
-              />
+              <div className="mt-6">
+                <label className="block text-sm font-roboto-condensed font-semibold text-[#0D1858] mb-2">
+                  Abstract (≤400 words) *
+                </label>
+                <p className="text-sm font-roboto-condensed text-gray-600 mb-2">
+                  Include: Authors, Institution(s), Title, Hypothesis/Objective, Core Methods, Headline Results, Projected
+                  Impact
+                </p>
+                <textarea
+                  required
+                  rows={12}
+                  maxLength={2000}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#FE6448] resize-vertical"
+                  placeholder="Enter your abstract here..."
+                />
+              </div>
             </div>
 
             {/* Important Notice */}
-            <div className="bg-[#FE6448] p-6 rounded-lg">
-              <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-2">Important Notice</h3>
-              <p className="text-sm font-roboto-condensed text-white mb-2">
+            <div className="bg-[#FE6448] text-white rounded-lg p-6">
+              <h3 className="text-lg font-orbitron font-bold uppercase mb-2">Important Notice</h3>
+              <p className="text-sm font-roboto-condensed mb-2">
                 <strong>Submission Deadline:</strong> 30 June 2026
               </p>
-              <p className="text-sm font-roboto-condensed text-white">
-                Abstracts must be submitted exclusively via email to: <strong>oralpresentation@ismit2026.com</strong>{" "}
-                and must include the registration number
+              <p className="text-sm font-roboto-condensed">
+                Abstracts must be submitted and must include the registration number
               </p>
             </div>
 

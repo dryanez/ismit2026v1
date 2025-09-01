@@ -14,6 +14,16 @@ const orbitron = Orbitron({
 })
 
 export default function Home() {
+  const partnerLogos = [
+    { src: "/Parthners/Aions-Logo.svg", alt: "Aions Logo" },
+    { src: "/Parthners/CRSA-Logo.svg", alt: "CRSA Logo" },
+    { src: "/Parthners/dam_logo.svg", alt: "DAM Logo" },
+    { src: "/Parthners/dgav-logo.svg", alt: "DGAV Logo" },
+    { src: "/Parthners/dgch_logo.svg", alt: "DGCH Logo" },
+    { src: "/Parthners/gatech-color_logo.svg", alt: "Gatech Logo" },
+    { src: "/Parthners/medical-valley-logo.svg", alt: "Medical Valley Logo" },
+    { src: "/Parthners/polish chirug.svg", alt: "Polish Chirurg Logo" },
+  ];
   return (
     <div className={`${robotoCondensed.variable} ${orbitron.variable} min-h-screen bg-white`}>
       {/* Hero Section */}
@@ -31,7 +41,7 @@ export default function Home() {
         <nav className="relative z-10 px-4 md:px-8 lg:px-36 pt-8">
           <div className="bg-[#FE6448] rounded-lg px-8 py-3 relative">
             <div className="absolute -top-6 -right-6 z-20">
-              <img src="/ismit-logo.png" alt="iSMIT Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
+              <img src="/ISMIT REAL LOGO 1.svg" alt="iSMIT Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain" />
             </div>
             <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-8">
               <Link
@@ -78,7 +88,7 @@ export default function Home() {
           </p>
           <Link
             href="/registration"
-            className="border-4 border-[#85AFFB] rounded-lg px-8 py-4 text-[#85AFFB] text-xl md:text-2xl font-orbitron font-black uppercase hover:bg-[#85AFFB] hover:text-white transition-colors relative z-10"
+            className="border-4 border-[#87CEEB] bg-[#87CEEB] rounded-lg px-8 py-4 text-white text-xl md:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#87CEEB] transition-colors relative z-10"
           >
             Register
           </Link>
@@ -728,14 +738,14 @@ export default function Home() {
             healthcare.
           </p>
 
-          {/* Partners logos placeholder */}
+          {/* Partners logos */}
           <div className="bg-white rounded-lg p-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((partner) => (
+              {partnerLogos.map((logo) => (
                 <img
-                  key={partner}
-                  src={`/abstract-partner-logo.png?height=100&width=150&query=partner logo ${partner}`}
-                  alt={`Partner ${partner}`}
+                  key={logo.src}
+                  src={logo.src}
+                  alt={logo.alt}
                   className="h-16 md:h-20 object-contain"
                 />
               ))}

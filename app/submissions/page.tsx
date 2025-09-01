@@ -82,7 +82,7 @@ export default function Submissions() {
           {/* Submission Types */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {/* Oral Spotlights */}
-            <div className="bg-[#FE6448] rounded-lg p-8 text-white">
+            <div className="bg-[#FE6448] rounded-lg p-8 text-white transition-transform duration-300 ease-in-out hover:scale-105">
               <h3 className="text-2xl font-orbitron font-bold uppercase mb-4 text-center">Oral Spotlights</h3>
               <div className="text-center mb-6">
                 <div className="text-4xl font-orbitron font-black mb-2">10</div>
@@ -111,7 +111,7 @@ export default function Submissions() {
             </div>
 
             {/* Video Posters */}
-            <div className="bg-[#85AFFB] rounded-lg p-8 text-white">
+            <div className="bg-[#85AFFB] rounded-lg p-8 text-white transition-transform duration-300 ease-in-out hover:scale-105">
               <h3 className="text-2xl font-orbitron font-bold uppercase mb-4 text-center">Video Posters</h3>
               <div className="text-center mb-6">
                 <div className="text-4xl font-orbitron font-black mb-2">120</div>
@@ -140,7 +140,7 @@ export default function Submissions() {
             </div>
 
             {/* Startup Contest */}
-            <div className="bg-[#0D1858] rounded-lg p-8 text-white">
+            <div className="bg-[#0D1858] rounded-lg p-8 text-white transition-transform duration-300 ease-in-out hover:scale-105">
               <h3 className="text-xl font-orbitron font-bold uppercase mb-2 text-center">Start-up Grand Prize</h3>
               <p className="text-center text-sm font-roboto-condensed italic mb-4">Future Disruptors Contest</p>
               <div className="text-center mb-6">

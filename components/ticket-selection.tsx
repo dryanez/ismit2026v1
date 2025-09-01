@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Loader2 } from "lucide-react"
 
 interface TicketType {
   id: string
@@ -20,66 +19,63 @@ interface TicketSelectionProps {
   onSelectTicket: (ticketType: TicketType) => void
 }
 
+const ticketTypes: TicketType[] = [
+  {
+    id: "ismit-member",
+    name: "iSMIT Member",
+    description: "iSMIT Member Other Associated organisation Member",
+    price: 210,
+    currency: "EUR",
+    available: true,
+    deadline: "2026-11-15T23:59:59Z",
+  },
+  {
+    id: "non-member-surgeon",
+    name: "Non-Member Surgeon/Physician",
+    description: "Non-members of iSMIT: Surgeons & Physicians",
+    price: 420,
+    currency: "EUR",
+    available: true,
+    deadline: "2026-11-15T23:59:59Z",
+  },
+  {
+    id: "non-member-scientist",
+    name: "Non-Member Engineer/Scientist",
+    description: "Non-members of iSMIT Engineers & Scientists",
+    price: 360,
+    currency: "EUR",
+    available: true,
+    deadline: "2026-11-15T23:59:59Z",
+  },
+  {
+    id: "student-resident",
+    name: "Student/Resident",
+    description: "Students & Residents",
+    price: 150,
+    currency: "EUR",
+    available: true,
+    deadline: "2026-11-15T23:59:59Z",
+  },
+];
+
 export function TicketSelection({ onSelectTicket }: TicketSelectionProps) {
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetchTicketTypes()
-  }, [])
-
-  const fetchTicketTypes = async () => {
-    try {
-      const response = await fetch("/api/tickets/types")
-      if (!response.ok) throw new Error("Failed to fetch ticket types")
-
-      const data = await response.json()
-      setTicketTypes(data.ticketTypes)
-    } catch (err) {
-      setError("Failed to load ticket types")
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const isDeadlinePassed = (deadline: string) => {
     return new Date() > new Date(deadline)
   }
 
   const getCardColor = (ticketId: string) => {
     switch (ticketId) {
-      case "early-bird":
+      case "ismit-member":
         return "bg-[#85AFFB]"
-      case "regular":
+      case "non-member-surgeon":
         return "bg-[#FE6448]"
-      case "student":
+      case "non-member-scientist":
         return "bg-[#0D1858]"
-      case "group":
+      case "student-resident":
         return "bg-[#85AFFB]"
       default:
         return "bg-[#0D1858]"
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-[#0D1858]" />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 font-roboto-condensed">{error}</p>
-        <Button onClick={fetchTicketTypes} className="mt-4">
-          Try Again
-        </Button>
-      </div>
-    )
   }
 
   return (
@@ -89,13 +85,7 @@ export function TicketSelection({ onSelectTicket }: TicketSelectionProps) {
         const isAvailable = ticket.available && !deadlinePassed
 
         return (
-          <Card key={ticket.id} className={`${getCardColor(ticket.id)} text-white relative overflow-hidden`}>
-            {ticket.id === "early-bird" && (
-              <Badge className="absolute top-4 right-4 bg-white text-[#85AFFB] font-orbitron font-bold">
-                SAVE €100
-              </Badge>
-            )}
-
+          <Card key={ticket.id} className={`${getCardColor(ticket.id)} text-white relative overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105`}>
             <CardHeader className="text-center">
               <CardTitle className="font-orbitron font-bold uppercase text-xl">{ticket.name}</CardTitle>
               <CardDescription className="text-white/90 font-roboto-condensed">{ticket.description}</CardDescription>
@@ -112,8 +102,6 @@ export function TicketSelection({ onSelectTicket }: TicketSelectionProps) {
                 <li>• Welcome reception</li>
                 <li>• Coffee breaks</li>
                 <li>• Congress materials</li>
-                {ticket.id === "student" && <li>• Student ID required</li>}
-                {ticket.id === "group" && <li>• Minimum 5 people</li>}
               </ul>
             </CardContent>
 

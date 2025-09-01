@@ -17,6 +17,9 @@ create table if not exists public.orders (
   billing_city text,
   billing_postal_code text,
   billing_country text,
+  gala_dinner boolean default false,
+  ai_academy boolean default false,
+  psi_pavilion boolean default false,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );

@@ -1,4 +1,5 @@
 import { Roboto_Condensed, Orbitron } from "next/font/google"
+import styles from './day1.module.css'
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -82,308 +83,67 @@ export default function Program() {
           </div>
 
           {/* Day 1 */}
-          <div className="bg-[#FE6448] rounded-lg p-8 mb-8">
-            <h3 className="text-2xl font-orbitron font-bold text-white uppercase text-center mb-6">
-              Day 1, Thursday, 19th November 2026 - Preliminary Programme
-            </h3>
-            <div className="space-y-6 text-white">
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Registration Opens</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">16:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Welcome Reception</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">17:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Opening Ceremony</h4>
-                  <p className="font-roboto-condensed text-sm">
-                    Welcome address – Prof. Konrad Karcz, iSMIT President<br />
-                    Greetings – Dr. Kevin Cleary, Past President<br />
-                    Official opening – Prof. Denis Ehrl, Congress President<br />
-                    Co-Presidents – Prof. Andrew Gumbs (FR) & Prof. Zbigniew Nawrat (PL)
-                  </p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">17:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Artistic Programme – Part 1</h4>
-                  <p className="font-roboto-condensed text-sm">Performance: Music meets Medical Technology</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">18:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Scientific Welcome</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">18:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Artistic Programme – Part 2</h4>
-                  <p className="font-roboto-condensed text-sm">Continued performances: Performance: Music meets Medical Technology</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">19:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Institutional Welcome – Part 2 (Preliminary)</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">19:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Artistic Programme – Part 3</h4>
-                  <p className="font-roboto-condensed text-sm">Final: Music meets Medical Technology</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">20:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Closing Remarks</h4>
-                </div>
-              </div>
+          <div className="mb-8 flex justify-center">
+            <div className="w-[615px] h-[499px] relative">
+              <div className="w-[615px] h-11 left-0 top-0 absolute bg-red-500 rounded-[10px]" />
+              <div className="w-[553.36px] h-5 left-[31.54px] top-[11px] absolute text-center justify-center text-white text-base font-black font-['Orbitron'] uppercase">Day 1: Thursday, 19th November 2026</div>
+              <div className="w-[615px] h-96 left-0 top-[86px] absolute bg-red-500 rounded-[10px]" />
+              <div className="w-[523px] h-14 left-[46px] top-[129px] absolute text-justify justify-start"><span className="text-white text-sm font-black font-['Roboto_Condensed'] uppercase">Registration Opens<br/></span><span className="text-white text-sm font-light font-['Roboto_Condensed'] uppercase">Online registration via digital congress platform. On-site digital help desks available.</span></div>
+              <div className="w-20 h-4 left-[46px] top-[110px] absolute text-justify justify-start text-white text-base font-normal font-['Orbitron'] capitalize">15:00</div>
+              <div className="w-[523px] h-8 left-[46px] top-[211px] absolute text-justify justify-start"><span className="text-white text-sm font-black font-['Roboto_Condensed'] uppercase">Welcome Reception<br/></span><span className="text-white text-sm font-light font-['Roboto_Condensed'] uppercase">Drinks and light snacks served in the networking lounge.</span></div>
+              <div className="w-20 h-4 left-[46px] top-[192px] absolute text-justify justify-start text-white text-base font-normal font-['Orbitron'] capitalize">16:00</div>
+              <div className="w-[523px] h-8 left-[46px] top-[281px] absolute text-justify justify-start"><span className="text-white text-sm font-black font-['Roboto_Condensed'] uppercase">Opening Ceremony<br/></span><span className="text-white text-sm font-light font-['Roboto_Condensed'] uppercase">Welcome addresses from congress leadership.<br/></span></div>
+              <div className="w-20 h-4 left-[46px] top-[262px] absolute text-justify justify-start text-white text-base font-normal font-['Orbitron'] capitalize">17:00</div>
+              <div className="w-[523px] h-12 left-[46px] top-[351px] absolute text-justify justify-start"><span className="text-white text-sm font-black font-['Roboto_Condensed'] uppercase">Artistic &amp; Scientific Welcome<br/></span><span className="text-white text-sm font-light font-['Roboto_Condensed'] uppercase">A unique blend of musical performances and institutional welcomes from our esteemed partners.</span></div>
+              <div className="w-32 h-4 left-[46px] top-[332px] absolute text-justify justify-start text-white text-base font-normal font-['Orbitron'] capitalize">17:30 - 19:30</div>
+              <div className="w-[523px] h-12 left-[46px] top-[432px] absolute text-justify justify-start text-white text-sm font-black font-['Roboto_Condensed'] uppercase">Closing Remarks</div>
+              <div className="w-32 h-4 left-[46px] top-[413px] absolute text-justify justify-start text-white text-base font-normal font-['Orbitron'] capitalize">20:00</div>
             </div>
           </div>
 
           {/* Day 2 */}
-          <div className="bg-[#85AFFB] rounded-lg p-8 mb-8">
-            <h3 className="text-2xl font-orbitron font-bold text-white uppercase text-center mb-6">
-              Day 2, Friday, 20th November 2026 (Main Hall)
-            </h3>
-            <div className="space-y-6 text-white">
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">08:30 – 09:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Official Welcome Ceremony</h4>
-                  <p className="font-roboto-condensed text-sm">Opening John Abele Lecture</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">09:30 – 10:15</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Deep Space of Data“</h4>
-                  <p className="font-roboto-condensed text-sm">New Dimensions: Added Reality</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">10:15 – 10:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">☕ Coffee Break & Networking</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">10:30 – 11:15</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session:“Beyond the Cutting Edge”</h4>
-                  <p className="font-roboto-condensed text-sm">Monitoring, Planning, Decisions</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">11:15 – 11:20</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Five Minute Mental Break – Stretch & Refresh</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">11:20 – 12:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Next-Generation“</h4>
-                  <p className="font-roboto-condensed text-sm">Sensoring & AI</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">12:30 – 13:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Lunch Break</h4>
-                  <p className="font-roboto-condensed text-sm">🕐 13:00 – 13:30 Annual General Assembly – International Society for Medical Innovation and Technology (iSMIT)</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">13:30 – 14:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Keynote:</h4>
-                  <p className="font-roboto-condensed text-sm">Gerhard Buess Lecture</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">14:00 – 14:55</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Bold Frontiers“</h4>
-                  <p className="font-roboto-condensed text-sm">Predictive Analytics</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">14:55 – 15:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Five Minutes of Mental Break – Stretch & Refresh</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:00 – 15:45</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Common Panel Discussion:</h4>
-                  <p className="font-roboto-condensed text-sm">“Future Destination”</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:45 – 16:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">☕ Coffee Break & Networking</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">16:00 – 16:45</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Grass-Roots Ideas That Rise“</h4>
-                  <p className="font-roboto-condensed text-sm">Natural Language Processing (NLP)</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">16:45 – 17:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Enterprising Solutions“</h4>
-                  <p className="font-roboto-condensed text-sm">Biomaterials & Reducing Waste</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">17:45</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Closing of Day 2</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">19:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Evening Event</h4>
-                  <p className="font-roboto-condensed text-sm">"Feast of the Middle Ages" –<br />Ritter Chamber,<br />Imperial Fortress of Nuremberg</p>
-                </div>
-              </div>
+          <div className="mb-8 flex justify-center">
+            <div className="w-[615px] h-[574px] relative">
+              <div className="w-[615px] h-[43px] left-0 top-0 absolute bg-[#85AFFB] rounded-[10px]" />
+              <div className="w-[553.36px] h-[21px] left-[31.54px] top-[11px] absolute flex items-center justify-center text-white text-[15px] font-black font-['Orbitron'] uppercase">Day 2: Friday, 20th November 2026</div>
+              <div className="w-[615px] h-[488px] left-0 top-[86px] absolute bg-[#85AFFB] rounded-[10px]" />
+              <div className="w-[523px] h-[23px] left-[46px] top-[129px] absolute text-justify text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Official Welcome Ceremony &amp; John Abele Lecture<br/></div>
+              <div className="w-[144px] h-[18px] left-[46px] top-[110px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">08:30 – 09:30</div>
+              <div className="w-[523px] h-[32px] left-[46px] top-[178px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Deep Space of Data"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">New Dimensions: Added Reality</span></div>
+              <div className="w-[116px] h-[18px] left-[46px] top-[159px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">09:30 – 10:15</div>
+              <div className="w-[523px] h-[32px] left-[46px] top-[248px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Beyond the Cutting Edge"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Monitoring, Planning, Decisions<br/></span></div>
+              <div className="w-[121px] h-[18px] left-[46px] top-[229px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">10:30 – 11:15</div>
+              <div className="w-[523px] h-[48px] left-[46px] top-[318px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Next-Generation"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Sensoring &amp; AI</span></div>
+              <div className="w-[523px] h-[48px] left-[46px] top-[430px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Bold Frontiers"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Predictive Analytics</span></div>
+              <div className="w-[523px] h-[48px] left-[46px] top-[498px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Evening Event: "Feast of the Middle Ages"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Ritter Chamber, Imperial Fortress of Nuremberg</span></div>
+              <div className="w-[523px] h-[31px] left-[46px] top-[385px] absolute text-justify text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Keynote: Gerhard Buess Lecture<br/></div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[299px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">11:20 – 12:30</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[411px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">14:00 – 14:55</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[479px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">19:00</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[366px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">13:30 – 14:00</div>
             </div>
           </div>
 
           {/* Day 3 */}
-          <div className="bg-[#0D1858] rounded-lg p-8">
-            <h3 className="text-2xl font-orbitron font-bold text-white uppercase text-center mb-6">
-              Day 3, Saturday, 21st November 2026
-            </h3>
-            <div className="space-y-6 text-white">
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">08:30 – 09:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Keynote:</h4>
-                  <p className="font-roboto-condensed text-sm">Earl Owen Lecture</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">09:00 – 09:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Redefining Care“</h4>
-                  <p className="font-roboto-condensed text-sm">New Robots</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">09:30 – 10:15</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Rocket Breakthroughs</h4>
-                  <p className="font-roboto-condensed text-sm">Next Level of Computer Vision & 3D Printing</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">10:15 – 10:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">☕ Coffee Break & Networking</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">10:30 – 11:15</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Next Generation“</h4>
-                  <p className="font-roboto-condensed text-sm">Advanced Assistance Systems & Automation</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">11:15 – 11:20</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">five Minutes of Mental Break – Stretch & Refresh</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">11:20 – 12:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Strange New Worlds“</h4>
-                  <p className="font-roboto-condensed text-sm">Humanoid Robots</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">12:30 – 13:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Lunch Break</h4>
-                  <p className="font-roboto-condensed text-sm">🕐 13:00 Steering Committee Meeting (by invitation)</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">13:30 – 14:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Keynote</h4>
-                  <p className="font-roboto-condensed text-sm">John Wickham Lecture</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">14:00 – 14:45</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Session: „Voyager“</h4>
-                  <p className="font-roboto-condensed text-sm">New AGE in in Rehabilitation</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">14:45 – 15:00</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">☕ Coffee Break & Networking</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:00 – 15:45</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Common Panel Discussion</h4>
-                  <p className="font-roboto-condensed text-sm">Natural and Generative Intelligence: Potential Conflict or Glorious Collaboration?</p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:45 –15:50</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">five Minutes of Mental Break – Stretch & Refresh</h4>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">15:50 – 16:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">🏆 Award Ceremony & Closing Session</h4>
-                  <p className="font-roboto-condensed text-sm">
-                    Best Presentation of the Congress<br />
-                    Best Video-Poster of the Congress<br />
-                    Start-up Grand Prize<br />
-                    Best Inovative Product of the Year 2025<br />
-                    iSMIT AWARD 2025<br />
-                    Honorary Award of iSMIT 2026<br />
-                    Welcome the New President of iSMIT 2027<br />
-                    Final Closing Remarks
-                  </p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-4 gap-4 items-center">
-                <div className="font-orbitron font-bold">17:30</div>
-                <div className="md:col-span-3">
-                  <h4 className="font-roboto-condensed font-bold uppercase mb-1">Official Closing of the Conference</h4>
-                </div>
-              </div>
+          <div className="mb-8 flex justify-center">
+            <div className="w-[615px] h-[574px] relative">
+              <div className="w-[615px] h-[466px] left-0 top-[86px] absolute bg-[#0D1858] rounded-[10px]" />
+              <div className="w-[523px] h-[23px] left-[46px] top-[129px] absolute text-justify text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Keynote: Earl Owen Lecture<br/></div>
+              <div className="w-[144px] h-[18px] left-[46px] top-[110px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">08:30 – 09:00</div>
+              <div className="w-[523px] h-[32px] left-[46px] top-[178px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Redefining Care"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">New Robots</span></div>
+              <div className="w-[183px] h-[18px] left-[46px] top-[159px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">09:00 – 09:30</div>
+              <div className="w-[523px] h-[32px] left-[46px] top-[248px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Rocket Breakthroughs"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Next Level of Computer Vision &amp; 3D Printing<br/></span></div>
+              <div className="w-[121px] h-[18px] left-[46px] top-[229px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">09:30 – 10:15</div>
+              <div className="w-[523px] h-[48px] left-[46px] top-[318px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Session: "Strange New Worlds"<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Humanoid Robots</span></div>
+              <div className="w-[523px] h-[48px] left-[46px] top-[430px] absolute text-justify"><span className="text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Award Ceremony &amp; Closing Session<br/></span><span className="text-white text-[14px] font-light font-['Roboto_Condensed'] uppercase">Predictive Analytics</span></div>
+              <div className="w-[523px] h-[19px] left-[46px] top-[498px] absolute text-justify text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Official Closing of the Conference</div>
+              <div className="w-[523px] h-[31px] left-[46px] top-[385px] absolute text-justify text-white text-[14px] font-black font-['Roboto_Condensed'] uppercase">Keynote: John Wickham Lecture<br/></div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[299px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">11:20 – 12:30</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[411px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">15:50 – 16:30</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[479px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">17:30</div>
+              <div className="w-[130px] h-[18px] left-[46px] top-[366px] absolute text-white text-[15px] font-normal font-['Orbitron'] capitalize">13:30 – 14:00</div>
+              <div className="w-[615px] h-[43px] left-0 top-0 absolute bg-[#0D1858] rounded-[10px]" />
+              <div className="w-[553.36px] h-[21px] left-[31.54px] top-[11px] absolute flex items-center justify-center text-white text-[15px] font-black font-['Orbitron'] uppercase">Day 3: Saturday, 21st November 2026</div>
             </div>
           </div>
         </div>

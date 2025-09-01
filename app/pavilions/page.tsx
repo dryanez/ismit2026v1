@@ -84,154 +84,117 @@ export default function Pavilions() {
 
           {/* Main Pavilions */}
           <div className="space-y-16">
-            {/* Mixed & Virtual Reality */}
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="bg-[#0D1858] rounded-lg p-8 text-white">
-                <div className="w-16 h-16 bg-white rounded mb-6"></div>
+            {/* Mixed & Virtual Reality (Suite Psi) */}
+            <div className="grid md:grid-cols-2 gap-8 items-center transition-transform duration-300 ease-in-out hover:scale-105">
+              <div className="bg-[#85AFFB] rounded-lg p-8 text-white">
                 <h3 className="text-2xl font-orbitron font-bold uppercase mb-4">Mixed & Virtual Reality Experience</h3>
                 <p className="text-lg font-roboto-condensed mb-6">
-                  A 120-minute immersive journey into the future of surgical training and patient care
+                  A 120-minute immersive journey into the future of surgical training and patient care. Explore
+                  holographic anatomy mapping, augmented intraoperative guidance, and remote collaborative simulation.
                 </p>
                 <div className="space-y-4 text-sm font-roboto-condensed">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>VR surgical simulation training</span>
+                    <span>Where: Pavilion Ψ (Psi)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>AR-assisted procedure planning</span>
+                    <span>When: Launch windows at 10:30 | 14:30</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Mixed reality patient consultation</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Haptic feedback surgical tools</span>
+                    <span>Who: World-class physicians, elite MR engineers, bold early adopters</span>
                   </div>
                 </div>
-				<Link
+                <Link
                   href="/pavilions/suite-psi"
                   className="inline-block mt-6 bg-white text-[#0D1858] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
                 >
                   Enter Pavilion Ψ (Psi)
                 </Link>
               </div>
-              <div className="text-[#0D1858] font-roboto-condensed">
-                <h4 className="text-xl font-bold mb-4">Experience Highlights</h4>
-                <p className="text-lg mb-4">
-                  Step into the operating room of the future with our state-of-the-art VR/AR setup. Practice complex
-                  procedures in a risk-free environment and explore how mixed reality is transforming medical education.
-                </p>
-                <p className="text-base">
-                  <strong>Duration:</strong> 120 minutes
-                  <br />
-                  <strong>Capacity:</strong> 20 participants per session
-                  <br />
-                  <strong>Requirements:</strong> No prior VR experience needed
-                </p>
+              <div className="flex justify-center">
+                <img
+                  src="/psi-illustration.svg"
+                  alt="PSI Pavillion Illustration"
+                  className="w-full h-auto max-w-sm object-contain"
+                />
               </div>
             </div>
 
-            {/* AI Software Academy */}
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="text-[#85AFFB] font-roboto-condensed md:order-2">
-                <h4 className="text-xl font-bold mb-4">Academy Features</h4>
-                <p className="text-lg mb-4">
-                  Artificial intelligence (AI) toolkits are reshaping clinical diagnostics, workflow automation and
-                  surgical decision support. Experience the twenty most impactful medical-AI platforms currently in
-                  deployment through hands-on coding sessions.
-                </p>
-                <p className="text-base">
-                  <strong>Duration:</strong> 180 minutes
-                  <br />
-                  <strong>Capacity:</strong> 24 participants per session
-                  <br />
-                  <strong>Requirements:</strong> WLAN-enabled laptop, headphones
-                </p>
+            {/* AI Software Academy (Suite Lambda) */}
+            <div className="grid md:grid-cols-2 gap-8 items-center transition-transform duration-300 ease-in-out hover:scale-105">
+              <div className="flex justify-center md:order-2">
+                <img
+                  src="/lambda-illustration.svg"
+                  alt="Lambda Pavillion Illustration"
+                  className="w-full h-auto max-w-sm object-contain"
+                />
               </div>
-              <div className="bg-[#85AFFB] rounded-lg p-8 text-white md:order-1">
-                <div className="w-16 h-16 bg-white rounded mb-6"></div>
-                <h3 className="text-2xl font-orbitron font-bold uppercase mb-4">
-                  Suite Λ (Lambda) - Artificial Intelligence Software Academy
-                </h3>
+              <div className="bg-[#0D1858] rounded-lg p-8 text-white md:order-1">
+                <h3 className="text-2xl font-orbitron font-bold uppercase mb-4">Suite Λ (Lambda) - AI Software Academy</h3>
                 <p className="text-lg font-roboto-condensed mb-6">
                   A 180-minute intensive that spotlights medical-AI platforms with hands-on coding and expert
-                  supervision
+                  supervision. Reshaping clinical diagnostics, workflow automation, and surgical decision support.
                 </p>
                 <div className="space-y-4 text-sm font-roboto-condensed">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Image segmentation suites and operative video annotators</span>
+                    <span>Where: Suite Λ (Lambda)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Predictive dashboards and generative report writers</span>
+                    <span>When: Launch windows at 10:30 | 14:30</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Structured demo pods with benchmark sheets</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-[#FE6448] rounded-full"></div>
-                    <span>Build mini workflow under expert supervision</span>
+                    <span>Who: Leading clinician-scientists, data engineers, regulatory mentors</span>
                   </div>
                 </div>
                 <Link
                   href="/pavilions/suite-lambda"
-                  className="inline-block mt-6 bg-white text-[#85AFFB] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
+                  className="inline-block mt-6 bg-white text-[#0D1858] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
                 >
                   Enter Suite Λ (Lambda)
                 </Link>
               </div>
             </div>
 
-            {/* Startup Innovation Hub */}
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Startup Innovation Hub (Suite Sigma) */}
+            <div className="grid md:grid-cols-2 gap-8 items-center transition-transform duration-300 ease-in-out hover:scale-105">
               <div className="bg-[#FE6448] rounded-lg p-8 text-white">
-                <div className="w-16 h-16 bg-white rounded mb-6"></div>
                 <h3 className="text-2xl font-orbitron font-bold uppercase mb-4">Startup Innovation Hub</h3>
                 <p className="text-lg font-roboto-condensed mb-6">
-                  Everything about startups - from ideation to market launch in the medical technology space
+                  Everything about startups - from ideation to market launch in the medical technology space. Fearless
+                  founders storm a pitch arena, proving clinical impact, scalability, and regulatory savvy.
                 </p>
                 <div className="space-y-4 text-sm font-roboto-condensed">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span>Startup pitch competitions</span>
+                    <span>Where: Suite Σ (Sigma)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span>Investor networking sessions</span>
+                    <span>When: Events at 10:30 | 14:30</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span>Regulatory guidance workshops</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                    <span>Technology showcase booths</span>
+                    <span>Who: Fearless founders, ringside jury of investors, surgeons, AI visionaries</span>
                   </div>
                 </div>
                 <Link
                   href="/pavilions/suite-sigma"
-                  className="inline-block mt-6 bg-white text-[#FE6448] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
+                  className="inline-block mt-6 bg-white text-[#0D1858] px-6 py-3 rounded font-orbitron font-bold uppercase hover:bg-gray-100 transition-colors"
                 >
                   Enter Suite Σ (Sigma)
                 </Link>
               </div>
-              <div className="text-[#FE6448] font-roboto-condensed">
-                <h4 className="text-xl font-bold mb-4">Innovation Highlights</h4>
-                <p className="text-lg mb-4">
-                  Connect with the next generation of medical technology innovators. Witness groundbreaking startups
-                  present their solutions and network with investors, mentors, and fellow entrepreneurs.
-                </p>
-                <p className="text-base">
-                  <strong>Format:</strong> Continuous showcase
-                  <br />
-                  <strong>Startups:</strong> 25+ participating companies
-                  <br />
-                  <strong>Prize:</strong> €50,000 grand prize
-                </p>
+              <div className="flex justify-center">
+                <img
+                  src="/sigma-pavilion.svg"
+                  alt="Sigma Pavillion Illustration"
+                  className="w-full h-auto max-w-sm object-contain"
+                />
               </div>
             </div>
           </div>
