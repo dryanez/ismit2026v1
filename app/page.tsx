@@ -75,20 +75,20 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center md:text-left md:items-start md:justify-center md:pl-8 lg:pl-36">
           <div className="mb-8 relative z-10">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-orbitron font-black text-shadow-lg">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-black text-shadow-lg">
               <span className="text-[#FE6448]">iSMIT</span>
               <span className="text-white"> 2026</span>
             </h1>
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white text-shadow-lg uppercase mt-2">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white text-shadow-lg uppercase mt-2">
               37th World Congress
             </h2>
           </div>
-          <p className="text-lg md:text-2xl lg:text-3xl font-roboto-condensed font-medium text-white uppercase mb-8 relative z-10">
+          <p className="text-md sm:text-xl md:text-2xl lg:text-3xl font-roboto-condensed font-medium text-white uppercase mb-8 relative z-10">
             19-21 November 2026 Nürnberg, Germany
           </p>
           <Link
             href="/registration"
-            className="border-4 border-[#87CEEB] bg-[#87CEEB] rounded-lg px-8 py-4 text-white text-xl md:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#87CEEB] transition-colors relative z-10"
+            className="border-4 border-[#87CEEB] bg-[#87CEEB] rounded-lg px-8 py-4 text-white text-lg md:text-xl font-orbitron font-black uppercase hover:bg-white hover:text-[#87CEEB] transition-colors relative z-10"
           >
             Register
           </Link>
@@ -496,22 +496,15 @@ export default function Home() {
 
       {/* Keynote Speakers Section */}
       <section className="bg-[#0D1858] py-16 px-4">
-        <div className="max-w-6xl mx-auto flex justify-center">
-          <div className="w-[1006px] h-[631px] relative">
-            <div className="w-[1006px] h-[534px] left-0 top-[97px] absolute bg-blue-950/80 blur-xl" />
-            <div className="w-[658px] h-11 left-[174px] top-[47px] absolute text-center justify-start text-blue-300 text-4xl font-bold font-orbitron uppercase [text-shadow:_0px_4px_4px_rgb(255_255_255_/_0.08)]">
-              INVITED KEYNOTE SPEAKERS
-            </div>
-            <div className="w-52 h-12 left-[396px] top-0 absolute text-center justify-center text-red-500 text-xl font-semibold font-roboto-condensed uppercase">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xl font-semibold font-roboto-condensed uppercase text-red-500">
               VISIONARY VOICES
-            </div>
-            <Link
-              href="/speakers"
-              className="w-28 h-6 left-[837px] top-[579px] absolute text-center justify-center text-red-500 text-xl font-extrabold font-roboto-condensed underline uppercase hover:text-red-400 transition-colors"
-            >
-              VIEW ALL
-            </Link>
-            <div className="w-[739px] left-[134px] top-[133px] absolute text-center justify-start">
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold font-orbitron uppercase text-blue-300 mt-2">
+              INVITED KEYNOTE SPEAKERS
+            </h2>
+            <div className="mt-4 text-center">
               <span className="text-white text-lg font-light font-roboto-condensed capitalize">
                 We are honored to host a lineup of world-renowned pioneers and thought leaders.
                 <br />
@@ -520,30 +513,53 @@ export default function Home() {
                 Final confirmations pending
               </span>
             </div>
-            <div className="w-[739px] h-8 left-[134px] top-[184px] absolute text-center justify-center text-white text-base font-light font-roboto-condensed capitalize">
+            <p className="mt-2 text-center text-white text-base font-light font-roboto-condensed capitalize">
               This list will be updated on a monthly basis to reflect new confirmations and additions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-1.svg" />
+              <div className="mt-4">
+                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                  Name Lastname
+                </div>
+                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                  University of blah blah
+                </div>
+              </div>
             </div>
-            <img className="w-44 h-64 left-[218px] top-[235px] absolute rounded-[10px]" src="/speaker-1.svg" />
-            <div className="w-44 h-5 left-[218px] top-[502px] absolute text-center justify-center text-white text-base font-semibold font-roboto-condensed capitalize">
-              Name Lastname
+            <div className="text-center">
+              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-2.svg" />
+              <div className="mt-4">
+                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                  Name Lastname
+                </div>
+                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                  University of blah blah
+                </div>
+              </div>
             </div>
-            <div className="w-44 h-4 left-[218px] top-[521px] absolute text-center justify-center text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-              University of blah blah
+            <div className="text-center">
+              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-3.svg" />
+              <div className="mt-4">
+                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
+                  Name Lastname
+                </div>
+                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
+                  University of blah blah
+                </div>
+              </div>
             </div>
-            <img className="w-44 h-64 left-[417px] top-[235px] absolute rounded-[10px]" src="/speaker-2.svg" />
-            <div className="w-44 h-5 left-[417px] top-[502px] absolute text-center justify-center text-white text-base font-semibold font-roboto-condensed capitalize">
-              Name Lastname
-            </div>
-            <div className="w-44 h-4 left-[417px] top-[521px] absolute text-center justify-center text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-              University of blah blah
-            </div>
-            <img className="w-44 h-64 left-[615px] top-[235px] absolute rounded-[10px]" src="/speaker-3.svg" />
-            <div className="w-44 h-5 left-[615px] top-[502px] absolute text-center justify-center text-white text-base font-semibold font-roboto-condensed capitalize">
-              Name Lastname
-            </div>
-            <div className="w-44 h-4 left-[615px] top-[521px] absolute text-center justify-center text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-              University of blah blah
-            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Link
+              href="/speakers"
+              className="text-red-500 text-xl font-extrabold font-roboto-condensed underline uppercase hover:text-red-400 transition-colors"
+            >
+              VIEW ALL
+            </Link>
           </div>
         </div>
       </section>
