@@ -377,11 +377,11 @@ export default function Home() {
 
       {/* Scientific Program Section */}
       <section className="bg-white py-16 px-4 relative overflow-visible">
-        <div className="absolute right-0 z-0" style={{ top: "-200px" }}>
+        <div className="absolute right-[50px] z-10 top-[20px] md:right-0 md:top-1/2">
           <img
             src="/hand-robotic.svg"
             alt="Robotic hand illustration"
-            className="w-[31rem] md:w-[42rem] lg:w-[52rem] h-auto object-contain rounded-lg"
+            className="w-[20rem] md:w-[42rem] lg:w-[52rem] h-auto object-contain rounded-lg"
           />
         </div>
 
@@ -396,12 +396,12 @@ export default function Home() {
           </div>
 
           {/* Day 1 Program */}
-          <div className="bg-[#FE6448] rounded-lg p-6 text-white mb-8">
+          <div className="bg-[#FE6448] rounded-lg px-8 py-6 text-white mb-8">
             <h3 className="text-xl font-orbitron font-bold uppercase text-center mb-6">
               Day 1 : Thursday, 19th November 2026
             </h3>
             <div className="space-y-6">
-              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+              <div className="grid md:grid-cols-[1fr_7fr] gap-4 items-start">
                 <div className="font-orbitron font-bold text-lg">15:00</div>
                 <div>
                   <h4 className="font-roboto-condensed font-bold uppercase text-lg">Registration Opens</h4>
@@ -410,7 +410,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+              <div className="grid md:grid-cols-[1fr_7fr] gap-4 items-start">
                 <div className="font-orbitron font-bold text-lg">16:00</div>
                 <div>
                   <h4 className="font-roboto-condensed font-bold uppercase text-lg">Welcome Reception</h4>
@@ -419,7 +419,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+              <div className="grid md:grid-cols-[1fr_7fr] gap-4 items-start">
                 <div className="font-orbitron font-bold text-lg">17:00</div>
                 <div>
                   <h4 className="font-roboto-condensed font-bold uppercase text-lg">Opening Ceremony</h4>
@@ -428,7 +428,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-[1fr_4fr] gap-4 items-start">
+              <div className="grid md:grid-cols-[1fr_7fr] gap-4 items-start">
                 <div className="font-orbitron font-bold text-lg">17:30 - 19:30</div>
                 <div>
                   <h4 className="font-roboto-condensed font-bold uppercase text-lg">Artistic & Scientific Welcome</h4>
@@ -849,7 +849,7 @@ export default function Home() {
 
       {/* Partners Section */}
       <section className="bg-[#FE6448] py-16 px-4">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-full px-4 text-center">
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-8">Our Partners</h2>
           <p className="text-white font-roboto-condensed text-lg md:text-xl mb-8">
             We gratefully acknowledge the generous support and collaboration of our institutional partners who
@@ -920,6 +920,23 @@ export default function Home() {
             <h3 className="text-lg md:text-xl font-orbitron font-extrabold text-white bg-[#0D1858] inline-block px-4 py-2 rounded">
               Media Accreditation
             </h3>
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-8 items-center justify-items-center my-8">
+              <img
+                src="/Press/ais.svg"
+                alt="AIS"
+                className="w-full max-w-[250px] md:max-w-[300px] h-auto object-contain"
+              />
+              <img
+                src="/Press/internation ajouna of medil robotis and computer assited surgery.svg"
+                alt="International Journal of Medical Robotics and Computer Assisted Surgery"
+                className="w-full max-w-[250px] md:max-w-[300px] h-auto object-contain"
+              />
+              <img
+                src="/Press/medtube 1.svg"
+                alt="Medtube"
+                className="w-full max-w-[250px] md:max-w-[300px] h-auto object-contain"
+              />
+            </div>
             <p className="text-[#0D1858] font-roboto-condensed text-lg md:text-xl mt-6">
               To receive press accreditation, please send your name, affiliation, and press credentials to:
               <span className="font-extrabold underline uppercase"> press@ismit2026.com</span> — info — email
@@ -974,15 +991,15 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 text-white text-xs font-roboto-condensed mb-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 bg-white rounded"></div>
-                <div className="w-7 h-7 border-2 border-white rounded"></div>
-                <div className="w-6 h-6 bg-[#0D1858] border-2 border-white rounded"></div>
+                <img src="/Press/buttons/Instagram.svg" alt="Instagram" className="w-8 h-8 object-contain" />
+                <img src="/Press/buttons/Linkedin.svg" alt="LinkedIn" className="w-7 h-7 object-contain" />
+                <div className="font-roboto-condensed font-black text-lg">MedTube</div>
               </div>
               <h4 className="font-orbitron font-black text-sm mb-1">iSMIT 2026</h4>
               <p className="font-light lowercase">
                 37th World Congress of the International Society for Medical Innovation and Technology
               </p>
-              <div className="font-roboto-condensed font-black text-lg mt-2">MedTube</div>
+             
             </div>
 
             <div>

@@ -173,7 +173,7 @@ export default function OralPresentationApplication() {
               <div className="text-3xl font-orbitron font-bold text-white mb-4">2</div>
               <h3 className="text-lg font-orbitron font-bold text-white uppercase mb-2">Submit Abstract</h3>
               <p className="text-sm font-roboto-condensed text-white">
-                Submit your ≤400 word abstract via email to oralpresentation@ismit2026.com
+                Submit your ≤400 word abstract 
               </p>
             </div>
             <div className="bg-[#85AFFB] rounded-lg p-6">
