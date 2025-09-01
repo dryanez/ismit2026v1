@@ -102,7 +102,7 @@ export default function Pavilions() {
                   Enter Pavilion Ψ (Psi)
                 </Link>
               </div>
-              <div className="flex justify-center">
+              <div className="hidden justify-center md:flex">
                 <img
                   src="/psi-illustration.svg"
                   alt="PSI Pavillion Illustration"
@@ -113,7 +113,7 @@ export default function Pavilions() {
 
             {/* AI Software Academy (Suite Lambda) */}
             <div className="grid md:grid-cols-2 gap-8 items-center transition-transform duration-300 ease-in-out hover:scale-105">
-              <div className="flex justify-center">
+              <div className="hidden justify-center md:flex">
                 <img
                   src="/lambda-illustration.svg"
                   alt="Lambda Pavillion Illustration"
@@ -178,7 +178,7 @@ export default function Pavilions() {
                   Enter Suite Σ (Sigma)
                 </Link>
               </div>
-              <div className="flex justify-center">
+              <div className="hidden justify-center md:flex">
                 <img
                   src="/sigma-pavilion.svg"
                   alt="Sigma Pavillion Illustration"
