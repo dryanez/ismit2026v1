@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
+import { getSumUpAccessToken } from "@/lib/sumup"
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,10 +29,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Payment not found" }, { status: 404 })
     }
 
+    const accessToken = await getSumUpAccessToken()
+
     // Verify payment status with SumUp API
     const sumupVerifyResponse = await fetch(`https://api.sumup.com/v0.1/checkouts/${checkout_id}`, {
       headers: {
-        Authorization: `Bearer ${process.env.SUMUP_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     })
 

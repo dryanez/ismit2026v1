@@ -16,6 +16,13 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "User not authenticated" }, { status: 401 })
+    }
+
     // Validate required fields
     if (!ticketType || !quantity || !attendeeInfo || !paymentMethod) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
@@ -29,10 +36,12 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (ticketError || !ticketData) {
+      console.error("Ticket type error:", ticketError)
       return NextResponse.json({ error: "Invalid ticket type" }, { status: 400 })
     }
 
-    let ticketPrice = ticketData.price * quantity
+    const unitPrice = ticketData.price
+    let ticketPrice = unitPrice * quantity
     if (hasDiscount) {
       ticketPrice *= 0.5
     }
@@ -44,26 +53,53 @@ export async function POST(request: NextRequest) {
 
     const finalPrice = ticketPrice + addonsPrice
 
+    // Create the order first
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
-        ticket_type: ticketType,
-        quantity: quantity,
-        attendee_info: attendeeInfo,
-        payment_method: paymentMethod,
-        status: "pending",
+        user_id: user.id,
         total_amount: finalPrice,
+        currency: "EUR",
+        status: "pending",
+        payment_method: paymentMethod,
+        billing_first_name: attendeeInfo.firstName,
+        billing_last_name: attendeeInfo.lastName,
+        billing_email: attendeeInfo.email,
+        billing_phone: attendeeInfo.phone,
+        billing_organization: attendeeInfo.organization,
+        billing_country: attendeeInfo.country,
         gala_dinner: galaDinner,
         ai_academy: aiAcademy,
         psi_pavilion: psiPavilion,
-        created_at: new Date().toISOString(),
       })
       .select()
       .single()
 
     if (orderError) {
-      console.error("Database error:", orderError)
+      console.error("Database error creating order:", orderError)
       return NextResponse.json({ error: "Failed to create order" }, { status: 500 })
+    }
+
+    // Then create the order item
+    const { error: orderItemError } = await supabase.from("order_items").insert({
+      order_id: order.id,
+      ticket_type_id: ticketType,
+      quantity: quantity,
+      unit_price: unitPrice,
+      total_price: ticketPrice, // This is the price for the tickets only
+      attendee_first_name: attendeeInfo.firstName,
+      attendee_last_name: attendeeInfo.lastName,
+      attendee_email: attendeeInfo.email,
+      attendee_organization: attendeeInfo.organization,
+      dietary_requirements: attendeeInfo.dietaryRequirements,
+      special_needs: attendeeInfo.specialNeeds,
+    })
+
+    if (orderItemError) {
+      console.error("Database error creating order item:", orderItemError)
+      // Optional: You might want to delete the order record here to clean up
+      await supabase.from("orders").delete().eq("id", order.id)
+      return NextResponse.json({ error: "Failed to create order item" }, { status: 500 })
     }
 
     // Return order details for payment processing

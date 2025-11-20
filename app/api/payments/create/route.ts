@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
+import { getSumUpAccessToken } from "@/lib/sumup"
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,11 +34,13 @@ export async function POST(request: NextRequest) {
       redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payments/confirm`,
     }
 
+    const accessToken = await getSumUpAccessToken()
+
     // Create SumUp checkout
     const sumupResponse = await fetch("https://api.sumup.com/v0.1/checkouts", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.SUMUP_ACCESS_TOKEN}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(sumupCheckout),
