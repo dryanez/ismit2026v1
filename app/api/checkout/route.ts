@@ -2,9 +2,13 @@ import { type NextRequest, NextResponse } from "next/server"
 import { getSumUpAccessToken } from "@/lib/sumup"
 
 export async function POST(request: NextRequest) {
+  console.log("[create-checkout] Starting checkout creation...")
+  
   try {
     const body = await request.json()
     const { amount, currency = "EUR", description, reference } = body
+
+    console.log("[create-checkout] Request body:", { amount, currency, description, reference })
 
     // Validate required fields
     if (!amount || amount <= 0) {
@@ -16,17 +20,35 @@ export async function POST(request: NextRequest) {
 
     const checkoutReference = reference || `ismit-${Date.now()}`
     const merchantCode = process.env.SUMUP_MERCHANT_CODE
+    const clientId = process.env.SUMUP_CLIENT_ID
+    const clientSecret = process.env.SUMUP_CLIENT_SECRET
+
+    console.log("[create-checkout] Environment check:", {
+      hasMerchantCode: !!merchantCode,
+      hasClientId: !!clientId,
+      hasClientSecret: !!clientSecret,
+    })
 
     if (!merchantCode) {
-      console.error("SUMUP_MERCHANT_CODE not configured")
+      console.error("[create-checkout] SUMUP_MERCHANT_CODE not configured")
       return NextResponse.json(
-        { error: "Payment system not configured" },
+        { error: "Payment system not configured: missing merchant code" },
+        { status: 500 }
+      )
+    }
+
+    if (!clientId || !clientSecret) {
+      console.error("[create-checkout] SUMUP credentials not configured")
+      return NextResponse.json(
+        { error: "Payment system not configured: missing credentials" },
         { status: 500 }
       )
     }
 
     // Get access token
+    console.log("[create-checkout] Getting access token...")
     const accessToken = await getSumUpAccessToken()
+    console.log("[create-checkout] Got access token:", accessToken ? "yes" : "no")
 
     // Create SumUp checkout
     const checkoutPayload = {
@@ -37,9 +59,9 @@ export async function POST(request: NextRequest) {
       merchant_code: merchantCode,
     }
 
-    console.log("[create-checkout] Creating checkout:", {
+    console.log("[create-checkout] Creating checkout with payload:", {
       ...checkoutPayload,
-      merchant_code: "***hidden***",
+      merchant_code: merchantCode.substring(0, 4) + "***",
     })
 
     const sumupResponse = await fetch("https://api.sumup.com/v0.1/checkouts", {
@@ -52,6 +74,9 @@ export async function POST(request: NextRequest) {
     })
 
     const responseText = await sumupResponse.text()
+    console.log("[create-checkout] SumUp response status:", sumupResponse.status)
+    console.log("[create-checkout] SumUp response body:", responseText.substring(0, 500))
+
     let sumupData: any
 
     try {
@@ -68,14 +93,14 @@ export async function POST(request: NextRequest) {
       console.error("[create-checkout] SumUp error:", sumupData)
       return NextResponse.json(
         { 
-          error: sumupData.message || "Failed to create checkout",
+          error: sumupData.message || sumupData.error_message || "Failed to create checkout",
           details: sumupData 
         },
         { status: sumupResponse.status }
       )
     }
 
-    console.log("[create-checkout] Checkout created:", sumupData.id)
+    console.log("[create-checkout] Checkout created successfully:", sumupData.id)
 
     // Return checkout ID for the card widget
     return NextResponse.json({
@@ -86,9 +111,9 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error: any) {
-    console.error("[create-checkout] Error:", error.message)
+    console.error("[create-checkout] Caught error:", error.message, error.stack)
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: error.message || "Internal server error" },
       { status: 500 }
     )
   }
