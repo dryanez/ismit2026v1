@@ -1,7 +1,6 @@
-
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Orbitron, Roboto_Condensed } from "next/font/google"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { SumUpCardPayment } from "@/components/sumup-card-payment"
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -38,6 +38,8 @@ interface CheckoutFormProps {
   onSuccess: (orderId: string) => void
 }
 
+type CheckoutStep = "details" | "payment"
+
 export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutFormProps) {
   const [email, setEmail] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -49,79 +51,91 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<any>(null)
+  
+  // Payment state
+  const [step, setStep] = useState<CheckoutStep>("details")
+  const [checkoutId, setCheckoutId] = useState<string | null>(null)
+  const [orderId, setOrderId] = useState<string | null>(null)
 
   const supabase = createClientComponentClient()
 
   useEffect(() => {
     const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (user) {
-        setUser(user)
-        setEmail(user.email || "")
-        // You might want to fetch profile data here to pre-fill other fields
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (user) {
+          setUser(user)
+          setEmail(user.email || "")
+        }
+      } catch (e) {
+        // Supabase not configured, continue without user
+        console.log("Supabase auth not available")
       }
     }
     getUser()
   }, [supabase])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError(null)
 
     try {
-      // 1. Create an order in your database
-      const orderResponse = await fetch("/api/orders/create", {
+      // Generate a simple order ID for now
+      const generatedOrderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      setOrderId(generatedOrderId)
+
+      // Create a checkout for the card widget
+      const checkoutResponse = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ticketTypeId: selectedTicket.id,
-          userEmail: email,
-          firstName,
-          lastName,
-          affiliation,
-          country,
-          isStudent,
-          wantsGalaDinner,
+          amount: selectedTicket.price,
+          currency: selectedTicket.currency,
+          description: `iSMIT 2026 - ${selectedTicket.name} - ${firstName} ${lastName}`,
+          reference: generatedOrderId,
         }),
       })
 
-      if (!orderResponse.ok) {
-        throw new Error("Failed to create order.")
+      if (!checkoutResponse.ok) {
+        const errorData = await checkoutResponse.json()
+        throw new Error(errorData.error || "Failed to create payment session.")
       }
 
-      const orderData = await orderResponse.json()
-      const { orderId, totalAmount, currency } = orderData
-
-      // 2. Create a payment session with SumUp
-      const paymentResponse = await fetch("/api/payments/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderId,
-          amount: totalAmount,
-          currency,
-        }),
-      })
-
-      if (!paymentResponse.ok) {
-        throw new Error("Failed to create payment session.")
-      }
-
-      const paymentData = await paymentResponse.json()
-
-      // 3. Redirect to SumUp checkout page
-      if (paymentData.paymentSession.checkoutUrl) {
-        window.location.href = paymentData.paymentSession.checkoutUrl
-      } else {
-        throw new Error("No checkout URL received from payment provider.")
-      }
+      const checkoutData = await checkoutResponse.json()
+      console.log("[CheckoutForm] Checkout created:", checkoutData)
+      setCheckoutId(checkoutData.checkoutId)
+      setStep("payment")
+      
     } catch (err: any) {
+      console.error("[CheckoutForm] Error:", err)
       setError(err.message)
+    } finally {
       setIsLoading(false)
     }
+  }
+
+  const handlePaymentSuccess = useCallback((result: any) => {
+    console.log("[CheckoutForm] Payment success:", result)
+    if (orderId) {
+      onSuccess(orderId)
+    }
+  }, [orderId, onSuccess])
+
+  const handlePaymentError = useCallback((error: any) => {
+    console.error("[CheckoutForm] Payment error:", error)
+    setError(error?.message || "Payment failed. Please try again.")
+    // Go back to details step to retry
+    setStep("details")
+    setCheckoutId(null)
+  }, [])
+
+  const handleBackToDetails = () => {
+    setStep("details")
+    setCheckoutId(null)
+    setError(null)
   }
 
   return (
@@ -129,156 +143,248 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       className={`${orbitron.variable} ${robotoCondensed.variable} max-w-2xl mx-auto bg-gradient-to-br from-[#0D1858] to-[#162A8D] p-8 rounded-lg shadow-2xl text-white`}
     >
       <div className="text-center mb-8">
-        <h2 className="font-orbitron text-3xl font-bold uppercase">Complete Your Registration</h2>
+        <h2 className="font-orbitron text-3xl font-bold uppercase">
+          {step === "details" ? "Complete Your Registration" : "Payment"}
+        </h2>
         <p className="font-roboto-condensed text-lg text-gray-300 mt-2">
           You are registering for: <span className="font-bold text-[#85AFFB]">{selectedTicket.name}</span>
         </p>
+        
+        {/* Progress indicator */}
+        <div className="flex items-center justify-center mt-6 space-x-4">
+          <div className={`flex items-center ${step === "details" ? "text-[#85AFFB]" : "text-green-400"}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${step === "details" ? "border-[#85AFFB] bg-[#85AFFB]/20" : "border-green-400 bg-green-400"}`}>
+              {step === "payment" ? "✓" : "1"}
+            </div>
+            <span className="ml-2 text-sm">Details</span>
+          </div>
+          <div className="w-12 h-0.5 bg-gray-600"></div>
+          <div className={`flex items-center ${step === "payment" ? "text-[#85AFFB]" : "text-gray-500"}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${step === "payment" ? "border-[#85AFFB] bg-[#85AFFB]/20" : "border-gray-500"}`}>
+              2
+            </div>
+            <span className="ml-2 text-sm">Payment</span>
+          </div>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 font-roboto-condensed">
-        {/* User Information */}
-        <div className="grid md:grid-cols-2 gap-6">
+      {error && (
+        <div className="bg-red-500/20 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
+
+      {step === "details" && (
+        <form onSubmit={handleDetailsSubmit} className="space-y-6 font-roboto-condensed">
+          {/* User Information */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="firstName" className="text-gray-300">
+                First Name
+              </Label>
+              <Input
+                id="firstName"
+                type="text"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+                required
+                className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="lastName" className="text-gray-300">
+                Last Name
+              </Label>
+              <Input
+                id="lastName"
+                type="text"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+                required
+                className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]"
+              />
+            </div>
+          </div>
+
           <div className="space-y-2">
-            <Label htmlFor="firstName" className="text-gray-300">
-              First Name
+            <Label htmlFor="email" className="text-gray-300">
+              Email Address
             </Label>
             <Input
-              id="firstName"
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              disabled={!!user}
+              className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB] disabled:opacity-70"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="affiliation" className="text-gray-300">
+              Affiliation / Institution
+            </Label>
+            <Input
+              id="affiliation"
               type="text"
-              placeholder="Enter your first name"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
+              placeholder="e.g., University of Innovation"
+              value={affiliation}
+              onChange={e => setAffiliation(e.target.value)}
               required
               className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]"
             />
           </div>
+
           <div className="space-y-2">
-            <Label htmlFor="lastName" className="text-gray-300">
-              Last Name
+            <Label htmlFor="country" className="text-gray-300">
+              Country
             </Label>
-            <Input
-              id="lastName"
-              type="text"
-              placeholder="Enter your last name"
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              required
-              className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]"
-            />
+            <Select onValueChange={setCountry} value={country} required>
+              <SelectTrigger className="w-full bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]">
+                <SelectValue placeholder="Select your country" />
+              </SelectTrigger>
+              <SelectContent className="bg-[#162A8D] text-white border-white/20 max-h-60">
+                <SelectItem value="DEU">Germany</SelectItem>
+                <SelectItem value="USA">United States</SelectItem>
+                <SelectItem value="GBR">United Kingdom</SelectItem>
+                <SelectItem value="FRA">France</SelectItem>
+                <SelectItem value="ITA">Italy</SelectItem>
+                <SelectItem value="ESP">Spain</SelectItem>
+                <SelectItem value="NLD">Netherlands</SelectItem>
+                <SelectItem value="BEL">Belgium</SelectItem>
+                <SelectItem value="AUT">Austria</SelectItem>
+                <SelectItem value="CHE">Switzerland</SelectItem>
+                <SelectItem value="JPN">Japan</SelectItem>
+                <SelectItem value="CHN">China</SelectItem>
+                <SelectItem value="KOR">South Korea</SelectItem>
+                <SelectItem value="AUS">Australia</SelectItem>
+                <SelectItem value="CAN">Canada</SelectItem>
+                <SelectItem value="BRA">Brazil</SelectItem>
+                <SelectItem value="MEX">Mexico</SelectItem>
+                <SelectItem value="IND">India</SelectItem>
+                <SelectItem value="TUR">Turkey</SelectItem>
+                <SelectItem value="POL">Poland</SelectItem>
+                <SelectItem value="SWE">Sweden</SelectItem>
+                <SelectItem value="NOR">Norway</SelectItem>
+                <SelectItem value="DNK">Denmark</SelectItem>
+                <SelectItem value="FIN">Finland</SelectItem>
+                <SelectItem value="PRT">Portugal</SelectItem>
+                <SelectItem value="GRC">Greece</SelectItem>
+                <SelectItem value="CZE">Czech Republic</SelectItem>
+                <SelectItem value="ROU">Romania</SelectItem>
+                <SelectItem value="HUN">Hungary</SelectItem>
+                <SelectItem value="OTHER">Other</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-gray-300">
-            Email Address
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-            disabled={!!user} // Disable if user is logged in
-            className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB] disabled:opacity-70"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="affiliation" className="text-gray-300">
-            Affiliation / Institution
-          </Label>
-          <Input
-            id="affiliation"
-            type="text"
-            placeholder="e.g., University of Innovation"
-            value={affiliation}
-            onChange={e => setAffiliation(e.target.value)}
-            required
-            className="bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="country" className="text-gray-300">
-            Country
-          </Label>
-          <Select onValueChange={setCountry} value={country} required>
-            <SelectTrigger className="w-full bg-white/10 border-white/20 focus:ring-[#85AFFB] focus:border-[#85AFFB]">
-              <SelectValue placeholder="Select your country" />
-            </SelectTrigger>
-            <SelectContent className="bg-[#162A8D] text-white border-white/20">
-              {/* Add a comprehensive list of countries here */}
-              <SelectItem value="USA">United States</SelectItem>
-              <SelectItem value="DEU">Germany</SelectItem>
-              <SelectItem value="JPN">Japan</SelectItem>
-              {/* ... more countries */}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Options */}
-        <div className="space-y-4 pt-4">
-          {selectedTicket.name.toLowerCase().includes("student") && (
+          {/* Options */}
+          <div className="space-y-4 pt-4">
+            {selectedTicket.name.toLowerCase().includes("student") && (
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="isStudent"
+                  checked={isStudent}
+                  onCheckedChange={() => setIsStudent(!isStudent)}
+                  className="border-white/30 data-[state=checked]:bg-[#85AFFB]"
+                />
+                <Label htmlFor="isStudent" className="text-gray-300 cursor-pointer">
+                  I confirm I am a student and will provide proof upon request.
+                </Label>
+              </div>
+            )}
             <div className="flex items-center space-x-3">
               <Checkbox
-                id="isStudent"
-                checked={isStudent}
-                onCheckedChange={() => setIsStudent(!isStudent)}
+                id="galaDinner"
+                checked={wantsGalaDinner}
+                onCheckedChange={() => setWantsGalaDinner(!wantsGalaDinner)}
                 className="border-white/30 data-[state=checked]:bg-[#85AFFB]"
               />
-              <Label htmlFor="isStudent" className="text-gray-300 cursor-pointer">
-                I confirm I am a student and will provide proof upon request.
+              <Label htmlFor="galaDinner" className="text-gray-300 cursor-pointer">
+                I would like to attend the Gala Dinner (additional fee may apply).
               </Label>
             </div>
-          )}
-          <div className="flex items-center space-x-3">
-            <Checkbox
-              id="galaDinner"
-              checked={wantsGalaDinner}
-              onCheckedChange={() => setWantsGalaDinner(!wantsGalaDinner)}
-              className="border-white/30 data-[state=checked]:bg-[#85AFFB]"
+          </div>
+
+          {/* Total and Continue */}
+          <div className="pt-6 text-center">
+            <div className="mb-6">
+              <p className="font-roboto-condensed text-xl">Total Amount</p>
+              <p className="font-orbitron text-4xl font-bold text-[#85AFFB]">
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: selectedTicket.currency,
+                }).format(selectedTicket.price)}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center space-x-4">
+              <Button
+                type="button"
+                onClick={onBack}
+                variant="outline"
+                className="border-[#85AFFB] text-[#85AFFB] hover:bg-[#85AFFB] hover:text-[#0D1858] w-40 h-12 font-orbitron uppercase"
+                disabled={isLoading}
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-[#FE6448] to-[#E53E3E] hover:from-[#E53E3E] hover:to-[#FE6448] w-40 h-12 font-orbitron uppercase text-lg"
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Continue"}
+              </Button>
+            </div>
+          </div>
+        </form>
+      )}
+
+      {step === "payment" && checkoutId && (
+        <div className="space-y-6">
+          {/* Order Summary */}
+          <div className="bg-white/10 rounded-lg p-4 mb-6">
+            <h3 className="font-orbitron text-lg mb-2">Order Summary</h3>
+            <div className="font-roboto-condensed text-gray-300 space-y-1">
+              <p><span className="text-gray-400">Name:</span> {firstName} {lastName}</p>
+              <p><span className="text-gray-400">Email:</span> {email}</p>
+              <p><span className="text-gray-400">Ticket:</span> {selectedTicket.name}</p>
+              <p className="text-xl font-bold text-[#85AFFB] mt-2">
+                Total: {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: selectedTicket.currency,
+                }).format(selectedTicket.price)}
+              </p>
+            </div>
+          </div>
+
+          {/* Payment Widget */}
+          <div>
+            <h3 className="font-orbitron text-lg mb-4 text-center">Enter Card Details</h3>
+            <SumUpCardPayment
+              checkoutId={checkoutId}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
             />
-            <Label htmlFor="galaDinner" className="text-gray-300 cursor-pointer">
-              I would like to attend the Gala Dinner (additional fee may apply).
-            </Label>
-          </div>
-        </div>
-
-        {/* Total and Submission */}
-        <div className="pt-6 text-center">
-          <div className="mb-6">
-            <p className="font-roboto-condensed text-xl">Total Amount</p>
-            <p className="font-orbitron text-4xl font-bold text-[#85AFFB]">
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: selectedTicket.currency,
-              }).format(selectedTicket.price)}
-            </p>
           </div>
 
-          {error && <p className="text-red-400 mb-4">{error}</p>}
-
-          <div className="flex items-center justify-center space-x-4">
+          {/* Back button */}
+          <div className="text-center pt-4">
             <Button
               type="button"
-              onClick={onBack}
+              onClick={handleBackToDetails}
               variant="outline"
-              className="border-[#85AFFB] text-[#85AFFB] hover:bg-[#85AFFB] hover:text-[#0D1858] w-40 h-12 font-orbitron uppercase"
-              disabled={isLoading}
+              className="border-[#85AFFB] text-[#85AFFB] hover:bg-[#85AFFB] hover:text-[#0D1858] font-orbitron uppercase"
             >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              className="bg-gradient-to-r from-[#FE6448] to-[#E53E3E] hover:from-[#E53E3E] hover:to-[#FE6448] w-40 h-12 font-orbitron uppercase text-lg"
-              disabled={isLoading}
-            >
-              {isLoading ? "Processing..." : "Pay Now"}
+              ← Back to Details
             </Button>
           </div>
         </div>
-      </form>
+      )}
     </div>
   )
 }

@@ -94,7 +94,7 @@ export function TicketSelection({ onSelectTicket }: TicketSelectionProps) {
             <CardContent className="text-center">
               <div className="text-4xl font-orbitron font-black mb-2">€{ticket.price}</div>
               <p className="text-sm font-roboto-condensed mb-4">
-                {deadlinePassed ? "Deadline passed" : `Until ${new Date(ticket.deadline).toLocaleDateString()}`}
+                {deadlinePassed ? "Deadline passed" : `Until ${new Date(ticket.deadline).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })}`}
               </p>
 
               <ul className="text-sm font-roboto-condensed space-y-2 text-left">

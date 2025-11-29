@@ -52,6 +52,21 @@ export default function Registration() {
     setCurrentStep("success")
   }
 
+  // Quick test with €1 using the embedded card widget
+  const handleTestPayment = () => {
+    const testTicket: TicketType = {
+      id: "test-1-euro",
+      name: "Test Payment (€1)",
+      description: "Test payment for development",
+      price: 1,
+      currency: "EUR",
+      available: true,
+      deadline: "2026-12-31T23:59:59Z",
+    }
+    setSelectedTicket(testTicket)
+    setCurrentStep("checkout")
+  }
+
   return (
     <div className={`${robotoCondensed.variable} ${orbitron.variable} min-h-screen bg-white`}>
       {/* Hero Section */}
@@ -110,19 +125,13 @@ export default function Registration() {
                   Register now for iSMIT 2026 and be part of the most innovative medical technology congress of the
                   year.
                 </p>
+                
+                {/* Test Button - €1 embedded card payment */}
                 <button
-                  onClick={async () => {
-                    const response = await fetch('/api/payments/create-test', {
-                      method: 'POST',
-                    });
-                    const data = await response.json();
-                    if (data.checkoutUrl) {
-                      window.location.href = data.checkoutUrl;
-                    }
-                  }}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                  onClick={handleTestPayment}
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mt-4 font-orbitron uppercase"
                 >
-                  Test $1 Checkout
+                  🧪 Test €1 Card Payment
                 </button>
               </div>
               <TicketSelection onSelectTicket={handleTicketSelection} />
