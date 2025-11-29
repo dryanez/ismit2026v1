@@ -77,6 +77,36 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     getUser()
   }, [supabase])
 
+  // Save registration to Odoo CRM
+  const saveToOdoo = async (paymentStatus: 'pending' | 'completed' | 'failed') => {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          affiliation,
+          country,
+          ticketType: selectedTicket.name,
+          ticketPrice: selectedTicket.price,
+          currency: selectedTicket.currency,
+          orderId,
+          paymentStatus,
+        }),
+      })
+
+      const data = await response.json()
+      console.log("[CheckoutForm] Odoo save result:", data)
+      return data
+    } catch (err) {
+      console.error("[CheckoutForm] Error saving to Odoo:", err)
+      // Don't fail the checkout if Odoo save fails
+      return null
+    }
+  }
+
   const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -107,6 +137,11 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       const checkoutData = await checkoutResponse.json()
       console.log("[CheckoutForm] Checkout created:", checkoutData)
       setCheckoutId(checkoutData.checkoutId)
+      
+      // Save to Odoo with pending status before payment
+      // We do this here so we have the contact even if payment fails
+      await saveToOdoo('pending')
+      
       setStep("payment")
       
     } catch (err: any) {
@@ -117,20 +152,52 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     }
   }
 
-  const handlePaymentSuccess = useCallback((result: any) => {
+  const handlePaymentSuccess = useCallback(async (result: any) => {
     console.log("[CheckoutForm] Payment success:", result)
+    
+    // Update Odoo with completed status
+    try {
+      await fetch("/api/register", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          orderId,
+          paymentStatus: 'completed',
+        }),
+      })
+    } catch (err) {
+      console.error("[CheckoutForm] Error updating Odoo status:", err)
+    }
+    
     if (orderId) {
       onSuccess(orderId)
     }
-  }, [orderId, onSuccess])
+  }, [orderId, email, onSuccess])
 
-  const handlePaymentError = useCallback((error: any) => {
+  const handlePaymentError = useCallback(async (error: any) => {
     console.error("[CheckoutForm] Payment error:", error)
+    
+    // Update Odoo with failed status
+    try {
+      await fetch("/api/register", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          orderId,
+          paymentStatus: 'failed',
+        }),
+      })
+    } catch (err) {
+      console.error("[CheckoutForm] Error updating Odoo status:", err)
+    }
+    
     setError(error?.message || "Payment failed. Please try again.")
     // Go back to details step to retry
     setStep("details")
     setCheckoutId(null)
-  }, [])
+  }, [email, orderId])
 
   const handleBackToDetails = () => {
     setStep("details")
