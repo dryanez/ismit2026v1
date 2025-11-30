@@ -618,11 +618,21 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
               <p><span className="text-gray-400">Name:</span> {firstName} {lastName}</p>
               <p><span className="text-gray-400">Email:</span> {email}</p>
               <p><span className="text-gray-400">Ticket:</span> {selectedTicket.name}</p>
+              {(hasGalaDinner || hasXrWorkshop || hasAiWorkshop) && (
+                <div className="text-sm text-gray-400 mt-1">
+                  <span>Add-ons: </span>
+                  {[
+                    hasGalaDinner && 'Gala Dinner',
+                    hasXrWorkshop && 'XR Workshop',
+                    hasAiWorkshop && 'AI Workshop'
+                  ].filter(Boolean).join(', ')}
+                </div>
+              )}
               <p className="text-xl font-bold text-[#85AFFB] mt-2">
                 Total: {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: selectedTicket.currency,
-                }).format(selectedTicket.price)}
+                }).format(totalPrice)}
               </p>
             </div>
           </div>
