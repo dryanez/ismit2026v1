@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import { TicketSelection } from "@/components/ticket-selection"
 import { CheckoutForm } from "@/components/checkout-form"
-import { PaymentSuccess } from "@/components/payment-success"
+import { PaymentSuccess, OrderData } from "@/components/payment-success"
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
 
 
@@ -35,7 +35,7 @@ type RegistrationStep = "selection" | "checkout" | "success"
 export default function Registration() {
   const [currentStep, setCurrentStep] = useState<RegistrationStep>("selection")
   const [selectedTicket, setSelectedTicket] = useState<TicketType | null>(null)
-  const [orderId, setOrderId] = useState<string | null>(null)
+  const [orderData, setOrderData] = useState<OrderData | null>(null)
 
   const handleTicketSelection = (ticket: TicketType) => {
     setSelectedTicket(ticket)
@@ -47,8 +47,8 @@ export default function Registration() {
     setSelectedTicket(null)
   }
 
-  const handleCheckoutSuccess = (newOrderId: string) => {
-    setOrderId(newOrderId)
+  const handleCheckoutSuccess = (data: OrderData) => {
+    setOrderData(data)
     setCurrentStep("success")
   }
 
@@ -146,7 +146,7 @@ export default function Registration() {
             />
           )}
 
-          {currentStep === "success" && orderId && <PaymentSuccess orderId={orderId} />}
+          {currentStep === "success" && orderData && <PaymentSuccess orderData={orderData} />}
 
           {/* Important Information - only show on selection step */}
           {currentStep === "selection" && (

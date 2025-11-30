@@ -57,10 +57,22 @@ interface TicketType {
   deadline: string
 }
 
+interface OrderData {
+  orderId: string
+  ticketType: string
+  firstName: string
+  lastName: string
+  email: string
+  organization: string
+  totalAmount: number
+  ticketNumber?: string
+  addOns?: string[]
+}
+
 interface CheckoutFormProps {
   selectedTicket: TicketType
   onBack: () => void
-  onSuccess: (orderId: string) => void
+  onSuccess: (orderData: OrderData) => void
 }
 
 type CheckoutStep = "details" | "payment"
@@ -276,6 +288,8 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     if (hasXrWorkshop) addOnsList.push(`XR Workshop (€${ADD_ONS.xrWorkshop.price})`)
     if (hasAiWorkshop) addOnsList.push(`AI Workshop (€${ADD_ONS.aiWorkshop.price})`)
     
+    let ticketNumber: string | undefined = undefined
+    
     // Update Odoo with completed status
     try {
       console.log("📤 Updating Odoo with completed status...")
@@ -321,6 +335,7 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       if (ticketResponse.ok && ticketData.success) {
         console.log("✅ Ticket generated:", ticketData.ticket?.ticketNumber)
         console.log("📧 Email sent:", ticketData.email?.sent ? "Yes" : "No")
+        ticketNumber = ticketData.ticket?.ticketNumber
       } else {
         console.error("❌ Ticket generation failed:", ticketData.error)
       }
@@ -331,7 +346,17 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     
     console.groupEnd()
     if (orderId) {
-      onSuccess(orderId)
+      onSuccess({
+        orderId,
+        ticketType: selectedTicket.name,
+        firstName,
+        lastName,
+        email,
+        organization: affiliation,
+        totalAmount: totalPrice,
+        ticketNumber,
+        addOns: addOnsList.length > 0 ? addOnsList : undefined,
+      })
     }
   }, [orderId, email, firstName, lastName, affiliation, country, selectedTicket, totalPrice, hasGalaDinner, hasXrWorkshop, hasAiWorkshop, generateTags, onSuccess])
 
