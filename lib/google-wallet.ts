@@ -9,11 +9,15 @@
  */
 
 import jwt from 'jsonwebtoken'
+import { GoogleAuth } from 'google-auth-library'
 
 // Configuration from environment
 const GOOGLE_WALLET_ISSUER_ID = process.env.GOOGLE_WALLET_ISSUER_ID
 const GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL
-const GOOGLE_WALLET_PRIVATE_KEY = process.env.GOOGLE_WALLET_PRIVATE_KEY // PEM format
+const GOOGLE_WALLET_PRIVATE_KEY = process.env.GOOGLE_WALLET_PRIVATE_KEY?.replace(/\\n/g, '\n') // PEM format
+
+// Class ID for iSMIT 2026 event tickets
+const CLASS_ID = GOOGLE_WALLET_ISSUER_ID ? `${GOOGLE_WALLET_ISSUER_ID}.ismit2026_event_ticket` : ''
 
 export interface GoogleWalletPassData {
   ticketNumber: string
@@ -36,6 +40,93 @@ export function isGoogleWalletConfigured(): boolean {
 }
 
 /**
+ * Create the Event Ticket Class (only needs to be done once)
+ */
+async function getOrCreateEventTicketClass(): Promise<void> {
+  if (!isGoogleWalletConfigured()) return
+
+  const credentials = {
+    client_email: GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL,
+    private_key: GOOGLE_WALLET_PRIVATE_KEY,
+  }
+
+  const auth = new GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/wallet_object.issuer'],
+  })
+
+  const httpClient = await auth.getClient()
+  
+  // Check if class exists
+  try {
+    await httpClient.request({
+      url: `https://walletobjects.googleapis.com/walletobjects/v1/eventTicketClass/${CLASS_ID}`,
+      method: 'GET',
+    })
+    console.log('[GoogleWallet] Event ticket class already exists:', CLASS_ID)
+    return
+  } catch (error: any) {
+    if (error.response?.status !== 404) {
+      console.error('[GoogleWallet] Error checking class:', error.message)
+      return
+    }
+  }
+
+  // Create the class
+  const eventTicketClass = {
+    id: CLASS_ID,
+    issuerName: 'iSMIT 2026',
+    eventName: {
+      defaultValue: {
+        language: 'en',
+        value: 'iSMIT 2026 - International Society for Medical Innovation and Technology'
+      }
+    },
+    venue: {
+      name: {
+        defaultValue: {
+          language: 'en',
+          value: 'NCC Ost, Nuremberg'
+        }
+      },
+      address: {
+        defaultValue: {
+          language: 'en',
+          value: 'Messezentrum 1, 90471 Nuremberg, Germany'
+        }
+      }
+    },
+    dateTime: {
+      start: '2026-11-18T09:00:00+01:00',
+      end: '2026-11-21T18:00:00+01:00'
+    },
+    reviewStatus: 'UNDER_REVIEW',
+    hexBackgroundColor: '#0D1858',
+    logo: {
+      sourceUri: {
+        uri: 'https://ismit2026.com/geometric-brain.png'
+      }
+    },
+    heroImage: {
+      sourceUri: {
+        uri: 'https://ismit2026.com/medical-conference-hero-background.png'
+      }
+    }
+  }
+
+  try {
+    await httpClient.request({
+      url: 'https://walletobjects.googleapis.com/walletobjects/v1/eventTicketClass',
+      method: 'POST',
+      data: eventTicketClass,
+    })
+    console.log('[GoogleWallet] Event ticket class created:', CLASS_ID)
+  } catch (error: any) {
+    console.error('[GoogleWallet] Error creating class:', error.response?.data || error.message)
+  }
+}
+
+/**
  * Generate a Google Wallet pass JWT
  */
 export async function generateGoogleWalletPass(data: GoogleWalletPassData): Promise<string | null> {
@@ -47,51 +138,31 @@ export async function generateGoogleWalletPass(data: GoogleWalletPassData): Prom
   try {
     console.log('[GoogleWallet] Generating pass for:', data.ticketNumber)
     
-    const classId = `${GOOGLE_WALLET_ISSUER_ID}.ismit2026_ticket`
-    const objectId = `${GOOGLE_WALLET_ISSUER_ID}.${data.ticketId}`
+    // Ensure the class exists
+    await getOrCreateEventTicketClass()
+    
+    const objectId = `${GOOGLE_WALLET_ISSUER_ID}.${data.ticketId.replace(/-/g, '_')}`
     
     // Event ticket object
     const eventTicketObject = {
       id: objectId,
-      classId: classId,
+      classId: CLASS_ID,
       state: 'ACTIVE',
       
       // Ticket holder info
       ticketHolderName: `${data.firstName} ${data.lastName}`,
       
-      // Ticket info
+      // Ticket number
       ticketNumber: data.ticketNumber,
-      ticketType: {
-        defaultValue: {
-          language: 'en',
-          value: data.ticketType,
-        },
-      },
       
-      // Event details
-      eventName: {
-        defaultValue: {
-          language: 'en',
-          value: 'iSMIT 2026',
-        },
-      },
-      venue: {
-        name: {
+      // Seat info (we use this for ticket type)
+      seatInfo: {
+        seat: {
           defaultValue: {
             language: 'en',
-            value: data.eventLocation || 'Nuremberg, Germany',
-          },
-        },
-        address: {
-          defaultValue: {
-            language: 'en',
-            value: 'Nuremberg Convention Center, Germany',
-          },
-        },
-      },
-      dateTime: {
-        start: '2026-11-18T09:00:00+01:00',
-        end: '2026-11-21T18:00:00+01:00',
+            value: data.ticketType
+          }
+        }
       },
       
       // Barcode
@@ -104,24 +175,47 @@ export async function generateGoogleWalletPass(data: GoogleWalletPassData): Prom
       // Text modules for additional info
       textModulesData: [
         {
+          header: 'Ticket Type',
+          body: data.ticketType,
+          id: 'ticket_type'
+        },
+        ...(data.addOns.length > 0 ? [{
           header: 'Add-ons',
-          body: data.addOns.length > 0 ? data.addOns.join(', ') : 'None',
-        },
+          body: data.addOns.join(', '),
+          id: 'addons'
+        }] : []),
         {
-          header: 'Email',
+          header: 'Attendee Email',
           body: data.email,
-        },
+          id: 'email'
+        }
       ],
+      
+      // Link modules
+      linksModuleData: {
+        uris: [
+          {
+            uri: 'https://ismit2026.com',
+            description: 'Event Website',
+            id: 'website'
+          },
+          {
+            uri: 'https://ismit2026.com/program',
+            description: 'Event Program',
+            id: 'program'
+          }
+        ]
+      },
       
       // Styling
       hexBackgroundColor: '#0D1858',
     }
     
-    // Create JWT payload
+    // Create JWT payload for "Add to Wallet" button
     const claims = {
       iss: GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL,
       aud: 'google',
-      origins: ['https://www.ismit2026.com'],
+      origins: ['https://ismit2026.com', 'https://www.ismit2026.com'],
       typ: 'savetowallet',
       payload: {
         eventTicketObjects: [eventTicketObject],
@@ -129,7 +223,7 @@ export async function generateGoogleWalletPass(data: GoogleWalletPassData): Prom
     }
     
     // Sign the JWT
-    const token = jwt.sign(claims, GOOGLE_WALLET_PRIVATE_KEY!.replace(/\\n/g, '\n'), {
+    const token = jwt.sign(claims, GOOGLE_WALLET_PRIVATE_KEY!, {
       algorithm: 'RS256',
     })
     
