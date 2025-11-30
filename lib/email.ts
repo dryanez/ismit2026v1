@@ -8,7 +8,7 @@ import { Resend } from 'resend'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'tickets@ismit2026.com'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ismit2026.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ismit2026.vercel.app'
 
 export interface TicketEmailData {
   to: string
@@ -20,7 +20,7 @@ export interface TicketEmailData {
   totalPrice: number
   currency: string
   addOns: string[]
-  qrCodeImage: string // Base64 data URL
+  qrCodeImage: string // Base64 data URL (kept for backwards compat)
   appleWalletUrl?: string | null
   googleWalletUrl?: string | null
 }
@@ -116,7 +116,7 @@ export async function sendTicketEmail(data: TicketEmailData): Promise<{ success:
                 <tr>
                   <td align="center" style="padding: 20px;">
                     <p style="margin: 0 0 15px; color: #666; font-size: 14px;">Scan this QR code at the venue for check-in:</p>
-                    <img src="${data.qrCodeImage}" alt="Ticket QR Code" width="200" height="200" style="border: 4px solid #0D1858; border-radius: 8px;">
+                    <img src="${SITE_URL}/api/tickets/qr/${data.ticketId}" alt="Ticket QR Code" width="200" height="200" style="border: 4px solid #0D1858; border-radius: 8px;">
                   </td>
                 </tr>
               </table>
