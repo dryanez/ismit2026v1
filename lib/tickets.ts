@@ -125,8 +125,13 @@ export async function createTicket(data: TicketData): Promise<GeneratedTicket> {
   const ticketNumber = generateTicketNumber()
   const qrCodeData = createQRCodeData(ticketId, ticketNumber)
   
+  // Generate QR code URL for email
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ismit2026.com'
+  const qrCodeUrl = `${siteUrl}/api/tickets/qr/${ticketId}`
+  
   console.log('[Tickets] Creating ticket:', ticketNumber)
   console.log('[Tickets] For:', data.email)
+  console.log('[Tickets] QR URL:', qrCodeUrl)
   
   // Generate QR code images
   const qrImages = await generateQRImages(qrCodeData)
@@ -138,6 +143,7 @@ export async function createTicket(data: TicketData): Promise<GeneratedTicket> {
       id: ticketId,
       ticket_number: ticketNumber,
       qr_code_data: qrCodeData,
+      qr_code_url: qrCodeUrl,
       order_id: data.orderId,
       first_name: data.firstName,
       last_name: data.lastName,

@@ -109,9 +109,13 @@ async function getOrCreateCategoryIds(tags: string[]): Promise<number[]> {
 
 /**
  * Create or update a contact in Odoo from registration data
+ * - If contact exists (by email), UPDATE it
+ * - If contact doesn't exist, CREATE new
+ * - When payment is completed, set x_studio_paid to actual amount
  */
 export async function createOrUpdateContact(data: RegistrationData): Promise<number> {
-  console.log('[Odoo] Creating contact for:', data.email)
+  console.log('[Odoo] Processing contact for:', data.email)
+  console.log('[Odoo] Payment status:', data.paymentStatus)
   console.log('[Odoo] Tags:', data.tags)
   console.log('[Odoo] Add-ons:', data.addOns)
   
@@ -152,25 +156,59 @@ export async function createOrUpdateContact(data: RegistrationData): Promise<num
     }
   }
   
-  // Create new partner using vals_list parameter
-  const newIds = await odooApiCall<number[]>(
+  // When payment is completed, set x_studio_paid to the actual amount
+  if (data.paymentStatus === 'completed') {
+    partnerData.x_studio_paid = data.ticketPrice
+    console.log('[Odoo] Setting x_studio_paid:', data.ticketPrice)
+  }
+  
+  // Check if contact already exists by email
+  const existingIds = await odooApiCall<number[]>(
     'res.partner',
-    'create',
-    { vals_list: [partnerData] }
+    'search',
+    { domain: [['email', '=', data.email]], limit: 1 }
   )
   
-  console.log('[Odoo] Created partner with IDs:', newIds)
-  // create returns array of IDs, get first one
-  return Array.isArray(newIds) ? newIds[0] : newIds
+  if (existingIds && existingIds.length > 0) {
+    // UPDATE existing contact
+    const partnerId = existingIds[0]
+    console.log('[Odoo] Found existing partner:', partnerId, '- updating...')
+    
+    // Remove email from update data (can't update email as it's the search key)
+    delete partnerData.email
+    
+    await odooApiCall<boolean>(
+      'res.partner',
+      'write',
+      { ids: [partnerId], vals: partnerData }
+    )
+    
+    console.log('[Odoo] Updated partner:', partnerId)
+    return partnerId
+  } else {
+    // CREATE new contact
+    console.log('[Odoo] No existing partner found - creating new...')
+    
+    const newIds = await odooApiCall<number[]>(
+      'res.partner',
+      'create',
+      { vals_list: [partnerData] }
+    )
+    
+    console.log('[Odoo] Created partner with IDs:', newIds)
+    // create returns array of IDs, get first one
+    return Array.isArray(newIds) ? newIds[0] : newIds
+  }
 }
 
 /**
- * Update payment status for a contact
+ * Update payment status for a contact (and set x_studio_paid when completed)
  */
 export async function updatePaymentStatus(
   email: string,
   orderId: string,
-  status: 'completed' | 'failed'
+  status: 'completed' | 'failed',
+  amountPaid?: number
 ): Promise<boolean> {
   try {
     // Search for partner by email
@@ -200,11 +238,20 @@ export async function updatePaymentStatus(
       `Payment Status: ${status}`
     ) + `\nPayment ${status} at: ${new Date().toISOString()}`
     
-    // Write updated comment
+    // Build update data
+    const updateData: Record<string, any> = { comment: updatedComment }
+    
+    // Set x_studio_paid when payment is completed
+    if (status === 'completed' && amountPaid !== undefined) {
+      updateData.x_studio_paid = amountPaid
+      console.log('[Odoo] Setting x_studio_paid:', amountPaid)
+    }
+    
+    // Write updated data
     await odooApiCall<boolean>(
       'res.partner',
       'write',
-      { ids: [partnerId], vals: { comment: updatedComment } }
+      { ids: [partnerId], vals: updateData }
     )
     
     console.log('[Odoo] Updated payment status for partner:', partnerId)
