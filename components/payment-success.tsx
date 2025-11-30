@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Download, Mail, Loader2 } from "lucide-react"
+import { CheckCircle, Mail, Loader2, Smartphone } from "lucide-react"
 import Link from "next/link"
 
 interface PaymentSuccessProps {
@@ -142,31 +142,19 @@ export function PaymentSuccess({ orderId }: PaymentSuccessProps) {
 
           {/* Next Steps */}
           <div className="bg-[#85AFFB] text-white rounded-lg p-6">
-            <h3 className="font-orbitron font-bold mb-4">What's Next?</h3>
+            <h3 className="font-orbitron font-bold mb-4">What&apos;s Next?</h3>
             <ul className="space-y-2 font-roboto-condensed">
               <li className="flex items-center">
                 <Mail className="w-4 h-4 mr-2" />
-                You'll receive a confirmation email shortly
+                Check your email for your ticket with QR code
               </li>
               <li className="flex items-center">
-                <Download className="w-4 h-4 mr-2" />
-                Your tickets will be available for download
+                <Smartphone className="w-4 h-4 mr-2" />
+                Add your ticket to Google Wallet for easy access
               </li>
               <li>• Congress materials will be sent closer to the event</li>
               <li>• Check your email for important updates</li>
             </ul>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="flex-1 bg-[#FE6448] hover:bg-[#FE6448]/90 font-orbitron font-bold">
-              <Download className="w-4 h-4 mr-2" />
-              Download Tickets
-            </Button>
-            <Button variant="outline" className="flex-1 font-orbitron font-bold bg-transparent">
-              <Mail className="w-4 h-4 mr-2" />
-              Email Receipt
-            </Button>
           </div>
 
           <div className="text-center">
