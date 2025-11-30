@@ -78,7 +78,9 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
   }, [supabase])
 
   // Save registration to Odoo CRM
-  const saveToOdoo = async (paymentStatus: 'pending' | 'completed' | 'failed') => {
+  const saveToOdoo = async (paymentStatus: 'pending' | 'completed' | 'failed', orderIdOverride?: string) => {
+    const effectiveOrderId = orderIdOverride || orderId
+    
     console.group("🔵 [Odoo Integration] Saving to CRM")
     console.log("📋 Payment Status:", paymentStatus)
     console.log("👤 Customer Info:", { firstName, lastName, email, affiliation, country })
@@ -87,7 +89,7 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       price: selectedTicket.price, 
       currency: selectedTicket.currency 
     })
-    console.log("🆔 Order ID:", orderId)
+    console.log("🆔 Order ID:", effectiveOrderId)
     
     try {
       const requestBody = {
@@ -99,7 +101,7 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
         ticketType: selectedTicket.name,
         ticketPrice: selectedTicket.price,
         currency: selectedTicket.currency,
-        orderId,
+        orderId: effectiveOrderId,
         paymentStatus,
       }
       
@@ -172,8 +174,9 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       
       // Save to Odoo with pending status before payment
       // We do this here so we have the contact even if payment fails
+      // Pass generatedOrderId directly since setOrderId is async
       console.log("📤 Saving to Odoo CRM (pending status)...")
-      await saveToOdoo('pending')
+      await saveToOdoo('pending', generatedOrderId)
       
       console.log("➡️ Moving to payment step")
       console.groupEnd()
