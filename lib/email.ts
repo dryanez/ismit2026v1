@@ -8,7 +8,7 @@ import { Resend } from 'resend'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'tickets@ismit2026.com'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ismit2026.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ismit2026.com'
 
 export interface TicketEmailData {
   to: string
