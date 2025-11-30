@@ -18,9 +18,12 @@ interface RegistrationData {
   country?: string
   ticketType: string
   ticketPrice: number
+  basePrice?: number
   currency: string
   orderId: string
   paymentStatus: 'pending' | 'completed' | 'failed'
+  tags?: string[] // Tags for categorization (e.g., "iSMIT Member", "Gala Dinner", "XR Workshop")
+  addOns?: string[] // Add-ons description
 }
 
 /**
@@ -67,24 +70,86 @@ async function odooApiCall<T>(
 }
 
 /**
+ * Get or create category IDs in Odoo for tags
+ */
+async function getOrCreateCategoryIds(tags: string[]): Promise<number[]> {
+  const categoryIds: number[] = []
+  
+  for (const tag of tags) {
+    try {
+      // Search for existing category
+      const existingIds = await odooApiCall<number[]>(
+        'res.partner.category',
+        'search',
+        { domain: [['name', '=', tag]], limit: 1 }
+      )
+      
+      if (existingIds && existingIds.length > 0) {
+        categoryIds.push(existingIds[0])
+        console.log(`[Odoo] Found existing category "${tag}" with ID:`, existingIds[0])
+      } else {
+        // Create new category
+        const newIds = await odooApiCall<number[]>(
+          'res.partner.category',
+          'create',
+          { vals_list: [{ name: tag }] }
+        )
+        if (newIds && newIds.length > 0) {
+          categoryIds.push(newIds[0])
+          console.log(`[Odoo] Created new category "${tag}" with ID:`, newIds[0])
+        }
+      }
+    } catch (error) {
+      console.error(`[Odoo] Error getting/creating category "${tag}":`, error)
+    }
+  }
+  
+  return categoryIds
+}
+
+/**
  * Create or update a contact in Odoo from registration data
  */
 export async function createOrUpdateContact(data: RegistrationData): Promise<number> {
   console.log('[Odoo] Creating contact for:', data.email)
+  console.log('[Odoo] Tags:', data.tags)
+  console.log('[Odoo] Add-ons:', data.addOns)
+  
+  // Build detailed comment with add-ons
+  let comment = `iSMIT 2026 Registration\n` +
+    `Ticket: ${data.ticketType}\n`
+  
+  if (data.addOns && data.addOns.length > 0) {
+    comment += `Add-ons: ${data.addOns.join(', ')}\n`
+  }
+  
+  if (data.basePrice && data.basePrice !== data.ticketPrice) {
+    comment += `Base Price: ${data.currency} ${data.basePrice}\n`
+  }
+  
+  comment += `Total Price: ${data.currency} ${data.ticketPrice}\n` +
+    `Order ID: ${data.orderId}\n` +
+    `Payment Status: ${data.paymentStatus}\n` +
+    `Date: ${new Date().toISOString()}`
   
   const partnerData: Record<string, any> = {
     name: `${data.firstName} ${data.lastName}`,
     email: data.email,
-    comment: `iSMIT 2026 Registration\n` +
-             `Ticket: ${data.ticketType}\n` +
-             `Price: ${data.currency} ${data.ticketPrice}\n` +
-             `Order ID: ${data.orderId}\n` +
-             `Payment Status: ${data.paymentStatus}\n` +
-             `Date: ${new Date().toISOString()}`,
+    comment,
   }
   
   if (data.affiliation) {
     partnerData.company_name = data.affiliation
+  }
+  
+  // Get or create category IDs for tags
+  if (data.tags && data.tags.length > 0) {
+    const categoryIds = await getOrCreateCategoryIds(data.tags)
+    if (categoryIds.length > 0) {
+      // Use (6, 0, [ids]) to set many2many field - replaces existing
+      partnerData.category_id = [[6, 0, categoryIds]]
+      console.log('[Odoo] Setting category_id:', categoryIds)
+    }
   }
   
   // Create new partner using vals_list parameter

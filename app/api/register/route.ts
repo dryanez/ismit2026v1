@@ -14,10 +14,15 @@ export async function POST(request: NextRequest) {
       country,
       ticketType,
       ticketPrice,
+      basePrice,
       currency,
       orderId,
-      paymentStatus 
+      paymentStatus,
+      tags,
+      addOns,
     } = body
+
+    console.log('[Register API] Request body:', JSON.stringify(body, null, 2))
 
     // Validate required fields
     if (!firstName || !lastName || !email || !orderId) {
@@ -46,9 +51,12 @@ export async function POST(request: NextRequest) {
       country,
       ticketType: ticketType || 'Unknown',
       ticketPrice: ticketPrice || 0,
+      basePrice: basePrice,
       currency: currency || 'EUR',
       orderId,
       paymentStatus: paymentStatus || 'pending',
+      tags: tags || [],
+      addOns: addOns || [],
     })
 
     console.log('[Register API] Saved to Odoo, partner ID:', partnerId)
@@ -58,6 +66,7 @@ export async function POST(request: NextRequest) {
       message: 'Registration saved to CRM',
       partnerId,
       orderId,
+      tags: tags || [],
     })
   } catch (error: any) {
     console.error('[Register API] Error:', error)

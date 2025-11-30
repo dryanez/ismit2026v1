@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Orbitron, Roboto_Condensed } from "next/font/google"
 import { Button } from "@/components/ui/button"
@@ -21,6 +21,31 @@ const robotoCondensed = Roboto_Condensed({
   display: "swap",
   variable: "--font-roboto-condensed",
 })
+
+// Add-on definitions
+const ADD_ONS = {
+  galaDinner: {
+    id: 'gala-dinner',
+    name: 'Gala Dinner',
+    description: '20th November 2026',
+    price: 95,
+    tag: 'Gala Dinner',
+  },
+  xrWorkshop: {
+    id: 'xr-workshop',
+    name: 'XR Workshop',
+    description: 'Limited to 48 participants',
+    price: 100,
+    tag: 'XR Workshop',
+  },
+  aiWorkshop: {
+    id: 'ai-workshop',
+    name: 'AI Workshop',
+    description: 'Limited to 48 participants',
+    price: 100,
+    tag: 'AI Workshop',
+  },
+} as const
 
 interface TicketType {
   id: string
@@ -46,16 +71,37 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
   const [lastName, setLastName] = useState("")
   const [affiliation, setAffiliation] = useState("")
   const [country, setCountry] = useState("")
-  const [isStudent, setIsStudent] = useState(false)
-  const [wantsGalaDinner, setWantsGalaDinner] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<any>(null)
+  
+  // Add-ons state
+  const [hasGalaDinner, setHasGalaDinner] = useState(false)
+  const [hasXrWorkshop, setHasXrWorkshop] = useState(false)
+  const [hasAiWorkshop, setHasAiWorkshop] = useState(false)
   
   // Payment state
   const [step, setStep] = useState<CheckoutStep>("details")
   const [checkoutId, setCheckoutId] = useState<string | null>(null)
   const [orderId, setOrderId] = useState<string | null>(null)
+
+  // Calculate total price with add-ons
+  const totalPrice = useMemo(() => {
+    let total = selectedTicket.price
+    if (hasGalaDinner) total += ADD_ONS.galaDinner.price
+    if (hasXrWorkshop) total += ADD_ONS.xrWorkshop.price
+    if (hasAiWorkshop) total += ADD_ONS.aiWorkshop.price
+    return total
+  }, [selectedTicket.price, hasGalaDinner, hasXrWorkshop, hasAiWorkshop])
+
+  // Generate tags for Odoo based on ticket and add-ons
+  const generateTags = useCallback(() => {
+    const tags: string[] = [selectedTicket.name]
+    if (hasGalaDinner) tags.push(ADD_ONS.galaDinner.tag)
+    if (hasXrWorkshop) tags.push(ADD_ONS.xrWorkshop.tag)
+    if (hasAiWorkshop) tags.push(ADD_ONS.aiWorkshop.tag)
+    return tags
+  }, [selectedTicket.name, hasGalaDinner, hasXrWorkshop, hasAiWorkshop])
 
   const supabase = createClientComponentClient()
 
@@ -80,15 +126,25 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
   // Save registration to Odoo CRM
   const saveToOdoo = async (paymentStatus: 'pending' | 'completed' | 'failed', orderIdOverride?: string) => {
     const effectiveOrderId = orderIdOverride || orderId
+    const tags = generateTags()
+    
+    // Build add-ons description
+    const addOns: string[] = []
+    if (hasGalaDinner) addOns.push(`Gala Dinner (€${ADD_ONS.galaDinner.price})`)
+    if (hasXrWorkshop) addOns.push(`XR Workshop (€${ADD_ONS.xrWorkshop.price})`)
+    if (hasAiWorkshop) addOns.push(`AI Workshop (€${ADD_ONS.aiWorkshop.price})`)
     
     console.group("🔵 [Odoo Integration] Saving to CRM")
     console.log("📋 Payment Status:", paymentStatus)
     console.log("👤 Customer Info:", { firstName, lastName, email, affiliation, country })
     console.log("🎫 Ticket Info:", { 
       name: selectedTicket.name, 
-      price: selectedTicket.price, 
+      basePrice: selectedTicket.price,
+      totalPrice: totalPrice,
       currency: selectedTicket.currency 
     })
+    console.log("🎁 Add-ons:", addOns.length > 0 ? addOns : "None")
+    console.log("🏷️ Tags:", tags)
     console.log("🆔 Order ID:", effectiveOrderId)
     
     try {
@@ -99,10 +155,13 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
         affiliation,
         country,
         ticketType: selectedTicket.name,
-        ticketPrice: selectedTicket.price,
+        ticketPrice: totalPrice, // Use total price including add-ons
+        basePrice: selectedTicket.price,
         currency: selectedTicket.currency,
         orderId: effectiveOrderId,
         paymentStatus,
+        tags, // Tags for Odoo category_id
+        addOns, // Add-ons description
       }
       
       console.log("📤 Request Body:", JSON.stringify(requestBody, null, 2))
@@ -139,9 +198,18 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     setIsLoading(true)
     setError(null)
 
+    const tags = generateTags()
+    const addOnsList = []
+    if (hasGalaDinner) addOnsList.push('Gala Dinner')
+    if (hasXrWorkshop) addOnsList.push('XR Workshop')
+    if (hasAiWorkshop) addOnsList.push('AI Workshop')
+
     console.group("🚀 [CheckoutForm] Starting Checkout Process")
     console.log("📝 Form Data:", { firstName, lastName, email, affiliation, country })
     console.log("🎫 Selected Ticket:", selectedTicket)
+    console.log("🎁 Add-ons:", addOnsList.length > 0 ? addOnsList : "None")
+    console.log("💰 Total Price:", totalPrice)
+    console.log("🏷️ Tags:", tags)
 
     try {
       // Generate a simple order ID for now
@@ -149,15 +217,22 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       setOrderId(generatedOrderId)
       console.log("🆔 Generated Order ID:", generatedOrderId)
 
+      // Build description including add-ons
+      let description = `iSMIT 2026 - ${selectedTicket.name}`
+      if (addOnsList.length > 0) {
+        description += ` + ${addOnsList.join(', ')}`
+      }
+      description += ` - ${firstName} ${lastName}`
+
       // Create a checkout for the card widget
       console.log("💳 Creating SumUp checkout...")
       const checkoutResponse = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: selectedTicket.price,
+          amount: totalPrice, // Use total price including add-ons
           currency: selectedTicket.currency,
-          description: `iSMIT 2026 - ${selectedTicket.name} - ${firstName} ${lastName}`,
+          description,
           reference: generatedOrderId,
         }),
       })
@@ -398,31 +473,56 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
             </Select>
           </div>
 
-          {/* Options */}
+          {/* Optional Add-Ons */}
           <div className="space-y-4 pt-4">
-            {selectedTicket.name.toLowerCase().includes("student") && (
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="isStudent"
-                  checked={isStudent}
-                  onCheckedChange={() => setIsStudent(!isStudent)}
-                  className="border-white/30 data-[state=checked]:bg-[#85AFFB]"
-                />
-                <Label htmlFor="isStudent" className="text-gray-300 cursor-pointer">
-                  I confirm I am a student and will provide proof upon request.
-                </Label>
-              </div>
-            )}
-            <div className="flex items-center space-x-3">
+            <h3 className="font-orbitron text-lg font-bold text-[#85AFFB]">Optional Add-Ons</h3>
+            
+            {/* Gala Dinner */}
+            <div className="flex items-start space-x-3 p-3 rounded-lg bg-white/5 border border-white/10">
               <Checkbox
                 id="galaDinner"
-                checked={wantsGalaDinner}
-                onCheckedChange={() => setWantsGalaDinner(!wantsGalaDinner)}
-                className="border-white/30 data-[state=checked]:bg-[#85AFFB]"
+                checked={hasGalaDinner}
+                onCheckedChange={(checked) => setHasGalaDinner(checked === true)}
+                className="border-white/30 data-[state=checked]:bg-[#85AFFB] mt-1"
               />
-              <Label htmlFor="galaDinner" className="text-gray-300 cursor-pointer">
-                I would like to attend the Gala Dinner (additional fee may apply).
-              </Label>
+              <div className="flex-1">
+                <Label htmlFor="galaDinner" className="text-white cursor-pointer font-medium">
+                  {ADD_ONS.galaDinner.name} – €{ADD_ONS.galaDinner.price}
+                </Label>
+                <p className="text-sm text-gray-400">{ADD_ONS.galaDinner.description}</p>
+              </div>
+            </div>
+
+            {/* XR Workshop */}
+            <div className="flex items-start space-x-3 p-3 rounded-lg bg-white/5 border border-white/10">
+              <Checkbox
+                id="xrWorkshop"
+                checked={hasXrWorkshop}
+                onCheckedChange={(checked) => setHasXrWorkshop(checked === true)}
+                className="border-white/30 data-[state=checked]:bg-[#85AFFB] mt-1"
+              />
+              <div className="flex-1">
+                <Label htmlFor="xrWorkshop" className="text-white cursor-pointer font-medium">
+                  {ADD_ONS.xrWorkshop.name} – €{ADD_ONS.xrWorkshop.price}
+                </Label>
+                <p className="text-sm text-gray-400">{ADD_ONS.xrWorkshop.description}</p>
+              </div>
+            </div>
+
+            {/* AI Workshop */}
+            <div className="flex items-start space-x-3 p-3 rounded-lg bg-white/5 border border-white/10">
+              <Checkbox
+                id="aiWorkshop"
+                checked={hasAiWorkshop}
+                onCheckedChange={(checked) => setHasAiWorkshop(checked === true)}
+                className="border-white/30 data-[state=checked]:bg-[#85AFFB] mt-1"
+              />
+              <div className="flex-1">
+                <Label htmlFor="aiWorkshop" className="text-white cursor-pointer font-medium">
+                  {ADD_ONS.aiWorkshop.name} – €{ADD_ONS.aiWorkshop.price}
+                </Label>
+                <p className="text-sm text-gray-400">{ADD_ONS.aiWorkshop.description}</p>
+              </div>
             </div>
           </div>
 
@@ -434,8 +534,16 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
                   currency: selectedTicket.currency,
-                }).format(selectedTicket.price)}
+                }).format(totalPrice)}
               </p>
+              {totalPrice !== selectedTicket.price && (
+                <p className="text-sm text-gray-400 mt-2">
+                  Base ticket: €{selectedTicket.price}
+                  {hasGalaDinner && ` + Gala Dinner: €${ADD_ONS.galaDinner.price}`}
+                  {hasXrWorkshop && ` + XR Workshop: €${ADD_ONS.xrWorkshop.price}`}
+                  {hasAiWorkshop && ` + AI Workshop: €${ADD_ONS.aiWorkshop.price}`}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-center space-x-4">
