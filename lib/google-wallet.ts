@@ -16,8 +16,8 @@ const GOOGLE_WALLET_ISSUER_ID = process.env.GOOGLE_WALLET_ISSUER_ID
 const GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL
 const GOOGLE_WALLET_PRIVATE_KEY = process.env.GOOGLE_WALLET_PRIVATE_KEY?.replace(/\\n/g, '\n') // PEM format
 
-// Class ID for iSMIT 2026 event tickets
-const CLASS_ID = GOOGLE_WALLET_ISSUER_ID ? `${GOOGLE_WALLET_ISSUER_ID}.ismit2026_event_ticket` : ''
+// Class ID for iSMIT 2026 event tickets (v2 with updated branding)
+const CLASS_ID = GOOGLE_WALLET_ISSUER_ID ? `${GOOGLE_WALLET_ISSUER_ID}.ismit2026_event_ticket_v2` : ''
 
 export interface GoogleWalletPassData {
   ticketNumber: string
@@ -104,12 +104,24 @@ async function getOrCreateEventTicketClass(): Promise<void> {
     hexBackgroundColor: '#0D1858',
     logo: {
       sourceUri: {
-        uri: 'https://ismit2026.com/geometric-brain.png'
+        uri: 'https://ismit2026.com/ismit2026-logo-orange.png'
+      },
+      contentDescription: {
+        defaultValue: {
+          language: 'en',
+          value: 'iSMIT 2026 Logo'
+        }
       }
     },
     heroImage: {
       sourceUri: {
-        uri: 'https://ismit2026.com/medical-conference-hero-background.png'
+        uri: 'https://ismit2026.com/ismit2026-mascot.png'
+      },
+      contentDescription: {
+        defaultValue: {
+          language: 'en',
+          value: 'iSMIT 2026 - See you soon!'
+        }
       }
     }
   }

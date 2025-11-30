@@ -177,7 +177,11 @@ export async function sendTicketEmail(data: TicketEmailData): Promise<{ success:
  * Generate wallet buttons HTML
  */
 function generateWalletButtons(appleWalletUrl?: string | null, googleWalletUrl?: string | null): string {
-  if (!appleWalletUrl && !googleWalletUrl) {
+  // Only show wallet buttons if at least one is configured
+  const hasApple = !!appleWalletUrl
+  const hasGoogle = !!googleWalletUrl
+  
+  if (!hasApple && !hasGoogle) {
     return `
       <table width="100%" cellpadding="0" cellspacing="0" style="text-align: center; margin-bottom: 20px;">
         <tr>
@@ -196,39 +200,33 @@ function generateWalletButtons(appleWalletUrl?: string | null, googleWalletUrl?:
       <tr>
         <td align="center">
           <p style="margin: 0 0 15px; color: #666; font-size: 14px;">Add to your phone's wallet for easy access:</p>
-          <table cellpadding="0" cellspacing="0">
-            <tr>
   `
   
-  if (appleWalletUrl) {
+  // Only show Apple Wallet if URL is provided
+  if (hasApple) {
     buttonsHtml += `
-      <td style="padding: 0 10px;">
-        <a href="${appleWalletUrl}" style="display: inline-block;">
-          <img src="https://developer.apple.com/wallet/add-to-apple-wallet-guidelines/images/add-to-apple-wallet-logo.svg" 
-               alt="Add to Apple Wallet" 
-               height="44" 
-               style="height: 44px;">
-        </a>
-      </td>
+          <a href="${appleWalletUrl}" style="display: inline-block; margin: 5px 10px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Add_to_Apple_Wallet_badge.svg/294px-Add_to_Apple_Wallet_badge.svg.png" 
+                 alt="Add to Apple Wallet" 
+                 height="44" 
+                 style="height: 44px;">
+          </a>
     `
   }
   
-  if (googleWalletUrl) {
+  // Only show Google Wallet if URL is provided
+  if (hasGoogle) {
     buttonsHtml += `
-      <td style="padding: 0 10px;">
-        <a href="${googleWalletUrl}" style="display: inline-block;">
-          <img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-mark-800.png" 
-               alt="Add to Google Wallet" 
-               height="44" 
-               style="height: 44px; border-radius: 4px;">
-        </a>
-      </td>
+          <a href="${googleWalletUrl}" style="display: inline-block; margin: 5px 10px; text-decoration: none;">
+            <img src="https://www.gstatic.com/wallet/button/add_gpay_4x.png" 
+                 alt="Add to Google Wallet" 
+                 height="60" 
+                 style="height: 60px;">
+          </a>
     `
   }
   
   buttonsHtml += `
-            </tr>
-          </table>
         </td>
       </tr>
     </table>
