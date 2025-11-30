@@ -24,7 +24,7 @@ const ticketTypes: TicketType[] = [
     id: "ismit-member",
     name: "iSMIT Member",
     description: "iSMIT Member Other Associated organisation Member",
-    price: 1, // TESTING - was 210
+    price: 210,
     currency: "EUR",
     available: true,
     deadline: "2026-11-15T23:59:59Z",
