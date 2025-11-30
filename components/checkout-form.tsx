@@ -270,6 +270,12 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
     console.group("🎉 [CheckoutForm] Payment Success!")
     console.log("💰 Payment result:", result)
     
+    const tags = generateTags()
+    const addOnsList: string[] = []
+    if (hasGalaDinner) addOnsList.push(`Gala Dinner (€${ADD_ONS.galaDinner.price})`)
+    if (hasXrWorkshop) addOnsList.push(`XR Workshop (€${ADD_ONS.xrWorkshop.price})`)
+    if (hasAiWorkshop) addOnsList.push(`AI Workshop (€${ADD_ONS.aiWorkshop.price})`)
+    
     // Update Odoo with completed status
     try {
       console.log("📤 Updating Odoo with completed status...")
@@ -288,11 +294,46 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       console.error("❌ Error updating Odoo status:", err)
     }
     
+    // Generate and send digital ticket
+    try {
+      console.log("🎫 Generating digital ticket...")
+      const ticketResponse = await fetch("/api/tickets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId,
+          firstName,
+          lastName,
+          email,
+          affiliation,
+          country,
+          ticketType: selectedTicket.name,
+          basePrice: selectedTicket.price,
+          totalPrice,
+          currency: selectedTicket.currency,
+          addOns: addOnsList,
+          tags,
+        }),
+      })
+      
+      const ticketData = await ticketResponse.json()
+      
+      if (ticketResponse.ok && ticketData.success) {
+        console.log("✅ Ticket generated:", ticketData.ticket?.ticketNumber)
+        console.log("📧 Email sent:", ticketData.email?.sent ? "Yes" : "No")
+      } else {
+        console.error("❌ Ticket generation failed:", ticketData.error)
+      }
+    } catch (err) {
+      console.error("❌ Error generating ticket:", err)
+      // Don't fail the success flow if ticket generation fails
+    }
+    
     console.groupEnd()
     if (orderId) {
       onSuccess(orderId)
     }
-  }, [orderId, email, onSuccess])
+  }, [orderId, email, firstName, lastName, affiliation, country, selectedTicket, totalPrice, hasGalaDinner, hasXrWorkshop, hasAiWorkshop, generateTags, onSuccess])
 
   const handlePaymentError = useCallback(async (error: any) => {
     console.group("❌ [CheckoutForm] Payment Failed")
