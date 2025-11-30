@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { CheckCircle2, XCircle, Camera, RefreshCw, Ticket, Building, MapPin, Gift, AlertTriangle, QrCode, Users, Smartphone } from 'lucide-react'
+import { CheckCircle2, XCircle, Camera, RefreshCw, Ticket, Building, MapPin, Gift, AlertTriangle, QrCode, Users, Smartphone, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 interface TicketInfo {
   ticketId: string
@@ -30,7 +31,8 @@ export default function CheckInPage() {
   const [scanning, setScanning] = useState(false)
   const [result, setResult] = useState<ScanResult | null>(null)
   const [loading, setLoading] = useState(false)
-  const [scanCount, setScanCount] = useState(0)
+  const [checkedInCount, setCheckedInCount] = useState(0)
+  const [totalCount, setTotalCount] = useState(0)
   const [scannerReady, setScannerReady] = useState(false)
   const [mounted, setMounted] = useState(false)
   const scannerRef = useRef<any>(null)
@@ -39,6 +41,25 @@ export default function CheckInPage() {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const fetchStats = useCallback(async () => {
+    try {
+      const response = await fetch('/api/tickets/stats')
+      if (response.ok) {
+        const data = await response.json()
+        setCheckedInCount(data.checkedIn)
+        setTotalCount(data.total)
+      }
+    } catch (error) {
+      console.error('Failed to fetch stats:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (mounted) {
+      fetchStats()
+    }
+  }, [mounted, fetchStats])
 
   useEffect(() => {
     if (!mounted) return
@@ -109,13 +130,18 @@ export default function CheckInPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ qrData }),
       })
+
       const data = await response.json()
       setResult(data)
+      
       if (data.success && !data.alreadyCheckedIn) {
-        setScanCount(prev => prev + 1)
+        await fetchStats()
       }
     } catch (error) {
-      setResult({ success: false, message: 'Network error. Please try again.' })
+      setResult({
+        success: false,
+        message: 'Network error. Please try again.',
+      })
     } finally {
       setLoading(false)
     }
@@ -148,13 +174,17 @@ export default function CheckInPage() {
                 <p className="text-white/80 text-sm">Check-In Scanner</p>
               </div>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-2xl px-5 py-3 text-center">
+            <Link 
+              href="/check-in/stats"
+              className="bg-white/20 backdrop-blur-sm rounded-2xl px-5 py-3 text-center hover:bg-white/30 transition-colors group"
+            >
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-white/80" />
-                <span className="text-3xl font-bold text-white">{scanCount}</span>
+                <span className="text-3xl font-bold text-white">{checkedInCount}</span>
+                <ChevronRight className="h-5 w-5 text-white/60 group-hover:text-white/90 transition-colors" />
               </div>
-              <div className="text-white/70 text-xs">Checked in</div>
-            </div>
+              <div className="text-white/70 text-xs">{totalCount > 0 ? `of ${totalCount} checked in` : 'Checked in'}</div>
+            </Link>
           </div>
         </div>
       </header>
@@ -169,7 +199,9 @@ export default function CheckInPage() {
                     <Camera className="h-12 w-12 text-white" />
                   </div>
                   <h2 className="text-xl font-semibold text-white mb-2">Ready to Scan</h2>
-                  <p className="text-slate-400 text-sm mb-6">Tap the button below to start scanning attendee QR codes</p>
+                  <p className="text-slate-400 text-sm mb-6">
+                    Tap the button below to start scanning attendee QR codes
+                  </p>
                   <button 
                     onClick={startScanner}
                     disabled={!scannerReady}
@@ -179,146 +211,140 @@ export default function CheckInPage() {
                     {scannerReady ? 'Start Scanner' : 'Loading...'}
                   </button>
                 </div>
+
                 <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800">
                   <div className="flex items-center gap-2 mb-3">
                     <Smartphone className="h-4 w-4 text-violet-400" />
                     <span className="text-sm font-medium text-white">Tips</span>
                   </div>
-                  <ul className="text-xs text-slate-400 space-y-1 text-left">
-                    <li>• Hold phone steady over QR code</li>
+                  <ul className="text-xs text-slate-400 space-y-1">
+                    <li>• Hold phone steady over the QR code</li>
                     <li>• Ensure good lighting</li>
-                    <li>• QR code can be from email or wallet</li>
+                    <li>• Allow camera access when prompted</li>
                   </ul>
                 </div>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-slate-900 rounded-3xl p-4 border border-slate-800">
-                  <div id="qr-reader" className="rounded-2xl overflow-hidden" style={{ width: '100%' }} />
+                <div className="bg-slate-900 rounded-3xl p-4 border border-slate-800 overflow-hidden">
+                  <div id="qr-reader" className="rounded-2xl overflow-hidden" />
                 </div>
                 <button 
                   onClick={stopScanner}
-                  className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-4 px-6 rounded-2xl transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 border border-slate-700"
+                  className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <XCircle className="h-5 w-5" />
-                  Cancel Scanning
+                  Stop Scanner
                 </button>
               </div>
             )}
-            {loading && (
-              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-                <div className="bg-slate-900 rounded-3xl p-8 text-center border border-slate-700">
-                  <RefreshCw className="h-12 w-12 animate-spin mx-auto text-violet-400" />
-                  <p className="text-white mt-4 font-medium">Validating ticket...</p>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
-        {result && (
+        {loading && (
+          <div className="text-center py-12">
+            <div className="animate-spin w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full mx-auto mb-4" />
+            <p className="text-slate-400">Validating ticket...</p>
+          </div>
+        )}
+
+        {result && !loading && (
           <div className="space-y-4">
             {result.success && !result.alreadyCheckedIn ? (
-              <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-3xl p-6 border border-emerald-500/30 text-center">
-                <div className="bg-gradient-to-br from-emerald-500 to-green-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
-                  <CheckCircle2 className="h-10 w-10 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-emerald-400">Check-In Success!</h2>
-                <p className="text-emerald-300/70 text-sm mt-1">Attendee has been checked in</p>
-              </div>
-            ) : result.alreadyCheckedIn ? (
-              <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-3xl p-6 border border-amber-500/30 text-center">
-                <div className="bg-gradient-to-br from-amber-500 to-yellow-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-amber-500/30">
-                  <AlertTriangle className="h-10 w-10 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-amber-400">Already Checked In</h2>
-                <p className="text-amber-300/70 text-sm mt-1">
-                  {result.checkedInAt && `At: ${new Date(result.checkedInAt).toLocaleString()}`}
-                </p>
-              </div>
-            ) : (
-              <div className="bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-3xl p-6 border border-red-500/30 text-center">
-                <div className="bg-gradient-to-br from-red-500 to-rose-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-red-500/30">
-                  <XCircle className="h-10 w-10 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-red-400">Invalid Ticket</h2>
-                <p className="text-red-300/70 text-sm mt-1">{result.message}</p>
-              </div>
-            )}
-
-            {result.ticket && (
-              <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
-                <div className="bg-gradient-to-r from-violet-600/20 to-indigo-600/20 p-4 border-b border-slate-800">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-violet-600 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                      {result.ticket.firstName[0]}{result.ticket.lastName[0]}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{result.ticket.firstName} {result.ticket.lastName}</h3>
-                      <p className="text-slate-400 text-sm">{result.ticket.email}</p>
-                    </div>
+              <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-3xl p-6 border border-emerald-500/30">
+                <div className="text-center mb-4">
+                  <div className="bg-emerald-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
+                    <CheckCircle2 className="h-8 w-8 text-white" />
                   </div>
+                  <h2 className="text-xl font-bold text-emerald-400">Check-In Successful!</h2>
                 </div>
-                <div className="p-4 space-y-3">
-                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
-                    <div className="bg-violet-600/20 p-2 rounded-lg"><Ticket className="h-5 w-5 text-violet-400" /></div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase tracking-wide">Ticket</p>
-                      <p className="text-white font-medium">{result.ticket.ticketType}</p>
-                      <p className="text-slate-500 text-xs">{result.ticket.ticketNumber}</p>
-                    </div>
-                  </div>
-                  {result.ticket.affiliation && (
-                    <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
-                      <div className="bg-indigo-600/20 p-2 rounded-lg"><Building className="h-5 w-5 text-indigo-400" /></div>
-                      <div>
-                        <p className="text-xs text-slate-500 uppercase tracking-wide">Affiliation</p>
-                        <p className="text-white font-medium">{result.ticket.affiliation}</p>
+                
+                {result.ticket && (
+                  <div className="bg-slate-900/50 rounded-2xl p-4 space-y-3">
+                    <div className="text-center border-b border-slate-700 pb-3">
+                      <div className="text-2xl font-bold text-white">
+                        {result.ticket.firstName} {result.ticket.lastName}
                       </div>
+                      <div className="text-emerald-400 font-mono text-sm">{result.ticket.ticketNumber}</div>
                     </div>
-                  )}
-                  {result.ticket.country && (
-                    <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
-                      <div className="bg-cyan-600/20 p-2 rounded-lg"><MapPin className="h-5 w-5 text-cyan-400" /></div>
-                      <div>
-                        <p className="text-xs text-slate-500 uppercase tracking-wide">Country</p>
-                        <p className="text-white font-medium">{result.ticket.country}</p>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="flex items-center gap-2">
+                        <Ticket className="h-4 w-4 text-slate-400" />
+                        <span className="text-white">{result.ticket.ticketType}</span>
                       </div>
+                      {result.ticket.affiliation && (
+                        <div className="flex items-center gap-2">
+                          <Building className="h-4 w-4 text-slate-400" />
+                          <span className="text-white truncate">{result.ticket.affiliation}</span>
+                        </div>
+                      )}
+                      {result.ticket.country && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-slate-400" />
+                          <span className="text-white">{result.ticket.country}</span>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {result.ticket.addOns && result.ticket.addOns.length > 0 && (
-                    <div className="flex items-start gap-3 bg-slate-800/50 rounded-xl p-3">
-                      <div className="bg-pink-600/20 p-2 rounded-lg"><Gift className="h-5 w-5 text-pink-400" /></div>
-                      <div>
-                        <p className="text-xs text-slate-500 uppercase tracking-wide">Add-ons</p>
-                        <div className="flex flex-wrap gap-1.5 mt-1">
+                    {result.ticket.addOns && result.ticket.addOns.length > 0 && (
+                      <div className="flex items-start gap-2 pt-2 border-t border-slate-700">
+                        <Gift className="h-4 w-4 text-violet-400 mt-0.5" />
+                        <div className="flex flex-wrap gap-1">
                           {result.ticket.addOns.map((addon, i) => (
-                            <span key={i} className="bg-pink-600/20 text-pink-300 text-xs px-2 py-1 rounded-lg">{addon}</span>
+                            <span key={i} className="bg-violet-500/20 text-violet-300 px-2 py-0.5 rounded-full text-xs">
+                              {addon}
+                            </span>
                           ))}
                         </div>
                       </div>
-                    </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : result.alreadyCheckedIn ? (
+              <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-3xl p-6 border border-amber-500/30">
+                <div className="text-center mb-4">
+                  <div className="bg-amber-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4">
+                    <AlertTriangle className="h-8 w-8 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-amber-400">Already Checked In</h2>
+                  {result.checkedInAt && (
+                    <p className="text-amber-300/70 text-sm mt-1">
+                      at {new Date(result.checkedInAt).toLocaleTimeString()}
+                    </p>
                   )}
+                </div>
+                
+                {result.ticket && (
+                  <div className="bg-slate-900/50 rounded-2xl p-4 text-center">
+                    <div className="text-xl font-bold text-white">
+                      {result.ticket.firstName} {result.ticket.lastName}
+                    </div>
+                    <div className="text-amber-400 font-mono text-sm">{result.ticket.ticketNumber}</div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-3xl p-6 border border-red-500/30">
+                <div className="text-center">
+                  <div className="bg-red-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4">
+                    <XCircle className="h-8 w-8 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold text-red-400">Invalid Ticket</h2>
+                  <p className="text-red-300/70 mt-2">{result.message}</p>
                 </div>
               </div>
             )}
 
-            <div className="space-y-3 pt-2">
-              <button onClick={resetScanner} className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg shadow-violet-500/30 transition-all duration-200 active:scale-95 flex items-center justify-center gap-3">
-                <Camera className="h-6 w-6" />
-                Scan Next Attendee
-              </button>
-              <button onClick={() => setResult(null)} className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-6 rounded-2xl transition-all duration-200 active:scale-95 border border-slate-700">
-                Back to Home
-              </button>
-            </div>
+            <button 
+              onClick={resetScanner}
+              className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-2xl text-lg shadow-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-3"
+            >
+              <RefreshCw className="h-5 w-5" />
+              Scan Next
+            </button>
           </div>
         )}
       </main>
-
-      <footer className="fixed bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-sm border-t border-slate-800 py-3">
-        <p className="text-center text-slate-500 text-xs">iSMIT 2026 • Nuremberg, Germany • July 9-11</p>
-      </footer>
     </div>
   )
 }

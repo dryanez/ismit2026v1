@@ -8,6 +8,7 @@ import { createTicket, updateTicketEmailSent, TicketData } from '@/lib/tickets'
 import { sendTicketEmail, isResendConfigured } from '@/lib/email'
 import { getAppleWalletLink, isAppleWalletConfigured } from '@/lib/apple-wallet'
 import { getGoogleWalletSaveUrl, isGoogleWalletConfigured } from '@/lib/google-wallet'
+import { createOrUpdateContact } from '@/lib/odoo'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ismit2026.com'
 
@@ -60,6 +61,26 @@ export async function POST(request: NextRequest) {
     // Generate the ticket
     const ticket = await createTicket(ticketData)
     console.log('[Tickets API] Ticket created:', ticket.ticketNumber)
+    
+    // Update Odoo with completed payment
+    try {
+      const partnerId = await createOrUpdateContact({
+        firstName,
+        lastName,
+        email,
+        affiliation: affiliation || '',
+        country: country || '',
+        ticketType,
+        ticketPrice: totalPrice || basePrice || 0,
+        currency: currency || 'EUR',
+        orderId,
+        paymentStatus: 'completed',
+      })
+      console.log('[Tickets API] Odoo updated, partner ID:', partnerId)
+    } catch (odooError: any) {
+      console.error('[Tickets API] Odoo update failed:', odooError.message)
+      // Don't fail the whole request if Odoo fails
+    }
     
     // Generate wallet links if configured
     let appleWalletUrl: string | null = null
