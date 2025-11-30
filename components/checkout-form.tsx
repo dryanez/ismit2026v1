@@ -259,6 +259,34 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       console.log("✅ Checkout created:", checkoutData)
       setCheckoutId(checkoutData.checkoutId)
       
+      // Save to Supabase (backup) with pending status
+      console.log("💾 Saving to Supabase (backup)...")
+      try {
+        await fetch("/api/payments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId: generatedOrderId,
+            sumupCheckoutId: checkoutData.checkoutId,
+            amount: totalPrice,
+            currency: selectedTicket.currency,
+            firstName,
+            lastName,
+            email,
+            affiliation,
+            country,
+            ticketType: selectedTicket.name,
+            basePrice: selectedTicket.price,
+            totalPrice,
+            addOns: addOnsList,
+            tags,
+          }),
+        })
+        console.log("✅ Saved to Supabase")
+      } catch (supabaseErr) {
+        console.error("⚠️ Supabase save failed (non-blocking):", supabaseErr)
+      }
+      
       // Save to Odoo with pending status before payment
       // We do this here so we have the contact even if payment fails
       // Pass generatedOrderId directly since setOrderId is async
@@ -336,12 +364,60 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
         console.log("✅ Ticket generated:", ticketData.ticket?.ticketNumber)
         console.log("📧 Email sent:", ticketData.email?.sent ? "Yes" : "No")
         ticketNumber = ticketData.ticket?.ticketNumber
+        
+        // Update Supabase with ticket info
+        try {
+          await fetch("/api/payments", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId,
+              status: 'completed',
+              sumupTransactionId: result?.transaction_id || result?.id,
+              ticketId: ticketData.ticket?.id,
+              ticketNumber: ticketData.ticket?.ticketNumber,
+              odooSynced: true,
+            }),
+          })
+          console.log("✅ Supabase updated with completed status")
+        } catch (supabaseErr) {
+          console.error("⚠️ Supabase update failed (non-blocking):", supabaseErr)
+        }
       } else {
         console.error("❌ Ticket generation failed:", ticketData.error)
+        // Still update Supabase as completed even if ticket failed
+        try {
+          await fetch("/api/payments", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId,
+              status: 'completed',
+              sumupTransactionId: result?.transaction_id || result?.id,
+              odooSynced: true,
+            }),
+          })
+        } catch (supabaseErr) {
+          console.error("⚠️ Supabase update failed:", supabaseErr)
+        }
       }
     } catch (err) {
       console.error("❌ Error generating ticket:", err)
       // Don't fail the success flow if ticket generation fails
+      // But still update Supabase
+      try {
+        await fetch("/api/payments", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId,
+            status: 'completed',
+            sumupTransactionId: result?.transaction_id || result?.id,
+          }),
+        })
+      } catch (supabaseErr) {
+        console.error("⚠️ Supabase update failed:", supabaseErr)
+      }
     }
     
     console.groupEnd()
@@ -380,6 +456,21 @@ export function CheckoutForm({ selectedTicket, onBack, onSuccess }: CheckoutForm
       console.log("Odoo status update result:", data)
     } catch (err) {
       console.error("Error updating Odoo status:", err)
+    }
+    
+    // Update Supabase with failed status
+    try {
+      await fetch("/api/payments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId,
+          status: 'failed',
+        }),
+      })
+      console.log("✅ Supabase updated with failed status")
+    } catch (supabaseErr) {
+      console.error("⚠️ Supabase update failed:", supabaseErr)
     }
     
     console.groupEnd()
