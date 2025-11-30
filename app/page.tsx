@@ -126,11 +126,16 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[85vh] w-full overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="/hero-background.svg"
-            alt="Medical professionals in geometric low-poly style"
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="w-full h-full object-cover"
-          />
+          >
+            <source src="/hero_.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/30"></div>
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white/60 via-white/20 to-transparent"></div>
         </div>
 
