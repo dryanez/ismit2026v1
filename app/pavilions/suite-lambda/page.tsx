@@ -1,6 +1,7 @@
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import Link from "next/link"
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
+import Footer from "@/components/Footer";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -225,6 +226,8 @@ export default function SuiteLambdaPage() {
           </Link>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }

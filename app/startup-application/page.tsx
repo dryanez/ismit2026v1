@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import Link from "next/link"
+import Footer from "@/components/Footer"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -468,6 +469,8 @@ export default function StartupApplication() {
           </form>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }

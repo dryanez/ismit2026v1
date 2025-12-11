@@ -1,5 +1,6 @@
 'use client';
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
+import Footer from "@/components/Footer";
 import { Roboto_Condensed, Orbitron } from "next/font/google";
 import DayProgramCard from "@/components/DayProgramCard";
 import { useState } from "react";
@@ -201,7 +202,7 @@ export default function Program() {
           desktopBgClass="bg-[#FE6448]"
           mobileBgClass="bg-[#FE6448]"
           textColorClass="text-white"
-          activeLinkClass="text-[#0D1858] bg-white px-2 py-1 rounded"
+          activeLinkClass="!text-white bg-white/20 px-2 py-1 rounded underline"
         />
 
         {/* Hero Content */}
@@ -267,6 +268,8 @@ export default function Program() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

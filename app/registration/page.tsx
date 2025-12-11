@@ -6,6 +6,7 @@ import { TicketSelection } from "@/components/ticket-selection"
 import { CheckoutForm } from "@/components/checkout-form"
 import { PaymentSuccess, OrderData } from "@/components/payment-success"
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
+import Footer from "@/components/Footer";
 
 
 const robotoCondensed = Roboto_Condensed({
@@ -50,21 +51,6 @@ export default function Registration() {
   const handleCheckoutSuccess = (data: OrderData) => {
     setOrderData(data)
     setCurrentStep("success")
-  }
-
-  // Quick test with €1 using the embedded card widget
-  const handleTestPayment = () => {
-    const testTicket: TicketType = {
-      id: "test-1-euro",
-      name: "Test Payment (€1)",
-      description: "Test payment for development",
-      price: 1,
-      currency: "EUR",
-      available: true,
-      deadline: "2026-12-31T23:59:59Z",
-    }
-    setSelectedTicket(testTicket)
-    setCurrentStep("checkout")
   }
 
   return (
@@ -125,14 +111,6 @@ export default function Registration() {
                   Register now for iSMIT 2026 and be part of the most innovative medical technology congress of the
                   year.
                 </p>
-                
-                {/* Test Button - €1 embedded card payment */}
-                <button
-                  onClick={handleTestPayment}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mt-4 font-orbitron uppercase"
-                >
-                  🧪 Test €1 Card Payment
-                </button>
               </div>
               <TicketSelection onSelectTicket={handleTicketSelection} />
             </>
@@ -177,6 +155,8 @@ export default function Registration() {
           )}
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }

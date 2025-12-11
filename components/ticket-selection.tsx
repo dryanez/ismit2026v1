@@ -86,9 +86,9 @@ export function TicketSelection({ onSelectTicket }: TicketSelectionProps) {
 
         return (
           <Card key={ticket.id} className={`${getCardColor(ticket.id)} text-white relative overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105`}>
-            <CardHeader className="text-center">
-              <CardTitle className="font-orbitron font-bold uppercase text-xl">{ticket.name}</CardTitle>
-              <CardDescription className="text-white/90 font-roboto-condensed">{ticket.description}</CardDescription>
+            <CardHeader className="text-center px-8">
+              <CardTitle className="font-orbitron font-bold uppercase text-lg text-center break-words leading-tight">{ticket.name}</CardTitle>
+              <CardDescription className="text-white/90 font-roboto-condensed text-center mt-2">{ticket.description}</CardDescription>
             </CardHeader>
 
             <CardContent className="text-center">

@@ -38,10 +38,12 @@ export default function CheckInPage() {
   const scannerRef = useRef<any>(null)
   const html5QrcodeRef = useRef<any>(null)
 
+  // Ensure we're mounted on client side
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // Fetch stats from database
   const fetchStats = useCallback(async () => {
     try {
       const response = await fetch('/api/tickets/stats')
@@ -55,12 +57,14 @@ export default function CheckInPage() {
     }
   }, [])
 
+  // Load stats on mount
   useEffect(() => {
     if (mounted) {
       fetchStats()
     }
   }, [mounted, fetchStats])
 
+  // Load the QR scanner library on mount
   useEffect(() => {
     if (!mounted) return
     
@@ -135,6 +139,7 @@ export default function CheckInPage() {
       setResult(data)
       
       if (data.success && !data.alreadyCheckedIn) {
+        // Refresh stats from database after successful check-in
         await fetchStats()
       }
     } catch (error) {
@@ -152,6 +157,7 @@ export default function CheckInPage() {
     startScanner()
   }
 
+  // Don't render anything until mounted (SSR safety)
   if (!mounted) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
@@ -162,6 +168,7 @@ export default function CheckInPage() {
 
   return (
     <div className="min-h-screen bg-slate-950">
+      {/* Header */}
       <header className="bg-gradient-to-r from-violet-600 to-indigo-600 shadow-lg">
         <div className="container mx-auto px-4 py-5">
           <div className="flex items-center justify-between">
@@ -190,9 +197,11 @@ export default function CheckInPage() {
       </header>
 
       <main className="container mx-auto px-4 py-6 max-w-md">
+        {/* Scanner Section */}
         {!result && (
           <div className="space-y-6">
             {!scanning ? (
+              /* Start Screen */
               <div className="text-center py-8">
                 <div className="bg-gradient-to-br from-violet-500/20 to-indigo-500/20 rounded-3xl p-8 mb-6 border border-violet-500/30">
                   <div className="bg-gradient-to-br from-violet-600 to-indigo-600 w-24 h-24 rounded-full mx-auto flex items-center justify-center mb-6 shadow-lg shadow-violet-500/30">
@@ -212,139 +221,191 @@ export default function CheckInPage() {
                   </button>
                 </div>
 
+                {/* Quick Tips */}
                 <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800">
                   <div className="flex items-center gap-2 mb-3">
                     <Smartphone className="h-4 w-4 text-violet-400" />
                     <span className="text-sm font-medium text-white">Tips</span>
                   </div>
-                  <ul className="text-xs text-slate-400 space-y-1">
-                    <li>• Hold phone steady over the QR code</li>
+                  <ul className="text-xs text-slate-400 space-y-1 text-left">
+                    <li>• Hold phone steady over QR code</li>
                     <li>• Ensure good lighting</li>
-                    <li>• Allow camera access when prompted</li>
+                    <li>• QR code can be from email or wallet</li>
                   </ul>
                 </div>
               </div>
             ) : (
+              /* Scanning Screen */
               <div className="space-y-4">
-                <div className="bg-slate-900 rounded-3xl p-4 border border-slate-800 overflow-hidden">
-                  <div id="qr-reader" className="rounded-2xl overflow-hidden" />
+                <div className="bg-slate-900 rounded-3xl p-4 border border-slate-800">
+                  <div 
+                    id="qr-reader" 
+                    className="rounded-2xl overflow-hidden"
+                    style={{ width: '100%' }}
+                  />
                 </div>
                 <button 
                   onClick={stopScanner}
-                  className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-4 px-6 rounded-2xl transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 border border-slate-700"
                 >
                   <XCircle className="h-5 w-5" />
-                  Stop Scanner
+                  Cancel Scanning
                 </button>
+              </div>
+            )}
+            
+            {loading && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+                <div className="bg-slate-900 rounded-3xl p-8 text-center border border-slate-700">
+                  <RefreshCw className="h-12 w-12 animate-spin mx-auto text-violet-400" />
+                  <p className="text-white mt-4 font-medium">Validating ticket...</p>
+                </div>
               </div>
             )}
           </div>
         )}
 
-        {loading && (
-          <div className="text-center py-12">
-            <div className="animate-spin w-16 h-16 border-4 border-violet-500 border-t-transparent rounded-full mx-auto mb-4" />
-            <p className="text-slate-400">Validating ticket...</p>
-          </div>
-        )}
-
-        {result && !loading && (
+        {/* Result Section */}
+        {result && (
           <div className="space-y-4">
+            {/* Status Card */}
             {result.success && !result.alreadyCheckedIn ? (
-              <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-3xl p-6 border border-emerald-500/30">
-                <div className="text-center mb-4">
-                  <div className="bg-emerald-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
-                    <CheckCircle2 className="h-8 w-8 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold text-emerald-400">Check-In Successful!</h2>
+              /* Success */
+              <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-3xl p-6 border border-emerald-500/30 text-center">
+                <div className="bg-gradient-to-br from-emerald-500 to-green-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
+                  <CheckCircle2 className="h-10 w-10 text-white" />
                 </div>
-                
-                {result.ticket && (
-                  <div className="bg-slate-900/50 rounded-2xl p-4 space-y-3">
-                    <div className="text-center border-b border-slate-700 pb-3">
-                      <div className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-emerald-400">Check-In Success!</h2>
+                <p className="text-emerald-300/70 text-sm mt-1">Attendee has been checked in</p>
+              </div>
+            ) : result.alreadyCheckedIn ? (
+              /* Already Checked In */
+              <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-3xl p-6 border border-amber-500/30 text-center">
+                <div className="bg-gradient-to-br from-amber-500 to-yellow-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-amber-500/30">
+                  <AlertTriangle className="h-10 w-10 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-amber-400">Already Checked In</h2>
+                <p className="text-amber-300/70 text-sm mt-1">
+                  {result.checkedInAt && `At: ${new Date(result.checkedInAt).toLocaleString()}`}
+                </p>
+              </div>
+            ) : (
+              /* Error */
+              <div className="bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-3xl p-6 border border-red-500/30 text-center">
+                <div className="bg-gradient-to-br from-red-500 to-rose-500 w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-4 shadow-lg shadow-red-500/30">
+                  <XCircle className="h-10 w-10 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-red-400">Invalid Ticket</h2>
+                <p className="text-red-300/70 text-sm mt-1">{result.message}</p>
+              </div>
+            )}
+
+            {/* Ticket Details */}
+            {result.ticket && (
+              <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
+                {/* Attendee Header */}
+                <div className="bg-gradient-to-r from-violet-600/20 to-indigo-600/20 p-4 border-b border-slate-800">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-violet-600 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      {result.ticket.firstName[0]}{result.ticket.lastName[0]}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
                         {result.ticket.firstName} {result.ticket.lastName}
-                      </div>
-                      <div className="text-emerald-400 font-mono text-sm">{result.ticket.ticketNumber}</div>
+                      </h3>
+                      <p className="text-slate-400 text-sm">{result.ticket.email}</p>
                     </div>
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div className="flex items-center gap-2">
-                        <Ticket className="h-4 w-4 text-slate-400" />
-                        <span className="text-white">{result.ticket.ticketType}</span>
-                      </div>
-                      {result.ticket.affiliation && (
-                        <div className="flex items-center gap-2">
-                          <Building className="h-4 w-4 text-slate-400" />
-                          <span className="text-white truncate">{result.ticket.affiliation}</span>
-                        </div>
-                      )}
-                      {result.ticket.country && (
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-slate-400" />
-                          <span className="text-white">{result.ticket.country}</span>
-                        </div>
-                      )}
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="p-4 space-y-3">
+                  {/* Ticket Type */}
+                  <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
+                    <div className="bg-violet-600/20 p-2 rounded-lg">
+                      <Ticket className="h-5 w-5 text-violet-400" />
                     </div>
-                    {result.ticket.addOns && result.ticket.addOns.length > 0 && (
-                      <div className="flex items-start gap-2 pt-2 border-t border-slate-700">
-                        <Gift className="h-4 w-4 text-violet-400 mt-0.5" />
-                        <div className="flex flex-wrap gap-1">
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase tracking-wide">Ticket</p>
+                      <p className="text-white font-medium">{result.ticket.ticketType}</p>
+                      <p className="text-slate-500 text-xs">{result.ticket.ticketNumber}</p>
+                    </div>
+                  </div>
+
+                  {/* Affiliation */}
+                  {result.ticket.affiliation && (
+                    <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
+                      <div className="bg-indigo-600/20 p-2 rounded-lg">
+                        <Building className="h-5 w-5 text-indigo-400" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-slate-500 uppercase tracking-wide">Affiliation</p>
+                        <p className="text-white font-medium">{result.ticket.affiliation}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Country */}
+                  {result.ticket.country && (
+                    <div className="flex items-center gap-3 bg-slate-800/50 rounded-xl p-3">
+                      <div className="bg-cyan-600/20 p-2 rounded-lg">
+                        <MapPin className="h-5 w-5 text-cyan-400" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-slate-500 uppercase tracking-wide">Country</p>
+                        <p className="text-white font-medium">{result.ticket.country}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Add-ons */}
+                  {result.ticket.addOns && result.ticket.addOns.length > 0 && (
+                    <div className="flex items-start gap-3 bg-slate-800/50 rounded-xl p-3">
+                      <div className="bg-pink-600/20 p-2 rounded-lg">
+                        <Gift className="h-5 w-5 text-pink-400" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-slate-500 uppercase tracking-wide">Add-ons</p>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
                           {result.ticket.addOns.map((addon, i) => (
-                            <span key={i} className="bg-violet-500/20 text-violet-300 px-2 py-0.5 rounded-full text-xs">
+                            <span key={i} className="bg-pink-600/20 text-pink-300 text-xs px-2 py-1 rounded-lg">
                               {addon}
                             </span>
                           ))}
                         </div>
                       </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ) : result.alreadyCheckedIn ? (
-              <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-3xl p-6 border border-amber-500/30">
-                <div className="text-center mb-4">
-                  <div className="bg-amber-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4">
-                    <AlertTriangle className="h-8 w-8 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold text-amber-400">Already Checked In</h2>
-                  {result.checkedInAt && (
-                    <p className="text-amber-300/70 text-sm mt-1">
-                      at {new Date(result.checkedInAt).toLocaleTimeString()}
-                    </p>
-                  )}
-                </div>
-                
-                {result.ticket && (
-                  <div className="bg-slate-900/50 rounded-2xl p-4 text-center">
-                    <div className="text-xl font-bold text-white">
-                      {result.ticket.firstName} {result.ticket.lastName}
                     </div>
-                    <div className="text-amber-400 font-mono text-sm">{result.ticket.ticketNumber}</div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-3xl p-6 border border-red-500/30">
-                <div className="text-center">
-                  <div className="bg-red-500 w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4">
-                    <XCircle className="h-8 w-8 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold text-red-400">Invalid Ticket</h2>
-                  <p className="text-red-300/70 mt-2">{result.message}</p>
+                  )}
                 </div>
               </div>
             )}
 
-            <button 
-              onClick={resetScanner}
-              className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-4 px-8 rounded-2xl text-lg shadow-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-3"
-            >
-              <RefreshCw className="h-5 w-5" />
-              Scan Next
-            </button>
+            {/* Action Buttons */}
+            <div className="space-y-3 pt-2">
+              <button 
+                onClick={resetScanner}
+                className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-4 px-6 rounded-2xl text-lg shadow-lg shadow-violet-500/30 transition-all duration-200 active:scale-95 flex items-center justify-center gap-3"
+              >
+                <Camera className="h-6 w-6" />
+                Scan Next Attendee
+              </button>
+              <button 
+                onClick={() => setResult(null)}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-6 rounded-2xl transition-all duration-200 active:scale-95 border border-slate-700"
+              >
+                Back to Home
+              </button>
+            </div>
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="fixed bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-sm border-t border-slate-800 py-3">
+        <p className="text-center text-slate-500 text-xs">
+          iSMIT 2026 • Nuremberg, Germany • July 9-11
+        </p>
+      </footer>
     </div>
   )
 }

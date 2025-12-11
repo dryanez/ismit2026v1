@@ -1,5 +1,6 @@
 "use client"
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
+import Footer from "@/components/Footer";
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import Link from "next/link"
 import { useState, useRef, useEffect, useCallback } from 'react'
@@ -17,7 +18,17 @@ const orbitron = Orbitron({
   variable: "--font-orbitron",
 })
 
+interface Speaker {
+  name: string;
+  title: string;
+  affiliation: string;
+  imageSrc: string;
+  bio?: string;
+}
+
 export default function Home() {
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
+
   const partnerLogos = [
     { src: "/Parthners/Aions-Logo.svg", alt: "Aions Logo" },
     { src: "/Parthners/CRSA-Logo.svg", alt: "CRSA Logo" },
@@ -29,8 +40,163 @@ export default function Home() {
     { src: "/Parthners/polish chirug.svg", alt: "Polish Chirurg Logo" },
   ];
 
+  // Speakers data - ordered with Konrad, Gumbs, Denis first
+  const speakers: Speaker[] = [
+    {
+      name: "Professor Konrad Karcz",
+      title: "President, iSMIT 2026 World Congress",
+      affiliation: "Reconstructive, Plastic & Robotic Surgery",
+      imageSrc: "/speakers/Professor Konrad Karcz.png",
+      bio: "Professor Konrad Karcz is an experienced European surgeon specializing in reconstructive, plastic, robotic and minimally invasive surgery, with a strong academic background and extensive involvement in clinical innovation. His work integrates advanced imaging, robotics, AI-assisted decision support, and translational research, positioning him at the forefront of modern surgical technology development. As President of the iSMIT 2026 World Congress, he plays a key role in connecting clinicians, engineers, and industry leaders to shape the future of medical innovation and intelligent surgery."
+    },
+    {
+      name: "Professor Andrew Gumbs",
+      title: "Leading Expert in Minimally Invasive Surgery",
+      affiliation: "Advanced Laparoscopy & GI Oncology",
+      imageSrc: "/speakers/Professor Andrew Gumbs.png",
+      bio: "Professor Andrew Gumbs is one of the world's leading experts in minimally invasive surgery, specializing in advanced laparoscopy and gastrointestinal oncology. He combines exceptional surgical precision with deep translational insight, bringing innovative technologies and minimally invasive techniques into clinical practice. His scientific and educational contributions have shaped modern surgical standards across both Europe and the United States."
+    },
+    {
+      name: "Dr. Denis Ehrl",
+      title: "Distinguished German Surgeon",
+      affiliation: "Gastrointestinal & Hepatobiliary Surgery",
+      imageSrc: "/speakers/Dr. Denis Ehrl.png",
+      bio: "Denis Ehrl is a distinguished German surgeon specializing in gastrointestinal and hepatobiliary surgery, known for his expertise in complex minimally invasive and oncological procedures. His scientific work focuses on surgical outcomes research, innovation in perioperative care, and the development of modern digital decision-support tools in surgery. As an academic leader and educator, he plays a key role in shaping the next generation of clinicians through his work at leading German university hospitals."
+    },
+    {
+      name: "Professor Michele Diana",
+      title: "Head of Research, IRCAD Strasbourg",
+      affiliation: "Surgical Data Science & Image-Guided Interventions",
+      imageSrc: "/speakers/Professor Michele Diana .png"
+    },
+    {
+      name: "Professor Tobias Keck",
+      title: "Chair of Surgery, University of Lübeck",
+      affiliation: "President, DGAV",
+      imageSrc: "/speakers/Professor Tobias Keck.png"
+    },
+    {
+      name: "Professor Krzysztof Zieniewicz",
+      title: "President, Polish Surgical Society",
+      affiliation: "Medical University of Warsaw",
+      imageSrc: "/speakers/Professor Krzysztof Zieniewicz.png"
+    },
+    {
+      name: "Professor Zbigniew Nawrat",
+      title: "Pioneer of Polish Medical Robotics",
+      affiliation: "Creator of Robin Heart Robot",
+      imageSrc: "/speakers/Professor Zbigniew Nawrat.png"
+    },
+    {
+      name: "Professor Axel Krieger",
+      title: "Leading Researcher in Surgical Robotics",
+      affiliation: "Johns Hopkins University",
+      imageSrc: "/speakers/Professor Axel Krieger.png"
+    },
+    {
+      name: "Professor Dirk Wilhelm",
+      title: "Leading German Surgeon & Researcher",
+      affiliation: "Technical University of Munich",
+      imageSrc: "/speakers/Professor Dirk Wilhelm.jpeg"
+    },
+    {
+      name: "Professor Fady T. Charbel",
+      title: "Renowned Neurosurgeon",
+      affiliation: "University of Illinois at Chicago",
+      imageSrc: "/speakers/Professor Fady T. Charbel.jpeg"
+    },
+    {
+      name: "Professor Francesco Saverio Papadia",
+      title: "Leading Italian Surgeon",
+      affiliation: "Minimally Invasive & Robotic Surgery",
+      imageSrc: "/speakers/Professor Francesco Saverio Papadia .png"
+    },
+    {
+      name: "Professor Grzegorz Wallner",
+      title: "Former President, Polish Surgical Society",
+      affiliation: "Medical University of Lublin",
+      imageSrc: "/speakers/Professor Grzegorz Wallner.png"
+    },
+    {
+      name: "Professor Amiki Szold",
+      title: "Pioneer in Minimally Invasive Surgery",
+      affiliation: "Leading Israeli Surgeon",
+      imageSrc: "/speakers/Professor Amiki Szold.png"
+    },
+    {
+      name: "Professor Marius George Linguraru",
+      title: "President, MICCAI",
+      affiliation: "Children's National Hospital",
+      imageSrc: "/speakers/Professor Marius George Linguraru .png"
+    },
+    {
+      name: "Professor Paul Barach",
+      title: "Expert in Patient Safety",
+      affiliation: "Healthcare Systems Engineering",
+      imageSrc: "/speakers/Professor Paul Barach .png"
+    },
+    {
+      name: "Professor Hans Herbert Steiner",
+      title: "Leader in German Health Innovation",
+      affiliation: "Hospital Management & Digital Transformation",
+      imageSrc: "/speakers/Professor Hans Herbert Steiner .png"
+    },
+    {
+      name: "Professor Jarosław Śmieja",
+      title: "Specialist in Automation & Robotics",
+      affiliation: "Silesian University of Technology",
+      imageSrc: "/speakers/Professor Jarosław Śmieja.png"
+    },
+    {
+      name: "Professor Uwe Kreimeier",
+      title: "Distinguished Anesthesiologist",
+      affiliation: "Ludwig Maximilian University Munich",
+      imageSrc: "/speakers/Professor Uwe Kreimeier.png"
+    },
+    {
+      name: "Dr. Przemysław Czuma",
+      title: "President, Polish Society for AI",
+      affiliation: "AI & Clinical Innovation",
+      imageSrc: "/speakers/Dr. Przemysław Czuma.png"
+    },
+    {
+      name: "Professor Dr. Niels Oberbeck",
+      title: "President, Nuremberg Tech",
+      affiliation: "Technische Hochschule Nürnberg",
+      imageSrc: "/speakers/Professor Dr. Niels Oberbeck.png"
+    },
+    {
+      name: "Michael Friebe",
+      title: "Expert in Medical Imaging",
+      affiliation: "Health-Tech Innovation",
+      imageSrc: "/speakers/Michael Friebe.png"
+    },
+    {
+      name: "Felipe Yáñez",
+      title: "Specialist in Digital Communication",
+      affiliation: "VR & AI in Medicine",
+      imageSrc: "/speakers/Felipe Yáñez.png"
+    },
+    {
+      name: "Marcin Szeliga",
+      title: "Microsoft MVP in Data Platform & AI",
+      affiliation: "Artificial Intelligence & Data Science",
+      imageSrc: "/speakers/Marcin Szeliga.png"
+    },
+    {
+      name: "Karolina Tradel",
+      title: "Forbes-Recognized Professional",
+      affiliation: "Healthcare & Technology Innovation",
+      imageSrc: "/speakers/Karolina Tradel.png"
+    }
+  ];
+
   // Carousel setup for speakers section
-  const [emblaRefSpeakers, emblaApiSpeakers] = useEmblaCarousel({ align: 'start' })
+  const [emblaRefSpeakers, emblaApiSpeakers] = useEmblaCarousel({ 
+    loop: false,
+    align: 'center',
+    skipSnaps: false
+  })
   const [prevBtnDisabledSpeakers, setPrevBtnDisabledSpeakers] = useState(true)
   const [nextBtnDisabledSpeakers, setNextBtnDisabledSpeakers] = useState(true)
 
@@ -142,8 +308,8 @@ export default function Home() {
         {/* Navigation */}
         <ResponsiveNavigation
           links={[
-            { href: "/registration", label: "Registration" },
             { href: "/", label: "Home" },
+            { href: "/registration", label: "Registration" },
             { href: "/about", label: "About" },
             { href: "/program", label: "Program" },
             { href: "/speakers", label: "Speakers" },
@@ -361,7 +527,7 @@ export default function Home() {
       </section>
 
       {/* Scientific Program Section */}
-      <section className="bg-white py-8 px-4 relative overflow-visible">
+      <section className="bg-white py-8 px-4 relative overflow-visible mt-16 md:mt-24">
         <div className="absolute right-0 z-10 top-[-400px] md:right-0 md:top-[-400px]">
           <img
             src="/hand-robotic.svg"
@@ -425,7 +591,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center">
+          <div className="text-center mt-16 md:mt-24">
             <Link
               href="/program"
               className="border-4 border-[#0D1858] rounded-lg px-4 py-2 text-[#0D1858] text-lg md:px-8 md:py-4 md:text-2xl font-orbitron font-black uppercase hover:bg-[#0D1858] hover:text-white transition-colors relative z-10"
@@ -437,8 +603,8 @@ export default function Home() {
       </section>
 
       {/* Keynote Speakers Section */}
-      <section className="bg-[#0D1858] py-16 px-4">
-        <div className="max-w-6xl mx-auto">
+      <section className="bg-[#0D1858] py-16 md:py-24 px-4 pb-24 md:pb-32 relative z-0 overflow-visible mt-16 md:mt-24">
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <p className="text-xl font-semibold font-roboto-condensed uppercase text-red-500">
               VISIONARY VOICES
@@ -461,111 +627,114 @@ export default function Home() {
           </div>
 
           {/* Mobile Carousel View for Speakers */}
-          <div className="md:hidden relative flex flex-col justify-center h-full">
+          <div className="md:hidden relative flex flex-col justify-center h-full min-h-[400px]">
             <div className="overflow-hidden" ref={emblaRefSpeakers}>
-              <div className="flex -ml-4">
-                <div className="flex-none w-full pl-4">
-                  <div className="text-center">
-                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-1.svg" />
-                    <div className="mt-4">
-                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                        Name Lastname
-                      </div>
-                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                        University of blah blah
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-none w-full pl-4">
-                  <div className="text-center">
-                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-2.svg" />
-                    <div className="mt-4">
-                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                        Name Lastname
-                      </div>
-                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                        University of blah blah
+              <div className="flex">
+                {speakers.map((speaker, index) => (
+                  <div key={index} className="flex-[0_0_100%] min-w-0 px-4">
+                    <div 
+                      className="text-center cursor-pointer transition-transform hover:scale-105"
+                      onClick={() => setSelectedSpeaker(speaker)}
+                    >
+                      <img className="w-44 h-64 mx-auto rounded-[10px] object-cover" src={speaker.imageSrc} alt={speaker.name} />
+                      <div className="mt-4">
+                        <div className="text-white text-base font-semibold font-roboto-condensed">
+                          {speaker.name}
+                        </div>
+                        <div className="text-red-500 text-sm font-normal font-roboto-condensed mt-1">
+                          {speaker.title}
+                        </div>
+                        <div className="text-blue-300 text-sm font-normal font-roboto-condensed">
+                          {speaker.affiliation}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex-none w-full pl-4">
-                  <div className="text-center">
-                    <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-3.svg" />
-                    <div className="mt-4">
-                      <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                        Name Lastname
-                      </div>
-                      <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                        University of blah blah
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
             {/* Navigation Arrows for Speakers */}
             <button
-              className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              className="absolute top-1/3 left-2 -translate-y-1/2 bg-white hover:bg-gray-100 text-[#0D1858] p-4 rounded-full shadow-2xl z-20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               onClick={scrollPrevSpeakers}
               disabled={prevBtnDisabledSpeakers}
+              aria-label="Previous speaker"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
             </button>
             <button
-              className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-800 text-white p-1 rounded-full opacity-75 disabled:opacity-25"
+              className="absolute top-1/3 right-2 -translate-y-1/2 bg-white hover:bg-gray-100 text-[#0D1858] p-4 rounded-full shadow-2xl z-20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               onClick={scrollNextSpeakers}
               disabled={nextBtnDisabledSpeakers}
+              aria-label="Next speaker"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </button>
           </div>
 
-          {/* Desktop Grid View for Speakers */}
-          <div className="hidden md:grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-1.svg" />
-              <div className="mt-4">
-                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                  Name Lastname
-                </div>
-                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                  University of blah blah
-                </div>
+          {/* Desktop Carousel View for Speakers - Show 3 at a time */}
+          <div className="hidden md:block relative min-h-[400px]">
+            <div className="overflow-hidden" ref={emblaRefSpeakers}>
+              <div className="flex">
+                {Array.from({ length: Math.ceil(speakers.length / 3) }).map((_, slideIndex) => (
+                  <div key={slideIndex} className="flex-[0_0_100%] min-w-0">
+                    <div className="grid grid-cols-3 gap-8 px-4">
+                      {speakers.slice(slideIndex * 3, slideIndex * 3 + 3).map((speaker, index) => (
+                        <div 
+                          key={index} 
+                          className="text-center cursor-pointer transition-transform hover:scale-105"
+                          onClick={() => setSelectedSpeaker(speaker)}
+                        >
+                          <img className="w-44 h-64 mx-auto rounded-[10px] object-cover" src={speaker.imageSrc} alt={speaker.name} />
+                          <div className="mt-4">
+                            <div className="text-white text-base font-semibold font-roboto-condensed">
+                              {speaker.name}
+                            </div>
+                            <div className="text-red-500 text-sm font-normal font-roboto-condensed mt-1">
+                              {speaker.title}
+                            </div>
+                            <div className="text-blue-300 text-sm font-normal font-roboto-condensed">
+                              {speaker.affiliation}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="text-center">
-              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-2.svg" />
-              <div className="mt-4">
-                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                  Name Lastname
-                </div>
-                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                  University of blah blah
-                </div>
-              </div>
-            </div>
-            <div className="text-center">
-              <img className="w-44 h-64 mx-auto rounded-[10px]" src="/speaker-3.svg" />
-              <div className="mt-4">
-                <div className="text-white text-base font-semibold font-roboto-condensed capitalize">
-                  Name Lastname
-                </div>
-                <div className="text-blue-300 text-base font-normal font-roboto-condensed capitalize">
-                  University of blah blah
-                </div>
-              </div>
-            </div>
+            {/* Navigation Arrows for Desktop */}
+            <button
+              className="absolute top-1/3 -left-12 -translate-y-1/2 bg-white hover:bg-gray-100 text-[#0D1858] p-4 rounded-full shadow-2xl z-20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              onClick={scrollPrevSpeakers}
+              disabled={prevBtnDisabledSpeakers}
+              aria-label="Previous speakers"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <button
+              className="absolute top-1/3 -right-12 -translate-y-1/2 bg-white hover:bg-gray-100 text-[#0D1858] p-4 rounded-full shadow-2xl z-20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              onClick={scrollNextSpeakers}
+              disabled={nextBtnDisabledSpeakers}
+              aria-label="Next speakers"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
           </div>
-          <div className="text-center mt-12">
+
+          <div className="text-center mt-20 mb-12 relative z-20">
             <Link
               href="/speakers"
-              className="text-red-500 text-xl font-extrabold font-roboto-condensed underline uppercase hover:text-red-400 transition-colors"
+              className="inline-block text-red-500 text-xl font-extrabold font-roboto-condensed underline uppercase hover:text-red-400 transition-colors cursor-pointer"
             >
               VIEW ALL
             </Link>
@@ -574,8 +743,8 @@ export default function Home() {
       </section>
 
       {/* Submissions Section */}
-      <section className="bg-[#85AFFB] py-16 px-4 relative overflow-visible">
-        <div className="absolute -left-8 md:-left-16 lg:-left-24 z-0" style={{ top: "-200px" }}>
+      <section className="bg-[#85AFFB] py-16 px-4 pt-32 md:pt-40 relative overflow-visible">
+        <div className="absolute -left-8 md:-left-16 lg:-left-24" style={{ top: "-200px", zIndex: 5 }}>
           <img
             src="/robot-person.svg"
             alt="Robot person illustration"
@@ -787,17 +956,24 @@ export default function Home() {
 
           <h3 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-8">Our Sponsors</h3>
 
-          {/* Sponsors placeholder */}
+          {/* Sponsors logos */}
           <div className="bg-white rounded-lg p-8 mb-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((sponsor) => (
-                <img
-                  key={sponsor}
-                  src={`/generic-sponsor-logo.png?height=80&width=120&query=sponsor logo ${sponsor}`}
-                  alt={`Sponsor ${sponsor}`}
-                  className="h-12 md:h-16 object-contain"
-                />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center">
+              <img
+                src="/atmos_logo.svg"
+                alt="Atmos"
+                className="h-16 md:h-20 object-contain"
+              />
+              <img
+                src="/mdt_logo_white.webp"
+                alt="MDT"
+                className="h-16 md:h-20 object-contain"
+              />
+              <img
+                src="/PMI.svg"
+                alt="PMI"
+                className="h-16 md:h-20 object-contain"
+              />
             </div>
           </div>
 
@@ -953,9 +1129,9 @@ export default function Home() {
               <div className="text-center">
                 <h3 className="font-orbitron font-black uppercase text-sm mb-4">Submissions</h3>
                 <div className="space-y-1 text-sm font-roboto-condensed underline lowercase">
-                  <div>presentations@ismit2026.com</div>
-                  <div>videoposter@ismit2026.com</div>
-                  <div>elevatorpeach@ismit2026.com</div>
+                  <a href="mailto:presentations@ismit2026.com">presentations@ismit2026.com</a>
+                  <div><a href="mailto:videoposter@ismit2026.com">videoposter@ismit2026.com</a></div>
+                  <div><a href="mailto:elevatorpitch@ismit2026.com">elevatorpitch@ismit2026.com</a></div>
                 </div>
               </div>
 
@@ -970,61 +1146,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0D1858] py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 text-white text-xs font-roboto-condensed mb-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <img src="/Press/buttons/Instagram.svg" alt="Instagram" className="w-8 h-8 object-contain" />
-                <img src="/Press/buttons/Linkedin.svg" alt="LinkedIn" className="w-7 h-7 object-contain" />
-                <div className="font-roboto-condensed font-black text-lg">MedTube</div>
+      {/* Modal for Speaker Details */}
+      {selectedSpeaker && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4 overflow-y-auto"
+          onClick={() => setSelectedSpeaker(null)}
+        >
+          <div 
+            className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedSpeaker(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10 bg-white rounded-full p-2 shadow-lg"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Modal Content */}
+            <div className="flex flex-col md:flex-row">
+              {/* Image Section */}
+              <div className="md:w-1/3 bg-gradient-to-br from-[#0D1858] to-[#85AFFB] flex items-center justify-center p-8">
+                <img
+                  src={selectedSpeaker.imageSrc}
+                  alt={selectedSpeaker.name}
+                  className="w-full max-w-xs h-auto object-cover rounded-lg"
+                />
               </div>
-              <h4 className="font-orbitron font-black text-sm mb-1">iSMIT 2026</h4>
-              <p className="font-light lowercase">
-                37th World Congress of the International Society for Medical Innovation and Technology
-              </p>
-             
-            </div>
 
-            <div>
-              <h4 className="font-orbitron font-black text-sm mb-1">IMPRESSUM</h4>
-              <p className="font-light mb-2">
-                iSMIT 2026 – 37th Annual Congress of the International Society for Medical Innovation and Technology
-              </p>
-              <p className="font-light">
-                Organized by: AKD Congress & Events GmbH Official Representative: Kristin Dönitz
-              </p>
-            </div>
+              {/* Text Section */}
+              <div className="md:w-2/3 p-8">
+                <h2 className="text-3xl font-orbitron font-bold text-[#0D1858] mb-3">
+                  {selectedSpeaker.name}
+                </h2>
+                
+                <p className="text-xl font-roboto-condensed font-semibold text-[#FE6448] mb-2">
+                  {selectedSpeaker.title}
+                </p>
+                
+                <p className="text-lg font-roboto-condensed font-semibold text-[#85AFFB] mb-6">
+                  {selectedSpeaker.affiliation}
+                </p>
 
-            <div>
-              <p className="font-light mb-2">Address: Waldstraße 57 04105 Leipzig, Germany</p>
-              <p className="font-light">Website: www.ismit2026.com</p>
-            </div>
+                {selectedSpeaker.bio && (
+                  <div className="border-t-2 border-[#FE6448] pt-6">
+                    <h3 className="text-xl font-orbitron font-bold text-[#0D1858] mb-4">Biography</h3>
+                    <p className="text-gray-700 font-roboto-condensed leading-relaxed text-justify">
+                      {selectedSpeaker.bio}
+                    </p>
+                  </div>
+                )}
 
-            <div>
-              <p className="font-light mb-2">For all privacy-related inquiries, please contact: info@ismit2026.com</p>
-              <p className="font-light">Email: info@ismit2026.com</p>
+                {!selectedSpeaker.bio && (
+                  <div className="border-t-2 border-[#FE6448] pt-6">
+                    <Link href="/speakers" className="inline-block">
+                      <button className="bg-[#FE6448] hover:bg-[#ff7a61] text-white font-roboto-condensed font-bold py-3 px-6 rounded-lg transition-colors">
+                        View Full Profile on Speakers Page
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-
-          <div className="text-center text-white text-xs font-roboto-condensed mb-4">
-            <p className="mb-2">
-              Inhaltlich Verantwortliche gemäß §6 MDStV: Konrad Karcz | Design: Gabriela Wiackowska, Wilson Ortiz
-            </p>
-            <p className="font-light italic uppercase text-xs leading-relaxed">
-              The information provided on this website is for general informational purposes only and does not
-              constitute legal or professional advice. All information is regularly updated and supplemented with the
-              utmost care. However, no guarantee can be given for the accuracy or completeness of the information
-              provided, as changes may occur in the meantime. The reproduction or distribution of the content on this
-              website, as well as the use of any images, requires the prior written consent of the persons named in the
-              legal notice (Impressum). Personal data provided during your visit to our website will be stored
-              exclusively for the purpose of processing your request, in compliance with applicable data protection
-              laws.
-            </p>
           </div>
         </div>
-      </footer>
+      )}
+
+      <Footer />
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import ResponsiveNavigation from "@/components/ResponsiveNavigation";
+import Footer from "@/components/Footer";
 import { Roboto_Condensed, Orbitron } from "next/font/google"
 import Link from "next/link"
 
@@ -182,6 +183,8 @@ export default function Submissions() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }
