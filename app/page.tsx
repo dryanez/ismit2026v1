@@ -325,22 +325,22 @@ export default function Home() {
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center md:text-left md:items-start md:justify-center md:pl-8 lg:pl-36">
-          <div className="mb-8 relative z-10">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-black text-shadow-lg">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 text-center md:text-left md:items-start md:justify-center md:pl-8 lg:pl-36">
+          <div className="mb-6 md:mb-8 relative z-10">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-black text-shadow-lg">
               <span className="text-[#FE6448]">iSMIT</span>
               <span className="text-white"> 2026</span>
             </h1>
-            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-orbitron font-bold text-white text-shadow-lg uppercase mt-2">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-orbitron font-bold text-white text-shadow-lg uppercase mt-2">
               37th World Congress
             </h2>
           </div>
-          <p className="text-md sm:text-xl md:text-2xl lg:text-3xl font-roboto-condensed font-medium text-white uppercase mb-8 relative z-10">
+          <p className="text-sm sm:text-base md:text-xl lg:text-3xl font-roboto-condensed font-medium text-white uppercase mb-6 md:mb-8 relative z-10">
             19-21 November 2026 Nürnberg, Germany
           </p>
           <Link
             href="/registration"
-            className="border-4 border-[#87CEEB] bg-[#87CEEB] rounded-lg px-8 py-4 text-white text-lg md:text-xl font-orbitron font-black uppercase hover:bg-white hover:text-[#87CEEB] transition-colors relative z-10"
+            className="border-4 border-[#87CEEB] bg-[#87CEEB] rounded-lg px-6 py-3 md:px-8 md:py-4 text-white text-base md:text-xl font-orbitron font-black uppercase hover:bg-white hover:text-[#87CEEB] transition-colors relative z-10"
           >
             Register
           </Link>
@@ -348,33 +348,33 @@ export default function Home() {
       </section>
 
       {/* Statistics Section */}
-      <section className="relative py-16 px-4">
+      <section className="relative py-12 md:py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="absolute inset-0 w-full h-full">
           <img src="/section2-background.svg" alt="" className="w-full h-full object-cover" />
         </div>
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
             <div>
-              <div className="text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-2">1988</div>
-              <div className="text-lg md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
+              <div className="text-2xl sm:text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-1 md:mb-2">1988</div>
+              <div className="text-sm sm:text-base md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
                 iSMIT Founded
               </div>
             </div>
             <div>
               <div className="text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-2">35+</div>
-              <div className="text-lg md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
+              <div className="text-sm sm:text-base md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
                 Years of Excellence
               </div>
             </div>
             <div>
-              <div className="text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-2">100+</div>
-              <div className="text-lg md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
+              <div className="text-2xl sm:text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-1 md:mb-2">100+</div>
+              <div className="text-sm sm:text-base md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
                 Countries
               </div>
             </div>
             <div>
-              <div className="text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-2">350</div>
-              <div className="text-lg md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
+              <div className="text-2xl sm:text-3xl md:text-5xl font-orbitron font-bold text-[#FE6448] mb-1 md:mb-2">350</div>
+              <div className="text-sm sm:text-base md:text-2xl font-roboto-condensed font-light text-[#FE6448] uppercase">
                 Participants
               </div>
             </div>
@@ -383,7 +383,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="bg-[#85AFFB] py-16 px-4 relative overflow-visible">
+      <section className="bg-[#85AFFB] py-8 sm:py-12 md:py-16 px-4 sm:px-6 relative overflow-visible">
         <div className="absolute top-0 bottom-0 left-0 z-0 md:block hidden" style={{ left: "-50px" }}>
           <img
             src="/brain-orange.svg"
@@ -394,7 +394,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto relative">
           <div className="text-center relative z-10 max-w-4xl mx-auto">
-            <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
+            <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               Welcome to iSMIT 2026
             </p>
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-8 text-balance">
@@ -421,13 +421,13 @@ export default function Home() {
       </section>
 
       {/* Motto Section */}
-      <section className="bg-[#0D1858] py-16 px-4">
+      <section className="bg-[#0D1858] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white">
           <div className="text-lg md:text-2xl font-roboto-condensed space-y-4">
             <p>
               The motto <span className="lowercase">of</span> the iSMIT 2026 Congress
             </p>
-            <p className="text-xl md:text-2xl font-orbitron font-bold">"Disruptive AGE in Medical Technology"</p>
+            <p className="text-lg md:text-xl lg:text-2xl font-orbitron font-bold">"Disruptive AGE in Medical Technology"</p>
             <p>
               encapsulates the transformative impact <span className="lowercase">of</span> Artificial Intelligence,
               Generation of new materials, and Emerging robotic technologies that are revolutionizing surgical practice
@@ -443,7 +443,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
+            <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               What to Expect
             </p>
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase">Pavilions</h2>
@@ -538,7 +538,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
+            <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               Scientific Programme
             </p>
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase">
@@ -743,7 +743,7 @@ export default function Home() {
       </section>
 
       {/* Submissions Section */}
-      <section className="bg-[#85AFFB] py-16 px-4 pt-32 md:pt-40 relative overflow-visible">
+      <section className="bg-[#85AFFB] py-8 sm:py-12 md:py-16 px-4 sm:px-6 pt-32 md:pt-40 relative overflow-visible">
         <div className="absolute -left-8 md:-left-16 lg:-left-24" style={{ top: "-200px", zIndex: 5 }}>
           <img
             src="/robot-person.svg"
@@ -754,7 +754,7 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
+            <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               Share Your Innovation
             </p>
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase">Submissions</h2>
@@ -897,7 +897,7 @@ export default function Home() {
       </section>
 
       {/* Important Dates Section */}
-      <section className="bg-[#FE6448] py-16 px-4">
+      <section className="bg-[#FE6448] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase text-center mb-12 relative z-10">
             Important Dates
@@ -905,15 +905,15 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 text-center text-white">
             <div>
-              <div className="text-xl md:text-2xl font-orbitron font-black uppercase mb-2">30 June 2026</div>
+              <div className="text-lg md:text-xl lg:text-2xl font-orbitron font-black uppercase mb-2">30 June 2026</div>
               <div className="text-sm font-roboto-condensed font-semibold uppercase">All Submissions Deadline</div>
             </div>
             <div>
-              <div className="text-xl md:text-2xl font-orbitron font-black uppercase mb-2">1 August 2026</div>
+              <div className="text-lg md:text-xl lg:text-2xl font-orbitron font-black uppercase mb-2">1 August 2026</div>
               <div className="text-sm font-roboto-condensed font-semibold uppercase">Notification of Acceptance</div>
             </div>
             <div>
-              <div className="text-xl md:text-2xl font-orbitron font-black uppercase mb-2">19 November 2026</div>
+              <div className="text-lg md:text-xl lg:text-2xl font-orbitron font-black uppercase mb-2">19 November 2026</div>
               <div className="text-sm font-roboto-condensed font-semibold uppercase">Conference Starting</div>
             </div>
           </div>
@@ -921,7 +921,7 @@ export default function Home() {
       </section>
 
       {/* The Future is Now Section */}
-      <section className="bg-[#85AFFB] py-16 px-4 relative overflow-visible">
+      <section className="bg-[#85AFFB] py-8 sm:py-12 md:py-16 px-4 sm:px-6 relative overflow-visible">
         <div className="absolute right-0 z-0" style={{ top: "-200px" }}>
           <img
             src="/future-illustration.svg"
@@ -939,9 +939,9 @@ export default function Home() {
       </section>
 
       {/* Sponsorship Section */}
-      <section className="bg-[#85AFFB] py-16 px-4">
+      <section className="bg-[#85AFFB] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-white uppercase mb-4">
+          <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-white uppercase mb-4">
             Partners in Innovation
           </p>
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-8 relative z-10">
@@ -949,7 +949,7 @@ export default function Home() {
           </h2>
           <Link
             href="/sponsorship"
-            className="border-4 border-white rounded-lg px-8 py-4 text-white text-xl md:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#85AFFB] hover:border-white transition-colors mb-12 inline-block"
+            className="border-4 border-white rounded-lg px-8 py-4 text-white text-lg md:text-xl lg:text-2xl font-orbitron font-black uppercase hover:bg-white hover:text-[#85AFFB] hover:border-white transition-colors mb-12 inline-block"
           >
             Become a Sponsor
           </Link>
@@ -984,7 +984,7 @@ export default function Home() {
       </section>
 
       {/* Registration CTA Section */}
-      <section className="bg-white py-16 px-4">
+      <section className="bg-white py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] uppercase mb-6 text-balance">
             Seats Are Limited. The Future Waits for No One.
@@ -1009,10 +1009,10 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="bg-[#FE6448] py-16 px-4">
+      <section className="bg-[#FE6448] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-full px-4 text-center">
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-white uppercase mb-8">Our Partners</h2>
-          <p className="text-white font-roboto-condensed text-lg md:text-xl mb-8">
+          <p className="text-white font-roboto-condensed text-base md:text-lg lg:text-xl mb-8">
             We gratefully acknowledge the generous support and collaboration of our institutional partners who
             collaborate and make the iSMIT 2026 Congress possible. Their commitment to advancing medical innovation,
             surgical technology, and interdisciplinary research plays a crucial role in shaping the future of
@@ -1036,10 +1036,10 @@ export default function Home() {
       </section>
 
       {/* Venue Section */}
-      <section className="bg-[#0D1858] py-16 px-4">
+      <section className="bg-[#0D1858] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
+            <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] uppercase mb-4">
               Historic Setting
             </p>
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#85AFFB] uppercase">
@@ -1056,13 +1056,13 @@ export default function Home() {
               />
             </div>
             <div className="text-white font-roboto-condensed">
-              <p className="text-lg md:text-xl mb-6">
+              <p className="text-base md:text-lg lg:text-xl mb-6">
                 The congress will take place in the historic Old Town Hall -{" "}
                 <span className="font-bold">Altes Rathaus of Nuremberg</span>, with plenary sessions held inside the
                 majestic Imperial Castle (Kaiserburg) overlooking the city.
               </p>
 
-              <h3 className="text-lg md:text-xl font-orbitron font-bold uppercase mb-4">Getting There</h3>
+              <h3 className="text-base md:text-lg lg:text-xl font-orbitron font-bold uppercase mb-4">Getting There</h3>
               <div className="space-y-2 text-sm md:text-base">
                 <p>By Plane: Nuremberg Airport (NUE) is a 20-min subway ride to the city center.</p>
                 <p>By Train: Nuremberg Main Station is a major hub with excellent connections.</p>
@@ -1074,11 +1074,11 @@ export default function Home() {
       </section>
 
       {/* Press Section */}
-      <section className="bg-white py-16 px-4">
+      <section className="bg-white py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#FE6448] uppercase mb-8">Press</h2>
-            <h3 className="text-lg md:text-xl font-orbitron font-extrabold text-white bg-[#0D1858] inline-block px-4 py-2 rounded">
+            <h3 className="text-base md:text-lg lg:text-xl font-orbitron font-extrabold text-white bg-[#0D1858] inline-block px-4 py-2 rounded">
               Media Accreditation
             </h3>
             <div className="flex flex-col md:grid md:grid-cols-3 gap-8 items-center justify-items-center my-8">
@@ -1098,7 +1098,7 @@ export default function Home() {
                 className="w-full max-w-[250px] md:max-w-[300px] h-auto object-contain"
               />
             </div>
-            <p className="text-[#0D1858] font-roboto-condensed text-lg md:text-xl mt-6">
+            <p className="text-[#0D1858] font-roboto-condensed text-base md:text-lg lg:text-xl mt-6">
               To receive press accreditation, please send your name, affiliation, and press credentials to:
               <span className="font-extrabold underline uppercase"> press@ismit2026.com</span>
             </p>
@@ -1107,9 +1107,9 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="bg-[#0D1858] py-16 px-4">
+      <section className="bg-[#0D1858] py-8 sm:py-12 md:py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-lg md:text-xl font-roboto-condensed font-semibold text-[#FE6448] bg-white inline-block px-4 py-2 rounded uppercase mb-4">
+          <p className="text-base md:text-lg lg:text-xl font-roboto-condensed font-semibold text-[#FE6448] bg-white inline-block px-4 py-2 rounded uppercase mb-4">
             Get In Touch
           </p>
           <h2 className="text-2xl md:text-4xl font-orbitron font-bold text-[#0D1858] bg-white inline-block px-8 py-4 rounded uppercase mb-8">

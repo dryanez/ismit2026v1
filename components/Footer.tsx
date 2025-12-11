@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0D1858] py-12 px-4">
+    <footer className="bg-[#0D1858] py-8 sm:py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 text-white font-roboto-condensed text-sm mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-white font-roboto-condensed text-sm mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <img src="/Press/buttons/Instagram.svg" alt="Instagram" className="w-8 h-8 object-contain" />
