@@ -1,0 +1,135 @@
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 615px;
+  position: relative;
+  margin: 0 auto;
+  padding: 12px;
+}
+.headerBar {
+  display: none;
+}
+.headerText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 15px;
+  font-family: Orbitron, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.mainBox {
+  display: none;
+}
+.card {
+  background: #FE6448;
+  border-radius: 10px;
+  padding: 20px 24px;
+  color: white;
+}
+
+.header {
+  font-family: Orbitron, sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.time {
+  font-family: Orbitron, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.itemTitle {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.itemDesc {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.registrationBlock .title {
+  color: white;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  display: block;
+}
+.registrationBlock .desc {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  display: block;
+}
+.timeRange {
+  font-family: Orbitron, sans-serif;
+  font-size: 15px;
+}
+.closing {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.welcomeBlock .title,
+.openingBlock .title,
+.artisticBlock .title {
+  color: white;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  display: block;
+}
+.welcomeBlock .desc,
+.openingBlock .desc,
+.artisticBlock .desc {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  display: block;
+}
+.closingTime {
+  font-family: Orbitron, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+.card .footer {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 80px 1fr; }
+  .container { padding: 10px; }
+}

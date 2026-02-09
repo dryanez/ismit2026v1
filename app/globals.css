@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add momentum scrolling on iOS */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -37,72 +49,9 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
-}
-
 @theme inline {
-  --font-sans: var(--font-inter);
-
-  /* Updated color scheme to match iSMIT design */
-  --color-slate-50: #f8fafc;
-  --color-slate-100: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
-  --color-slate-700: #334155;
-  --color-slate-800: #1e293b;
-  --color-slate-900: #0f172a;
-
-  --color-blue-50: #eff6ff;
-  --color-blue-100: #dbeafe;
-  --color-blue-200: #bfdbfe;
-  --color-blue-300: #93c5fd;
-  --color-blue-400: #60a5fa;
-  --color-blue-500: #3b82f6;
-  --color-blue-600: #2563eb;
-  --color-blue-700: #1d4ed8;
-  --color-blue-800: #1e40af;
-  --color-blue-900: #1e3a8a;
-
-  /* iSMIT brand colors */
-  --color-ismit-primary: #005a9c;
-  --color-ismit-dark: #00172c;
-  --color-ismit-light: #f8fafc;
-
+  --font-roboto-condensed: var(--font-roboto-condensed);
+  --font-orbitron: var(--font-orbitron);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -141,88 +90,23 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+.font-roboto-condensed {
+  font-family: var(--font-roboto-condensed);
+}
+
+.font-orbitron {
+  font-family: var(--font-orbitron);
+}
+
+.text-shadow-lg {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    font-family: "Inter", sans-serif;
-    background-color: #f8fafc;
-    color: #334155;
     @apply bg-background text-foreground;
-  }
-
-  .section-title {
-    font-weight: 900;
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    letter-spacing: -0.025em;
-    color: #1e293b;
-  }
-
-  .section-subtitle {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: #005a9c;
-  }
-
-  .page-header {
-    background-color: #00172c;
-  }
-
-  .card {
-    background-color: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    @apply bg-card rounded-lg shadow;
-  }
-
-  /* Mobile-specific optimizations for better iPhone experience */
-  @media (max-width: 640px) {
-    .section-title {
-      font-size: 1.875rem;
-      line-height: 2.25rem;
-    }
-
-    .section-subtitle {
-      font-size: 1rem;
-    }
-
-    /* Improve touch targets for mobile */
-    button,
-    a {
-      min-height: 44px;
-    }
-
-    /* Better mobile form inputs */
-    input,
-    textarea,
-    select {
-      font-size: 16px; /* Prevents zoom on iOS */
-    }
-
-    /* Smooth scrolling for anchor links */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Prevent horizontal scroll */
-    body {
-      overflow-x: hidden;
-    }
-  }
-
-  /* Enhanced mobile viewport handling */
-  @media (max-width: 480px) {
-    .section-title {
-      font-size: 1.5rem;
-      line-height: 2rem;
-    }
-
-    /* Smaller padding for very small screens */
-    .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
   }
 }

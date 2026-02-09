@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
 interface ProgramItem {
-  time: string
+  time?: string
   title: string
   description: string
 }
@@ -19,53 +19,65 @@ export function ProgramTabs({ className }: ProgramTabsProps) {
   const tabContent: Record<string, ProgramItem[]> = {
     day1: [
       {
-        time: "15:00",
-        title: "Registration Opens",
-        description: "Online registration via digital congress platform. On-site digital help desks available.",
+        title: "Session 1: Autonomous Robotics: From Assistance to Self-Learning Systems",
+        description: "Autonomous robotics is rapidly evolving from purely assistive systems toward increasingly adaptive, self-learning technologies. This session explores the transition from human-controlled robotic assistance to semi-autonomous and learning robotic systems, with a particular focus on medical and surgical applications."
       },
       {
-        time: "16:00",
-        title: "Welcome Reception",
-        description: "Drinks and light snacks served in the networking lounge.",
+        title: "Discussion Panel One: Human Augmentation: Neural Interfaces, Exoskeletons & Bionics",
+        description: "Human augmentation represents one of the most transformative frontiers in modern medicine, aiming to restore, enhance, or extend human capabilities through advanced technological integration. This session focuses on neural interfaces, exoskeletons, and bionic systems and explores how these technologies are reshaping rehabilitation, surgery, and long-term patient care."
       },
-      { time: "17:00", title: "Opening Ceremony", description: "Welcome addresses from congress leadership." },
       {
-        time: "17:30 - 19:30",
-        title: "Artistic & Scientific Welcome",
-        description: "A unique blend of musical performances and institutional welcomes from our esteemed partners.",
+        title: "Discussion Panel Two: Will AI Replace Doctors – and When?",
+        description: "Even if AI outperforms humans in accuracy and efficiency, will patients and society accept medical decisions made without human judgment and empathy? When AI becomes technically superior in certain domains, will clinical responsibility, regulation, and liability still require a human physician in the loop?"
       },
-      { time: "20:00", title: "Closing Remarks", description: "" },
+      {
+        title: "Session 2: Future Materials: Smart and Regenerative Bio-Hybrid Systems",
+        description: "Advances in material science are rapidly transforming medicine, enabling fundamentally new approaches to regeneration, repair, and human–technology integration. This session focuses on the next generation of smart, regenerative, and bio-hybrid materials and their role in shaping future medical therapies and surgical applications."
+      },
+      {
+        title: "Session 3: Ethics & Digital Twins in Medicine",
+        description: "The rapid advancement of digital technologies is enabling the creation of digital twins in medicine—virtual representations of patients that integrate clinical data, imaging, physiological signals, and predictive models. This session focuses on the ethical dimensions of digital twins in medicine, exploring how patient-specific virtual models can be developed and used responsibly."
+      },
+      {
+        time: "17:30",
+        title: "Presidential Gala Dinner",
+        description: "Germanisches Nationalmuseum, Kartäusergasse 1, 90402 Nuremberg"
+      }
     ],
     day2: [
-      { time: "08:30 – 09:30", title: "Official Welcome Ceremony & John Abele Lecture", description: "" },
-      { time: "09:30 – 10:15", title: 'Session: "Deep Space of Data"', description: "New Dimensions: Added Reality" },
       {
-        time: "10:30 – 11:15",
-        title: 'Session: "Beyond the Cutting Edge"',
-        description: "Monitoring, Planning, Decisions",
+        title: "Session 4: From Text and Sensors to Decisions: NLP and Sensor Data in Medicine",
+        description: "Clinical decision making is increasingly shaped by the ability to integrate heterogeneous data sources, particularly unstructured clinical text and continuously generated sensor data. This session focuses on how Natural Language Processing (NLP) and sensor-based data together enable more informed, timely, and context-aware clinical decision making."
       },
-      { time: "11:20 – 12:30", title: 'Session: "Next-Generation"', description: "Sensoring & AI" },
-      { time: "13:30 – 14:00", title: "Keynote: Gerhard Buess Lecture", description: "" },
-      { time: "14:00 – 14:55", title: 'Session: "Bold Frontiers"', description: "Predictive Analytics" },
       {
-        time: "19:00",
-        title: 'Evening Event: "Feast of the Middle Ages"',
-        description: "Ritter Chamber, Imperial Fortress of Nuremberg",
+        title: "Session 5: Computer Vision & 3D Printing: The Next Level",
+        description: "Advances in computer vision and 3D printing are reshaping the foundations of digital medicine by enabling a seamless transition from imaging data to physical, patient-specific solutions. This session focuses on next-level computer vision technologies and their integration with artificial intelligence and additive manufacturing."
       },
-    ],
-    day3: [
-      { time: "08:30 – 09:00", title: "Keynote: Earl Owen Lecture", description: "" },
-      { time: "09:00 – 09:30", title: 'Session: "Redefining Care"', description: "New Robots" },
       {
-        time: "09:30 – 10:15",
-        title: 'Session: "Rocket Breakthroughs"',
-        description: "Next Level of Computer Vision & 3D Printing",
+        title: "Discussion Panel Three: From Algorithms to Responsibility: Defining the Needs of Future Robots",
+        description: "Which technical, cognitive, and ethical capabilities future robots must possess to operate safely, reliably, and meaningfully alongside humans. How responsibility, transparency, and human oversight can be embedded into robotic systems as autonomy and intelligence increase."
       },
-      { time: "11:20 – 12:30", title: 'Session: "Strange New Worlds"', description: "Humanoid Robots" },
-      { time: "13:30 – 14:00", title: "Keynote: John Wickham Lecture", description: "" },
-      { time: "15:50 – 16:30", title: "🏆 Award Ceremony & Closing Session", description: "" },
-      { time: "17:30", title: "Official Closing of the Conference", description: "" },
-    ],
+      {
+        title: "Session 6: From Microscale to Metaverse: The Future of Robotic Microsurgery and Precision Surgery",
+        description: "Robotic surgery is rapidly evolving across surgical disciplines, from supermicrosurgical procedures requiring extreme precision to large-scale robotic systems in orthopedics and urology. This session explores how advances in robotic assistance, imaging, and artificial intelligence are reshaping surgical practice."
+      },
+      {
+        title: "Session 7: The Importance of Structured Data in Modern Healthcare",
+        description: "Healthcare generates vast amounts of data every day — from clinical documentation and imaging to sensor data, genomics, and patient-reported outcomes. This session explores why the transformation of raw and unstructured healthcare data into structured, interoperable formats is a critical prerequisite for modern medicine."
+      },
+      {
+        title: "Workshop One: Mixed & Virtual Reality Experience",
+        description: "Mixed and Virtual Reality (MR/VR) technologies are transforming medical education, surgical rehearsal and patient counselling. This 120-minute immersive track features validated MR/VR workflows. Advance registration mandatory; places allocated on a first-come, confirmed basis."
+      },
+      {
+        title: "Workshop Two: Artificial Intelligence - Software Academy",
+        description: "This 180-minute intensive track presents the twenty most impactful medical-AI platforms currently in deployment. Advance registration required and limited to twenty-four participants per slot. Please bring a WLAN-enabled laptop and headphones for interactive modules."
+      },
+      {
+        title: "Award Ceremony & Closing",
+        description: "iSMIT 2026 Meeting - Award Ceremony and Official Closing"
+      }
+    ]
   }
 
   return (
@@ -76,38 +88,42 @@ export function ProgramTabs({ className }: ProgramTabsProps) {
           onClick={() => setActiveTab("day1")}
           className="px-6 py-3"
         >
-          Day 1: Nov 19
+          Day 1: Friday
         </Button>
         <Button
           variant={activeTab === "day2" ? "default" : "outline"}
           onClick={() => setActiveTab("day2")}
           className="px-6 py-3"
         >
-          Day 2: Nov 20
-        </Button>
-        <Button
-          variant={activeTab === "day3" ? "default" : "outline"}
-          onClick={() => setActiveTab("day3")}
-          className="px-6 py-3"
-        >
-          Day 3: Nov 21
+          Day 2: Saturday
         </Button>
       </div>
 
       <div className="max-w-4xl mx-auto">
         <div className="card p-8">
           <h4 className="text-2xl font-bold mb-6 text-slate-800">
-            {activeTab === "day1" && "Day 1: Thursday, 19th November 2026"}
-            {activeTab === "day2" && "Day 2: Friday, 20th November 2026"}
-            {activeTab === "day3" && "Day 3: Saturday, 21st November 2026"}
+            {activeTab === "day1" && "Day 1: Friday"}
+            {activeTab === "day2" && "Day 2: Saturday"}
           </h4>
+
+          <div className="mb-8 p-4 bg-green-50 border-l-4 border-green-500 rounded">
+            <p className="text-green-800 font-medium">
+              🌳 We are going paperless. For every congress participant, we will plant a tree — a tangible contribution to environmental protection.
+            </p>
+          </div>
+
           <div className="space-y-6">
             {tabContent[activeTab].map((item, index) => (
-              <div key={index} className="border-l-4 border-slate-200 pl-6">
-                <p className="text-lg font-bold text-slate-800">
-                  {item.time} | {item.title}
+              <div key={index} className="border-l-4 border-slate-200 pl-6 hover:border-blue-500 transition-colors">
+                {item.time && (
+                  <p className="text-sm font-semibold text-blue-600 mb-2">
+                    {item.time}
+                  </p>
+                )}
+                <p className="text-lg font-bold text-slate-800 mb-2">
+                  {item.title}
                 </p>
-                {item.description && <p className="text-slate-600 mt-1">{item.description}</p>}
+                {item.description && <p className="text-slate-600 mt-1 leading-relaxed">{item.description}</p>}
               </div>
             ))}
           </div>

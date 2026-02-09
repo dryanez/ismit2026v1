@@ -10,122 +10,72 @@ export function ProgramSection() {
   const tabContent = {
     day1: [
       {
-        time: "15:00",
-        title: "Registration Opens",
-        description: "Online registration via digital congress platform. On-site digital help desks available.",
-        icon: "🎯",
+        title: "Session 1: Autonomous Robotics",
+        description: "From Assistance to Self-Learning Systems",
+        icon: "🤖",
       },
       {
-        time: "16:00",
-        title: "Welcome Reception",
-        description: "Drinks and light snacks served in the networking lounge.",
-        icon: "🥂",
+        title: "Panel: Human Augmentation",
+        description: "Neural Interfaces, Exoskeletons & Bionics",
+        icon: "🦾",
       },
       {
-        time: "17:00",
-        title: "Opening Ceremony",
-        description: "Welcome addresses from congress leadership.",
-        icon: "🎪",
+        title: "Panel: Will AI Replace Doctors?",
+        description: "Ethics, Responsibility, and the Future of Medicine",
+        icon: "🤔",
       },
       {
-        time: "17:30 - 19:30",
-        title: "Artistic & Scientific Welcome",
-        description: "A unique blend of musical performances and institutional welcomes from our esteemed partners.",
-        icon: "🎭",
+        title: "Session 2: Future Materials",
+        description: "Smart and Regenerative Bio-Hybrid Systems",
+        icon: "⚗️",
       },
       {
-        time: "20:00",
-        title: "Closing Remarks",
-        description: "",
-        icon: "✨",
+        title: "Session 3: Ethics & Digital Twins",
+        description: "Responsible Development and Clinical Integration",
+        icon: "👥",
+      },
+      {
+        time: "17:30",
+        title: "Presidential Gala Dinner",
+        description: "Germanisches Nationalmuseum, Nuremberg",
+        icon: "🎩",
       },
     ],
     day2: [
       {
-        time: "08:30 – 09:30",
-        title: "Official Welcome Ceremony & John Abele Lecture",
-        description: "",
-        icon: "🎓",
-      },
-      {
-        time: "09:30 – 10:15",
-        title: 'Session: "Deep Space of Data"',
-        description: "New Dimensions: Added Reality",
-        icon: "🚀",
-      },
-      {
-        time: "10:30 – 11:15",
-        title: 'Session: "Beyond the Cutting Edge"',
-        description: "Monitoring, Planning, Decisions",
-        icon: "⚡",
-      },
-      {
-        time: "11:20 – 12:30",
-        title: 'Session: "Next-Generation"',
-        description: "Sensoring & AI",
-        icon: "🤖",
-      },
-      {
-        time: "13:30 – 14:00",
-        title: "Keynote: Gerhard Buess Lecture",
-        description: "",
-        icon: "🎯",
-      },
-      {
-        time: "14:00 – 14:55",
-        title: 'Session: "Bold Frontiers"',
-        description: "Predictive Analytics",
+        title: "Session 4: NLP & Sensor Data",
+        description: "From Text and Sensors to Clinical Decisions",
         icon: "📊",
       },
       {
-        time: "19:00",
-        title: 'Evening Event: "Feast of the Middle Ages"',
-        description: "Ritter Chamber, Imperial Fortress of Nuremberg",
-        icon: "🏰",
-      },
-    ],
-    day3: [
-      {
-        time: "08:30 – 09:00",
-        title: "Keynote: Earl Owen Lecture",
-        description: "",
-        icon: "🎓",
+        title: "Session 5: Computer Vision & 3D Printing",
+        description: "The Next Level of Medical Technology",
+        icon: "🖨️",
       },
       {
-        time: "09:00 – 09:30",
-        title: 'Session: "Redefining Care"',
-        description: "New Robots",
+        title: "Panel: Future Robots",
+        description: "From Algorithms to Responsibility",
         icon: "🤖",
       },
       {
-        time: "09:30 – 10:15",
-        title: 'Session: "Rocket Breakthroughs"',
-        description: "Next Level of Computer Vision & 3D Printing",
-        icon: "🚀",
+        title: "Session 6: Robotic Microsurgery",
+        description: "From Microscale to Metaverse",
+        icon: "🔬",
       },
       {
-        time: "11:20 – 12:30",
-        title: 'Session: "Strange New Worlds"',
-        description: "Humanoid Robots",
-        icon: "👨‍🚀",
+        title: "Session 7: Structured Data",
+        description: "The Foundation of Modern Healthcare",
+        icon: "💾",
       },
       {
-        time: "13:30 – 14:00",
-        title: "Keynote: John Wickham Lecture",
-        description: "",
-        icon: "🎯",
+        title: "Workshops: MR/VR & AI Academy",
+        description: "Interactive hands-on training sessions",
+        icon: "🥽",
       },
       {
-        time: "15:50 – 16:30",
-        title: "🏆 Award Ceremony & Closing Session",
-        description: "",
+        title: "Award Ceremony & Closing",
+        description: "iSMIT 2026 Official Closing",
         icon: "🏆",
-      },
-      {
-        time: "17:30",
-        title: "Official Closing of the Conference",
-        description: "",
-        icon: "✨",
       },
     ],
   }
@@ -140,41 +90,36 @@ export function ProgramSection() {
         <div className="text-center mb-12">
           <h2 className="section-subtitle animate-fade-in">Scientific Program</h2>
           <h3 className="section-title animate-fade-in-delay">A Glimpse into the Future</h3>
+
+          {/* Environmental Message */}
+          <div className="max-w-2xl mx-auto mt-6 p-4 bg-green-50 border-2 border-green-200 rounded-lg shadow-md">
+            <p className="text-green-800 font-medium flex items-center justify-center gap-2">
+              <span className="text-2xl">🌳</span>
+              <span>We are going paperless. For every congress participant, we will plant a tree — a tangible contribution to environmental protection.</span>
+            </p>
+          </div>
         </div>
 
         <div className="flex justify-center mb-6 md:mb-8 flex-wrap gap-2 md:gap-4">
           <button
-            className={`px-4 md:px-8 py-2 md:py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
-              activeTab === "day1"
+            className={`px-4 md:px-8 py-2 md:py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${activeTab === "day1"
                 ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-blue-200"
-            }`}
+              }`}
             onClick={() => setActiveTab("day1")}
           >
-            <span className="hidden sm:inline">Day 1: Nov 19</span>
-            <span className="sm:hidden">Nov 19</span>
+            <span className="hidden sm:inline">Day 1: Friday</span>
+            <span className="sm:hidden">Friday</span>
           </button>
           <button
-            className={`px-4 md:px-8 py-2 md:py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
-              activeTab === "day2"
+            className={`px-4 md:px-8 py-2 md:py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${activeTab === "day2"
                 ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200"
                 : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-blue-200"
-            }`}
+              }`}
             onClick={() => setActiveTab("day2")}
           >
-            <span className="hidden sm:inline">Day 2: Nov 20</span>
-            <span className="sm:hidden">Nov 20</span>
-          </button>
-          <button
-            className={`px-4 md:px-8 py-2 md:py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
-              activeTab === "day3"
-                ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200"
-                : "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 hover:border-blue-200"
-            }`}
-            onClick={() => setActiveTab("day3")}
-          >
-            <span className="hidden sm:inline">Day 3: Nov 21</span>
-            <span className="sm:hidden">Nov 21</span>
+            <span className="hidden sm:inline">Day 2: Saturday</span>
+            <span className="sm:hidden">Saturday</span>
           </button>
         </div>
 
@@ -183,20 +128,14 @@ export function ProgramSection() {
             <h4 className="text-lg md:text-2xl font-bold mb-4 md:mb-8 text-slate-800 text-center">
               {activeTab === "day1" && (
                 <>
-                  <span className="hidden sm:inline">Day 1: Thursday, 19th November 2026</span>
-                  <span className="sm:hidden">Thursday, Nov 19</span>
+                  <span className="hidden sm:inline">Day 1: Friday</span>
+                  <span className="sm:hidden">Friday</span>
                 </>
               )}
               {activeTab === "day2" && (
                 <>
-                  <span className="hidden sm:inline">Day 2: Friday, 20th November 2026</span>
-                  <span className="sm:hidden">Friday, Nov 20</span>
-                </>
-              )}
-              {activeTab === "day3" && (
-                <>
-                  <span className="hidden sm:inline">Day 3: Saturday, 21st November 2026</span>
-                  <span className="sm:hidden">Saturday, Nov 21</span>
+                  <span className="hidden sm:inline">Day 2: Saturday</span>
+                  <span className="sm:hidden">Saturday</span>
                 </>
               )}
             </h4>
@@ -212,11 +151,13 @@ export function ProgramSection() {
                       {item.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
-                        <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm font-medium">
-                          {item.time}
-                        </span>
-                      </div>
+                      {item.time && (
+                        <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
+                          <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm font-medium">
+                            {item.time}
+                          </span>
+                        </div>
+                      )}
                       <h5 className="text-sm md:text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-300 leading-tight">
                         {item.title}
                       </h5>

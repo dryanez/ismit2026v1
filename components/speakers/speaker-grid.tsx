@@ -16,6 +16,7 @@ interface SpeakerGridProps {
   className?: string
 }
 
+// Moderators sorted alphabetically by last name
 const defaultSpeakers: Speaker[] = [
   {
     id: "1",
@@ -27,6 +28,17 @@ const defaultSpeakers: Speaker[] = [
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prof.%20Michele%20Diana%20%28-gADYWn1apEZMG5SChKhUNvZlJcVlHw.png",
     expertise: ["Minimally Invasive Surgery", "Surgical Innovation", "Medical Technology"],
     country: "Switzerland",
+  },
+  {
+    id: "6",
+    name: "Prof. Andrew A. Gumbs",
+    title: "Professor of Surgery",
+    organization: "Hôpital Antoine Béclère",
+    bio: "Expert in advanced surgical techniques and medical innovation with focus on precision surgery and patient outcomes.",
+    image:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prof.%20Andrew%20A.%20Gumbs-EegVpOfe7Lw9HNCgzkuzlmi30zJJ9L.jpeg",
+    expertise: ["Precision Surgery", "Medical Innovation", "Patient Care"],
+    country: "France",
   },
   {
     id: "2",
@@ -51,17 +63,6 @@ const defaultSpeakers: Speaker[] = [
     country: "Germany",
   },
   {
-    id: "4",
-    name: "Prof. Dr. Nassir Navab",
-    title: "Professor",
-    organization: "Technical University Munich (TUM)",
-    bio: "Internationally recognized expert in computer-assisted surgery and medical imaging technologies.",
-    image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prof.%20Dr.%20Nassir%20Navab%20-kR1BYcKdiwGJMZogcP1ETY5jV7gmpt.jpeg",
-    expertise: ["Computer-Assisted Surgery", "Medical Imaging", "AI in Medicine"],
-    country: "Germany",
-  },
-  {
     id: "5",
     name: "Prof. Axel Krieger",
     title: "Professor",
@@ -73,15 +74,15 @@ const defaultSpeakers: Speaker[] = [
     country: "United States",
   },
   {
-    id: "6",
-    name: "Prof. Andrew A. Gumbs",
-    title: "Professor of Surgery",
-    organization: "Hôpital Antoine Béclère",
-    bio: "Expert in advanced surgical techniques and medical innovation with focus on precision surgery and patient outcomes.",
+    id: "4",
+    name: "Prof. Dr. Nassir Navab",
+    title: "Professor",
+    organization: "Technical University Munich (TUM)",
+    bio: "Internationally recognized expert in computer-assisted surgery and medical imaging technologies.",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prof.%20Andrew%20A.%20Gumbs-EegVpOfe7Lw9HNCgzkuzlmi30zJJ9L.jpeg",
-    expertise: ["Precision Surgery", "Medical Innovation", "Patient Care"],
-    country: "France",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Prof.%20Dr.%20Nassir%20Navab%20-kR1BYcKdiwGJMZogcP1ETY5jV7gmpt.jpeg",
+    expertise: ["Computer-Assisted Surgery", "Medical Imaging", "AI in Medicine"],
+    country: "Germany",
   },
   {
     id: "7",
